@@ -1,23 +1,23 @@
-### CLI Plugin
+### CLI 插件
 
-> warning **Warning** This chapter applies only to the code first approach.
+> warning **警告** 本章节仅适用于代码优先（code first）方式。
 
-TypeScript's metadata reflection system has several limitations which make it impossible to, for instance, determine what properties a class consists of or recognize whether a given property is optional or required. However, some of these constraints can be addressed at compilation time. Nest provides a plugin that enhances the TypeScript compilation process to reduce the amount of boilerplate code required.
+TypeScript 的元数据反射系统存在一些限制，例如无法确定类包含哪些属性，或者识别某个属性是可选的还是必需的。然而，这些约束中的一部分可以在编译时得到解决。Nest 提供了一个插件，用于增强 TypeScript 的编译过程，以减少所需的样板代码量。
 
-> info **Hint** This plugin is **opt-in**. If you prefer, you can declare all decorators manually, or only specific decorators where you need them.
+> info **提示** 此插件是**可选的**。如果你愿意，可以手动声明所有装饰器，或者只在需要的地方声明特定的装饰器。
 
-#### Overview
+#### 概述
 
-The GraphQL plugin will automatically:
+GraphQL 插件将自动：
 
-- annotate all input object, object type and args classes properties with `@Field` unless `@HideField` is used
-- set the `nullable` property depending on the question mark (e.g. `name?: string` will set `nullable: true`)
-- set the `type` property depending on the type (supports arrays as well)
-- generate descriptions for properties based on comments (if `introspectComments` set to `true`)
+- 除非使用 `@HideField`，否则使用 `@Field` 装饰所有输入对象、对象类型和参数类的属性
+- 根据问号设置 `nullable` 属性（例如，`name?: string` 将设置 `nullable: true`）
+- 根据类型设置 `type` 属性（也支持数组）
+- 基于注释生成属性的描述（如果 `introspectComments` 设置为 `true`）
 
-Please, note that your filenames **must have** one of the following suffixes in order to be analyzed by the plugin: `['.input.ts', '.args.ts', '.entity.ts', '.model.ts']` (e.g., `author.entity.ts`). If you are using a different suffix, you can adjust the plugin's behavior by specifying the `typeFileNameSuffix` option (see below).
+请注意，你的文件名**必须**具有以下后缀之一，以便插件进行分析：`['.input.ts', '.args.ts', '.entity.ts', '.model.ts']`（例如，`author.entity.ts`）。如果你使用不同的后缀，可以通过指定 `typeFileNameSuffix` 选项来调整插件的行为（见下文）。
 
-With what we've learned so far, you have to duplicate a lot of code to let the package know how your type should be declared in GraphQL. For example, you could define a simple `Author` class as follows:
+根据我们目前所学，为了让包知道你的类型在 GraphQL 中应如何声明，你不得不重复大量代码。例如，你可以定义一个简单的 `Author` 类，如下所示：
 
 ```typescript
 @@filename(authors/models/author.model)
@@ -37,9 +37,9 @@ export class Author {
 }
 ```
 
-While not a significant issue with medium-sized projects, it becomes verbose & hard to maintain once you have a large set of classes.
+对于中型项目来说，这虽然不是大问题，但一旦你拥有大量类，就会变得冗长且难以维护。
 
-By enabling the GraphQL plugin, the above class definition can be declared simply:
+通过启用 GraphQL 插件，上述类定义可以简化为：
 
 ```typescript
 @@filename(authors/models/author.model)
@@ -53,38 +53,38 @@ export class Author {
 }
 ```
 
-The plugin adds appropriate decorators on-the-fly based on the **Abstract Syntax Tree**. Thus, you won't have to struggle with `@Field` decorators scattered throughout the code.
+插件基于**抽象语法树（Abstract Syntax Tree）** 动态添加适当的装饰器。因此，你不必再为遍布代码的 `@Field` 装饰器而烦恼。
 
-> info **Hint** The plugin will automatically generate any missing GraphQL properties, but if you need to override them, simply set them explicitly via `@Field()`.
+> info **提示** 插件会自动生成任何缺失的 GraphQL 属性，但如果你需要覆盖它们，只需通过 `@Field()` 显式设置即可。
 
-#### Comments introspection
+#### 注释自省
 
-With the comments introspection feature enabled, CLI plugin will generate descriptions for fields based on comments.
+启用注释自省功能后，CLI 插件将基于注释生成字段的描述。
 
-For example, given an example `roles` property:
+例如，给定一个示例 `roles` 属性：
 
 ```typescript
 /**
- * A list of user's roles
+ * 用户角色列表
  */
 @Field(() => [String], {
-  description: `A list of user's roles`
+  description: `用户角色列表`
 })
 roles: string[];
 ```
 
-You must duplicate description values. With `introspectComments` enabled, the CLI plugin can extract these comments and automatically provide descriptions for properties. Now, the above field can be declared simply as follows:
+你必须重复描述值。启用 `introspectComments` 后，CLI 插件可以提取这些注释并自动为属性提供描述。现在，上述字段可以简化为：
 
 ```typescript
 /**
- * A list of user's roles
+ * 用户角色列表
  */
 roles: string[];
 ```
 
-#### Using the CLI plugin
+#### 使用 CLI 插件
 
-To enable the plugin, open `nest-cli.json` (if you use [Nest CLI](/cli/overview)) and add the following `plugins` configuration:
+要启用插件，请打开 `nest-cli.json`（如果你使用 [Nest CLI](/cli/overview)）并添加以下 `plugins` 配置：
 
 ```javascript
 {
@@ -96,7 +96,7 @@ To enable the plugin, open `nest-cli.json` (if you use [Nest CLI](/cli/overview)
 }
 ```
 
-You can use the `options` property to customize the behavior of the plugin.
+你可以使用 `options` 属性来自定义插件的行为。
 
 ```javascript
 {
@@ -114,10 +114,9 @@ You can use the `options` property to customize the behavior of the plugin.
     ]
   }
 }
-
 ```
 
-The `options` property has to fulfill the following interface:
+`options` 属性必须满足以下接口：
 
 ```typescript
 export interface PluginOptions {
@@ -128,23 +127,23 @@ export interface PluginOptions {
 
 <table>
   <tr>
-    <th>Option</th>
-    <th>Default</th>
-    <th>Description</th>
+    <th>选项</th>
+    <th>默认值</th>
+    <th>描述</th>
   </tr>
   <tr>
     <td><code>typeFileNameSuffix</code></td>
     <td><code>['.input.ts', '.args.ts', '.entity.ts', '.model.ts']</code></td>
-    <td>GraphQL types files suffix</td>
+    <td>GraphQL 类型文件后缀</td>
   </tr>
   <tr>
     <td><code>introspectComments</code></td>
       <td><code>false</code></td>
-      <td>If set to true, plugin will generate descriptions for properties based on comments</td>
+      <td>如果设置为 true，插件将基于注释生成属性的描述</td>
   </tr>
 </table>
 
-If you don't use the CLI but instead have a custom `webpack` configuration, you can use this plugin in combination with `ts-loader`:
+如果你不使用 CLI，而是使用自定义的 `webpack` 配置，你可以结合 `ts-loader` 使用此插件：
 
 ```javascript
 getCustomTransformers: (program: any) => ({
@@ -152,87 +151,87 @@ getCustomTransformers: (program: any) => ({
 }),
 ```
 
-#### SWC builder
+#### SWC 构建器
 
-For standard setups (non-monorepo), to use CLI Plugins with the SWC builder, you need to enable type checking, as described [here](/recipes/swc#type-checking).
+对于标准设置（非 monorepo），要将 CLI 插件与 SWC 构建器一起使用，你需要启用类型检查，如[此处](/recipes/swc#type-checking)所述。
 
 ```bash
 $ nest start -b swc --type-check
 ```
 
-For monorepo setups, follow the instructions [here](/recipes/swc#monorepo-and-cli-plugins).
+对于 monorepo 设置，请遵循[此处](/recipes/swc#monorepo-and-cli-plugins)的说明。
 
 ```bash
 $ npx ts-node src/generate-metadata.ts
-# OR npx ts-node apps/{YOUR_APP}/src/generate-metadata.ts
+# 或 npx ts-node apps/{YOUR_APP}/src/generate-metadata.ts
 ```
 
-Now, the serialized metadata file must be loaded by the `GraphQLModule` method, as shown below:
+现在，序列化的元数据文件必须由 `GraphQLModule` 方法加载，如下所示：
 
 ```typescript
-import metadata from './metadata'; // <-- file auto-generated by the "PluginMetadataGenerator"
+import metadata from './metadata'; // <-- 由 "PluginMetadataGenerator" 自动生成的文件
 
 GraphQLModule.forRoot<...>({
-  ..., // other options
+  ..., // 其他选项
   metadata,
 }),
 ```
 
-#### Integration with `ts-jest` (e2e tests)
+#### 与 `ts-jest` 集成（端到端测试）
 
-When running e2e tests with this plugin enabled, you may run into issues with compiling schema. For example, one of the most common errors is:
+在启用此插件的情况下运行端到端测试时，你可能会遇到编译模式的问题。例如，最常见的错误之一是：
 
 ```json
-Object type <name> must define one or more fields.
+对象类型 <名称> 必须定义一个或多个字段。
 ```
 
-This happens because `jest` configuration does not import `@nestjs/graphql/plugin` plugin anywhere.
+这是因为 `jest` 配置没有在任何地方导入 `@nestjs/graphql/plugin` 插件。
 
-To fix this, create the following file in your e2e tests directory:
+要解决此问题，请在端到端测试目录中创建以下文件：
 
 ```javascript
 const transformer = require('@nestjs/graphql/plugin');
 
 module.exports.name = 'nestjs-graphql-transformer';
-// you should change the version number anytime you change the configuration below - otherwise, jest will not detect changes
+// 每当你更改以下配置时，都应更改版本号 - 否则，jest 将无法检测到更改
 module.exports.version = 1;
 
 module.exports.factory = (cs) => {
   return transformer.before(
     {
-      // @nestjs/graphql/plugin options (can be empty)
+      // @nestjs/graphql/plugin 选项（可以为空）
     },
-    cs.program, // "cs.tsCompiler.program" for older versions of Jest (<= v27)
+    cs.program, // 对于旧版本的 Jest（<= v27），使用 "cs.tsCompiler.program"
   );
 };
 ```
 
-With this in place, import AST transformer within your `jest` configuration file. By default (in the starter application), e2e tests configuration file is located under the `test` folder and is named `jest-e2e.json`.
+有了这个文件后，在你的 `jest` 配置文件中导入 AST 转换器。默认情况下（在入门应用中），端到端测试配置文件位于 `test` 文件夹下，名为 `jest-e2e.json`。
 
 ```json
 {
-  ... // other configuration
+  ... // 其他配置
   "globals": {
     "ts-jest": {
       "astTransformers": {
-        "before": ["<path to the file created above>"]
+        "before": ["<上述文件的路径>"]
       }
     }
   }
 }
 ```
 
-If you use `jest@^29`, then use the snippet below, as the previous approach got deprecated.
+如果你使用 `jest@^29`，请使用下面的片段，因为之前的方法已被弃用。
 
 ```json
 {
-  ... // other configuration
+  ... // 其他配置
   "transform": {
     "^.+\\.(t|j)s$": [
       "ts-jest",
       {
         "astTransformers": {
-          "before": ["<path to the file created above>"]
+          "before": ["<上述文件的路径>"]
         }
       }
     ]

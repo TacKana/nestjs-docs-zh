@@ -1,6 +1,6 @@
-### Hybrid application
+### 混合应用
 
-A hybrid application is one that listens for requests from two or more different sources. This can combine an HTTP server with a microservice listener or even just multiple different microservice listeners. The default `createMicroservice` method does not allow for multiple servers so in this case each microservice must be created and started manually. In order to do this, the `INestApplication` instance can be connected with `INestMicroservice` instances through the `connectMicroservice()` method.
+混合应用（hybrid application）是指能够监听来自两个或多个不同来源请求的应用程序。这可以是将 HTTP 服务器与微服务监听器结合，甚至仅是多个不同的微服务监听器。默认的 `createMicroservice` 方法不允许运行多个服务器，因此在这种情况下，必须手动创建和启动每个微服务。为了实现这一点，可以通过 `connectMicroservice()` 方法将 `INestApplication` 实例与 `INestMicroservice` 实例连接起来。
 
 ```typescript
 const app = await NestFactory.create(AppModule);
@@ -12,20 +12,20 @@ await app.startAllMicroservices();
 await app.listen(3001);
 ```
 
-> info **Hint** the `app.listen(port)` method starts an HTTP server on the specified address. If your application does not handle HTTP requests then you should use the `app.init()` method instead.
+> info **提示** `app.listen(port)` 方法会在指定地址启动一个 HTTP 服务器。如果你的应用不处理 HTTP 请求，则应改用 `app.init()` 方法。
 
-To connect multiple microservice instances, issue the call to `connectMicroservice()` for each microservice:
+要连接多个微服务实例，需对每个微服务调用 `connectMicroservice()`：
 
 ```typescript
 const app = await NestFactory.create(AppModule);
-// microservice #1
+// 微服务 #1
 const microserviceTcp = app.connectMicroservice<MicroserviceOptions>({
   transport: Transport.TCP,
   options: {
     port: 3001,
   },
 });
-// microservice #2
+// 微服务 #2
 const microserviceRedis = app.connectMicroservice<MicroserviceOptions>({
   transport: Transport.REDIS,
   options: {
@@ -38,13 +38,13 @@ await app.startAllMicroservices();
 await app.listen(3001);
 ```
 
-To bind `@MessagePattern()` to only one transport strategy (for example, MQTT) in a hybrid application with multiple microservices, we can pass the second argument of type `Transport` which is an enum with all the built-in transport strategies defined.
+在具有多个微服务的混合应用中，若要将 `@MessagePattern()` 仅绑定到一种传输策略（例如 MQTT），我们可以传递类型为 `Transport` 的第二个参数，这是一个枚举，包含了所有内置的传输策略定义。
 
 ```typescript
 @@filename()
 @MessagePattern('time.us.*', Transport.NATS)
 getDate(@Payload() data: number[], @Ctx() context: NatsContext) {
-  console.log(`Subject: ${context.getSubject()}`); // e.g. "time.us.east"
+  console.log(`Subject: ${context.getSubject()}`); // 例如："time.us.east"
   return new Date().toLocaleTimeString(...);
 }
 @MessagePattern({ cmd: 'time.us' }, Transport.TCP)
@@ -55,7 +55,7 @@ getTCPDate(@Payload() data: number[]) {
 @Bind(Payload(), Ctx())
 @MessagePattern('time.us.*', Transport.NATS)
 getDate(data, context) {
-  console.log(`Subject: ${context.getSubject()}`); // e.g. "time.us.east"
+  console.log(`Subject: ${context.getSubject()}`); // 例如："time.us.east"
   return new Date().toLocaleTimeString(...);
 }
 @Bind(Payload(), Ctx())
@@ -65,12 +65,11 @@ getTCPDate(data, context) {
 }
 ```
 
-> info **Hint** `@Payload()`, `@Ctx()`, `Transport` and `NatsContext` are imported from `@nestjs/microservices`.
+> info **提示** `@Payload()`、`@Ctx()`、`Transport` 和 `NatsContext` 是从 `@nestjs/microservices` 导入的。
 
-#### Sharing configuration
+#### 共享配置
 
-By default a hybrid application will not inherit global pipes, interceptors, guards and filters configured for the main (HTTP-based) application.
-To inherit these configuration properties from the main application, set the `inheritAppConfig` property in the second argument (an optional options object) of the `connectMicroservice()` call, as follow:
+默认情况下，混合应用不会继承为主（基于 HTTP 的）应用配置的全局管道、拦截器、守卫和过滤器。要从主应用继承这些配置属性，需在 `connectMicroservice()` 调用的第二个参数（一个可选的选项对象）中设置 `inheritAppConfig` 属性，如下所示：
 
 ```typescript
 const microservice = app.connectMicroservice<MicroserviceOptions>(

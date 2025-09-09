@@ -1,20 +1,20 @@
 ### Necord
 
-Necord is a powerful module that simplifies the creation of [Discord](https://discord.com) bots, allowing for seamless integration with your NestJS application.
+Necord 是一个强大的模块，可简化 [Discord](https://discord.com) 机器人的创建过程，并实现与 NestJS 应用的无缝集成。
 
-> info **Note** Necord is a third-party package and is not officially maintained by the NestJS core team. If you encounter any issues, please report them in the [official repository](https://github.com/necordjs/necord).
+> info **注意** Necord 是第三方包，并非由 NestJS 核心团队官方维护。如遇问题，请前往[官方仓库](https://github.com/necordjs/necord)提交报告。
 
-#### Installation
+#### 安装
 
-To get started, you need to install Necord alongside its dependency, [`Discord.js`](https://discord.js.org).
+首先，你需要安装 Necord 及其依赖 [`Discord.js`](https://discord.js.org)。
 
 ```bash
 $ npm install necord discord.js
 ```
 
-#### Usage
+#### 使用方式
 
-To utilize Necord in your project, import the `NecordModule` and configure it with the necessary options.
+要在项目中使用 Necord，请导入 `NecordModule` 并使用必要的配置选项进行设置。
 
 ```typescript
 @@filename(app.module)
@@ -36,9 +36,9 @@ import { AppService } from './app.service';
 export class AppModule {}
 ```
 
-> info **Hint** You can find a comprehensive list of available intents [here](https://discord.com/developers/docs/topics/gateway#gateway-intents).
+> info **提示** 完整的可用意图列表可在[此处](https://discord.com/developers/docs/topics/gateway#gateway-intents)查看。
 
-With this setup, you can inject the `AppService` into your providers to easily register commands, events, and more.
+完成此设置后，你可以在提供者中注入 `AppService` 来轻松注册命令、事件等。
 
 ```typescript
 @@filename(app.service)
@@ -52,7 +52,7 @@ export class AppService {
 
   @Once('ready')
   public onReady(@Context() [client]: ContextOf<'ready'>) {
-    this.logger.log(`Bot logged in as ${client.user.username}`);
+    this.logger.log(`机器人以 ${client.user.username} 身份登录成功`);
   }
 
   @On('warn')
@@ -62,15 +62,15 @@ export class AppService {
 }
 ```
 
-##### Understanding context
+##### 理解上下文
 
-You may have noticed the `@Context` decorator in the examples above. This decorator injects the event context into your method, allowing you to access various event-specific data. Since there are multiple types of events, the context type is inferred using the `ContextOf<type: string>` type. You can easily access context variables by using the `@Context()` decorator, which fills the variable with an array of arguments relevant to the event.
+你可能已经注意到上面的示例中使用了 `@Context` 装饰器。这个装饰器将事件上下文注入到你的方法中，让你能够访问各种事件特定的数据。由于有多种类型的事件，上下文的类型通过 `ContextOf<type: string>` 类型推断得出。你可以轻松使用 `@Context()` 装饰器来访问上下文变量，该装饰器会使用与事件相关的参数数组填充变量。
 
-#### Text commands
+#### 文本命令
 
-> warning **Caution** Text commands rely on message content, which is set to be deprecated for verified bots and applications with over 100 servers. This means that if your bot is unable to access message content, text commands will not function. Read more about this change [here](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots).
+> warning **注意** 文本命令依赖于消息内容，该功能对已验证的机器人和拥有超过 100 个服务器的应用将被弃用。这意味着如果你的机器人无法访问消息内容，文本命令将无法工作。更多关于此变更的信息请[参阅此处](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots)。
 
-Here's how to create a simple command handler for messages using the `@TextCommand` decorator.
+以下是如何使用 `@TextCommand` 装饰器为消息创建一个简单的命令处理程序。
 
 ```typescript
 @@filename(app.commands)
@@ -81,7 +81,7 @@ import { Context, TextCommand, TextCommandContext, Arguments } from 'necord';
 export class AppCommands {
   @TextCommand({
     name: 'ping',
-    description: 'Responds with pong!',
+    description: '回复 pong！',
   })
   public onPing(
     @Context() [message]: TextCommandContext,
@@ -92,17 +92,17 @@ export class AppCommands {
 }
 ```
 
-#### Application commands
+#### 应用命令
 
-Application commands provide a native way for users to interact with your app within the Discord client. There are three types of application commands that can be accessed through different interfaces: chat input, message context menu (accessed by right-clicking a message), and user context menu (accessed by right-clicking a user).
+应用命令为用户在 Discord 客户端内与应用交互提供了一种原生方式。有三种类型的应用命令可以通过不同的界面访问：聊天输入命令、消息上下文菜单（通过右键单击消息访问）和用户上下文菜单（通过右键单击用户访问）。
 
 <figure><img class="illustrative-image" src="https://i.imgur.com/4EmG8G8.png" /></figure>
 
-#### Slash commands
+#### 斜杠命令
 
-Slash commands are an excellent way to engage with users in a structured manner. They allow you to create commands with precise arguments and options, enhancing the user experience significantly.
+斜杠命令是以结构化方式与用户互动的绝佳方式。它们允许你创建具有精确参数和选项的命令，显著提升用户体验。
 
-To define a slash command using Necord, you can use the `SlashCommand` decorator.
+使用 Necord 定义斜杠命令时，可以使用 `SlashCommand` 装饰器。
 
 ```typescript
 @@filename(app.commands)
@@ -113,7 +113,7 @@ import { Context, SlashCommand, SlashCommandContext } from 'necord';
 export class AppCommands {
   @SlashCommand({
     name: 'ping',
-    description: 'Responds with pong!',
+    description: '回复 pong！',
   })
   public async onPing(@Context() [interaction]: SlashCommandContext) {
     return interaction.reply({ content: 'Pong!' });
@@ -121,11 +121,11 @@ export class AppCommands {
 }
 ```
 
-> info **Hint** When your bot client logs in, it will automatically register all defined commands. Note that global commands are cached for up to an hour. To avoid issues with the global cache, utilize the `development` argument in the Necord module, which restricts command visibility to a single guild.
+> info **提示** 当你的机器人客户端登录时，它会自动注册所有已定义的命令。请注意，全局命令会被缓存长达一小时。为避免全局缓存的问题，请使用 Necord 模块中的 `development` 参数，该参数将命令的可见性限制在单个公会内。
 
-##### Options
+##### 选项
 
-You can define parameters for your slash commands using option decorators. Let's create a `TextDto` class for this purpose:
+你可以使用选项装饰器为斜杠命令定义参数。为此，我们先创建一个 `TextDto` 类：
 
 ```typescript
 @@filename(text.dto)
@@ -134,14 +134,14 @@ import { StringOption } from 'necord';
 export class TextDto {
   @StringOption({
     name: 'text',
-    description: 'Input your text here',
+    description: '在此输入你的文本',
     required: true,
   })
   text: string;
 }
 ```
 
-You can then use this DTO in the `AppCommands` class:
+然后你可以在 `AppCommands` 类中使用这个 DTO：
 
 ```typescript
 @@filename(app.commands)
@@ -153,24 +153,24 @@ import { TextDto } from './length.dto';
 export class AppCommands {
   @SlashCommand({
     name: 'length',
-    description: 'Calculate the length of your text',
+    description: '计算你文本的长度',
   })
   public async onLength(
     @Context() [interaction]: SlashCommandContext,
     @Options() { text }: TextDto,
   ) {
     return interaction.reply({
-      content: `The length of your text is: ${text.length}`,
+      content: `你文本的长度是: ${text.length}`,
     });
   }
 }
 ```
 
-For a complete list of built-in option decorators, check out [this documentation](https://necord.org/interactions/slash-commands#options).
+完整的选项装饰器列表，请查看[此文档](https://necord.org/interactions/slash-commands#options)。
 
-##### Autocomplete
+##### 自动完成
 
-To implement autocomplete functionality for your slash commands, you'll need to create an interceptor. This interceptor will handle requests as users type in the autocomplete field.
+要为斜杠命令实现自动完成功能，你需要创建一个拦截器。该拦截器将在用户在自动完成字段中输入时处理请求。
 
 ```typescript
 @@filename(cats-autocomplete.interceptor)
@@ -185,7 +185,7 @@ class CatsAutocompleteInterceptor extends AutocompleteInterceptor {
     let choices: string[];
 
     if (focused.name === 'cat') {
-      choices = ['Siamese', 'Persian', 'Maine Coon'];
+      choices = ['暹罗猫', '波斯猫', '缅因猫'];
     }
 
     return interaction.respond(
@@ -197,7 +197,7 @@ class CatsAutocompleteInterceptor extends AutocompleteInterceptor {
 }
 ```
 
-You will also need to mark your options class with `autocomplete: true`:
+你还需要在你的选项类中标记 `autocomplete: true`：
 
 ```typescript
 @@filename(cat.dto)
@@ -206,7 +206,7 @@ import { StringOption } from 'necord';
 export class CatDto {
   @StringOption({
     name: 'cat',
-    description: 'Choose a cat breed',
+    description: '选择一个猫的品种',
     autocomplete: true,
     required: true,
   })
@@ -214,7 +214,7 @@ export class CatDto {
 }
 ```
 
-Finally, apply the interceptor to your slash command:
+最后，将拦截器应用到你的斜杠命令上：
 
 ```typescript
 @@filename(cats.commands)
@@ -228,22 +228,22 @@ export class CatsCommands {
   @UseInterceptors(CatsAutocompleteInterceptor)
   @SlashCommand({
     name: 'cat',
-    description: 'Retrieve information about a specific cat breed',
+    description: '获取特定猫品种的信息',
   })
   public async onSearch(
     @Context() [interaction]: SlashCommandContext,
     @Options() { cat }: CatDto,
   ) {
     return interaction.reply({
-      content: `I found information on the breed of ${cat} cat!`,
+      content: `我找到了关于 ${cat} 猫品种的信息！`,
     });
   }
 }
 ```
 
-#### User context menu
+#### 用户上下文菜单
 
-User commands appear on the context menu that appears when right-clicking (or tapping) on users. These commands provide quick actions that target users directly.
+用户命令出现在右键单击（或点击）用户时出现的上下文菜单中。这些命令提供了直接针对用户的快速操作。
 
 ```typescript
 @@filename(app.commands)
@@ -253,7 +253,7 @@ import { User } from 'discord.js';
 
 @Injectable()
 export class AppCommands {
-  @UserCommand({ name: 'Get avatar' })
+  @UserCommand({ name: '获取头像' })
   public async getUserAvatar(
     @Context() [interaction]: UserCommandContext,
     @TargetUser() user: User,
@@ -261,7 +261,7 @@ export class AppCommands {
     return interaction.reply({
       embeds: [
         new MessageEmbed()
-          .setTitle(`Avatar of ${user.username}`)
+          .setTitle(`${user.username} 的头像`)
           .setImage(user.displayAvatarURL({ size: 4096, dynamic: true })),
       ],
     });
@@ -269,9 +269,9 @@ export class AppCommands {
 }
 ```
 
-#### Message context menu
+#### 消息上下文菜单
 
-Message commands show up in the context menu when right-clicking on messages, allowing for quick actions relevant to those messages.
+消息命令出现在右键单击消息时的上下文菜单中，允许针对这些消息进行快速操作。
 
 ```typescript
 @@filename(app.commands)
@@ -281,7 +281,7 @@ import { Message } from 'discord.js';
 
 @Injectable()
 export class AppCommands {
-  @MessageCommand({ name: 'Copy Message' })
+  @MessageCommand({ name: '复制消息' })
   public async copyMessage(
     @Context() [interaction]: MessageCommandContext,
     @TargetMessage() message: Message,
@@ -291,9 +291,9 @@ export class AppCommands {
 }
 ```
 
-#### Buttons
+#### 按钮
 
-[Buttons](https://discord.com/developers/docs/interactions/message-components#buttons) are interactive elements that can be included in messages. When clicked, they send an [interaction](https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object) to your application.
+[按钮](https://discord.com/developers/docs/interactions/message-components#buttons)是可以包含在消息中的交互式元素。当点击时，它们会向你的应用发送一个[交互](https://discord.com/developers/docs/interactions/receiving-and-responding#interaction-object)。
 
 ```typescript
 @@filename(app.components)
@@ -304,14 +304,14 @@ import { Context, Button, ButtonContext } from 'necord';
 export class AppComponents {
   @Button('BUTTON')
   public onButtonClick(@Context() [interaction]: ButtonContext) {
-    return interaction.reply({ content: 'Button clicked!' });
+    return interaction.reply({ content: '按钮已点击！' });
   }
 }
 ```
 
-#### Select menus
+#### 选择菜单
 
-[Select menus](https://discord.com/developers/docs/interactions/message-components#select-menus) are another type of interactive component that appears on messages. They provide a dropdown-like UI for users to select options.
+[选择菜单](https://discord.com/developers/docs/interactions/message-components#select-menus)是另一种出现在消息上的交互式组件类型。它们提供了一个下拉式 UI，供用户选择选项。
 
 ```typescript
 @@filename(app.components)
@@ -325,16 +325,16 @@ export class AppComponents {
     @Context() [interaction]: StringSelectContext,
     @SelectedStrings() values: string[],
   ) {
-    return interaction.reply({ content: `You selected: ${values.join(', ')}` });
+    return interaction.reply({ content: `你选择了: ${values.join(', ')}` });
   }
 }
 ```
 
-For a full list of built-in select menu components, visit [this link](https://necord.org/interactions/message-components#select-menu).
+完整的内置选择菜单组件列表，请访问[此链接](https://necord.org/interactions/message-components#select-menu)。
 
-#### Modals
+#### 模态框
 
-Modals are pop-up forms that allow users to submit formatted input. Here's how to create and handle modals using Necord:
+模态框是弹出式表单，允许用户提交格式化的输入。以下是使用 Necord 创建和处理模态框的方法：
 
 ```typescript
 @@filename(app.modals)
@@ -346,12 +346,12 @@ export class AppModals {
   @Modal('pizza')
   public onModal(@Context() [interaction]: ModalContext) {
     return interaction.reply({
-      content: `Your fav pizza : ${interaction.fields.getTextInputValue('pizza')}`
+      content: `你最喜欢的披萨是: ${interaction.fields.getTextInputValue('pizza')}`
     });
   }
 }
 ```
 
-#### More information
+#### 更多信息
 
-Visit the [Necord](https://necord.org) website for more information.
+更多信息，请访问 [Necord](https://necord.org) 网站。

@@ -1,20 +1,20 @@
-### Caching
+### 缓存
 
-Caching is a powerful and straightforward **technique** for enhancing your application's performance. By acting as a temporary storage layer, it allows for quicker access to frequently used data, reducing the need to repeatedly fetch or compute the same information. This results in faster response times and improved overall efficiency.
+缓存是一种强大而直接的**技术**，用于提升应用程序性能。它作为临时存储层，能够快速访问常用数据，减少重复获取或计算相同信息的需要，从而加快响应速度并提高整体效率。
 
-#### Installation
+#### 安装
 
-To get started with caching in Nest, you need to install the `@nestjs/cache-manager` package along with the `cache-manager` package.
+要在 Nest 中开始使用缓存，需要安装 `@nestjs/cache-manager` 包以及 `cache-manager` 包。
 
 ```bash
 $ npm install @nestjs/cache-manager cache-manager
 ```
 
-By default, everything is stored in memory; Since `cache-manager` uses [Keyv](https://keyv.org/docs/) under the hood, you can easily switch to a more advanced storage solution, such as Redis, by installing the appropriate package. We'll cover this in more detail later.
+默认情况下，所有内容都存储在内存中；由于 `cache-manager` 底层使用 [Keyv](https://keyv.org/docs/)，你可以通过安装相应包轻松切换到更高级的存储方案，例如 Redis。我们稍后会详细介绍这一点。
 
-#### In-memory cache
+#### 内存缓存
 
-To enable caching in your application, import the `CacheModule` and configure it using the `register()` method:
+要在应用程序中启用缓存，请导入 `CacheModule` 并使用 `register()` 方法进行配置：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -28,63 +28,63 @@ import { AppController } from './app.controller';
 export class AppModule {}
 ```
 
-This setup initializes in-memory caching with default settings, allowing you to start caching data immediately.
+此设置使用默认配置初始化内存缓存，让你可以立即开始缓存数据。
 
-#### Interacting with the Cache store
+#### 与缓存存储交互
 
-To interact with the cache manager instance, inject it to your class using the `CACHE_MANAGER` token, as follows:
+要与缓存管理器实例交互，请使用 `CACHE_MANAGER` 令牌将其注入到你的类中，如下所示：
 
 ```typescript
 constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
 ```
 
-> info **Hint** The `Cache` class and the `CACHE_MANAGER` token are both imported from the `@nestjs/cache-manager` package.
+> info **提示** `Cache` 类和 `CACHE_MANAGER` 令牌都是从 `@nestjs/cache-manager` 包导入的。
 
-The `get` method on the `Cache` instance (from the `cache-manager` package) is used to retrieve items from the cache. If the item does not exist in the cache, `null` will be returned.
+`Cache` 实例（来自 `cache-manager` 包）上的 `get` 方法用于从缓存中检索项。如果缓存中不存在该项，将返回 `null`。
 
 ```typescript
 const value = await this.cacheManager.get('key');
 ```
 
-To add an item to the cache, use the `set` method:
+要向缓存添加项，请使用 `set` 方法：
 
 ```typescript
 await this.cacheManager.set('key', 'value');
 ```
 
-> warning **Note** The in-memory cache storage can only store values of types that are supported by [the structured clone algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#javascript_types).
+> warning **注意** 内存缓存存储只能存储[结构化克隆算法](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm#javascript_types)支持的类型值。
 
-You can manually specify a TTL (expiration time in milliseconds) for this specific key, as follows:
+你可以为此特定键手动指定 TTL（生存时间，以毫秒为单位），如下所示：
 
 ```typescript
 await this.cacheManager.set('key', 'value', 1000);
 ```
 
-Where `1000` is the TTL in milliseconds - in this case, the cache item will expire after one second.
+其中 `1000` 是 TTL（以毫秒为单位）——在这种情况下，缓存项将在一秒后过期。
 
-To disable expiration of the cache, set the `ttl` configuration property to `0`:
+要禁用缓存过期，请将 `ttl` 配置属性设置为 `0`：
 
 ```typescript
 await this.cacheManager.set('key', 'value', 0);
 ```
 
-To remove an item from the cache, use the `del` method:
+要从缓存中移除项，请使用 `del` 方法：
 
 ```typescript
 await this.cacheManager.del('key');
 ```
 
-To clear the entire cache, use the `clear` method:
+要清空整个缓存，请使用 `clear` 方法：
 
 ```typescript
 await this.cacheManager.clear();
 ```
 
-#### Auto-caching responses
+#### 自动缓存响应
 
-> warning **Warning** In [GraphQL](/graphql/quick-start) applications, interceptors are executed separately for each field resolver. Thus, `CacheModule` (which uses interceptors to cache responses) will not work properly.
+> warning **警告** 在 [GraphQL](/graphql/quick-start) 应用程序中，拦截器会为每个字段解析器单独执行。因此，`CacheModule`（使用拦截器缓存响应）将无法正常工作。
 
-To enable auto-caching responses, just tie the `CacheInterceptor` where you want to cache data.
+要启用自动缓存响应，只需在你想要缓存数据的地方绑定 `CacheInterceptor`。
 
 ```typescript
 @Controller()
@@ -97,10 +97,9 @@ export class AppController {
 }
 ```
 
-> warning**Warning** Only `GET` endpoints are cached. Also, HTTP server routes that inject the native response object (`@Res()`) cannot use the Cache Interceptor. See
-> <a href="https://docs.nestjs.com/interceptors#response-mapping">response mapping</a> for more details.
+> warning**警告** 只有 `GET` 端点会被缓存。此外，注入原生响应对象（`@Res()`）的 HTTP 服务器路由无法使用缓存拦截器。有关更多详情，请参阅<a href="https://docs.nestjs.com/interceptors#response-mapping">响应映射</a>。
 
-To reduce the amount of required boilerplate, you can bind `CacheInterceptor` to all endpoints globally:
+为了减少所需的样板代码，你可以将 `CacheInterceptor` 全局绑定到所有端点：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -121,19 +120,19 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 export class AppModule {}
 ```
 
-#### Time-to-live (TTL)
+#### 生存时间（TTL）
 
-The default value for `ttl` is `0`, meaning the cache will never expire. To specify a custom [TTL](https://en.wikipedia.org/wiki/Time_to_live), you can provide the `ttl` option in the `register()` method, as demonstrated below:
+`ttl` 的默认值为 `0`，意味着缓存永不过期。要指定自定义 [TTL](https://en.wikipedia.org/wiki/Time_to_live)，你可以在 `register()` 方法中提供 `ttl` 选项，如下所示：
 
 ```typescript
 CacheModule.register({
-  ttl: 5000, // milliseconds
+  ttl: 5000, // 毫秒
 });
 ```
 
-#### Use module globally
+#### 全局使用模块
 
-When you want to use `CacheModule` in other modules, you'll need to import it (as is standard with any Nest module). Alternatively, declare it as a [global module](https://docs.nestjs.com/modules#global-modules) by setting the options object's `isGlobal` property to `true`, as shown below. In that case, you will not need to import `CacheModule` in other modules once it's been loaded in the root module (e.g., `AppModule`).
+当你想在其他模块中使用 `CacheModule` 时，需要导入它（就像任何 Nest 模块的标准做法一样）。或者，通过将选项对象的 `isGlobal` 属性设置为 `true` 来声明它为[全局模块](https://docs.nestjs.com/modules#global-modules)，如下所示。这样，一旦在根模块（例如 `AppModule`）中加载了 `CacheModule`，你就不需要在其他模块中再次导入它。
 
 ```typescript
 CacheModule.register({
@@ -141,11 +140,11 @@ CacheModule.register({
 });
 ```
 
-#### Global cache overrides
+#### 全局缓存覆盖
 
-While global cache is enabled, cache entries are stored under a `CacheKey` that is auto-generated based on the route path. You may override certain cache settings (`@CacheKey()` and `@CacheTTL()`) on a per-method basis, allowing customized caching strategies for individual controller methods. This may be most relevant while using [different cache stores.](https://docs.nestjs.com/techniques/caching#different-stores)
+启用全局缓存后，缓存项会根据路由路径自动生成 `CacheKey` 进行存储。你可以在每个方法基础上覆盖某些缓存设置（`@CacheKey()` 和 `@CacheTTL()`），从而为单个控制器方法提供自定义的缓存策略。这在[使用不同缓存存储](https://docs.nestjs.com/techniques/caching#different-stores)时可能最为相关。
 
-You can apply the `@CacheTTL()` decorator on a per-controller basis to set a caching TTL for the entire controller. In situations where both controller-level and method-level cache TTL settings are defined, the cache TTL settings specified at the method level will take priority over the ones set at the controller level.
+你可以在每个控制器上应用 `@CacheTTL()` 装饰器，为整个控制器设置缓存 TTL。如果同时定义了控制器级别和方法级别的缓存 TTL 设置，方法级别的设置将优先于控制器级别的设置。
 
 ```typescript
 @Controller()
@@ -159,13 +158,13 @@ export class AppController {
 }
 ```
 
-> info **Hint** The `@CacheKey()` and `@CacheTTL()` decorators are imported from the `@nestjs/cache-manager` package.
+> info **提示** `@CacheKey()` 和 `@CacheTTL()` 装饰器是从 `@nestjs/cache-manager` 包导入的。
 
-The `@CacheKey()` decorator may be used with or without a corresponding `@CacheTTL()` decorator and vice versa. One may choose to override only the `@CacheKey()` or only the `@CacheTTL()`. Settings that are not overridden with a decorator will use the default values as registered globally (see [Customize caching](https://docs.nestjs.com/techniques/caching#customize-caching)).
+`@CacheKey()` 装饰器可以单独使用，也可以与 `@CacheTTL()` 装饰器配合使用，反之亦然。你可以选择只覆盖 `@CacheKey()` 或只覆盖 `@CacheTTL()`。未使用装饰器覆盖的设置将使用全局注册的默认值（参见[自定义缓存](https://docs.nestjs.com/techniques/caching#customize-caching)）。
 
-#### WebSockets and Microservices
+#### WebSockets 和微服务
 
-You can also apply the `CacheInterceptor` to WebSocket subscribers as well as Microservice's patterns (regardless of the transport method that is being used).
+你也可以将 `CacheInterceptor` 应用于 WebSocket 订阅者以及微服务的模式（无论使用哪种传输方法）。
 
 ```typescript
 @@filename()
@@ -184,9 +183,9 @@ handleEvent(client, data) {
 }
 ```
 
-However, the additional `@CacheKey()` decorator is required in order to specify a key used to subsequently store and retrieve cached data. Also, please note that you **shouldn't cache everything**. Actions which perform some business operations rather than simply querying the data should never be cached.
+但是，需要额外的 `@CacheKey()` 装饰器来指定用于后续存储和检索缓存数据的键。另外，请注意**不应缓存所有内容**。执行某些业务操作而非仅仅查询数据的操作绝不应被缓存。
 
-Additionally, you may specify a cache expiration time (TTL) by using the `@CacheTTL()` decorator, which will override the global default TTL value.
+此外，你可以使用 `@CacheTTL()` 装饰器指定缓存过期时间（TTL），这将覆盖全局默认的 TTL 值。
 
 ```typescript
 @@filename()
@@ -205,13 +204,13 @@ handleEvent(client, data) {
 }
 ```
 
-> info **Hint** The `@CacheTTL()` decorator may be used with or without a corresponding `@CacheKey()` decorator.
+> info **提示** `@CacheTTL()` 装饰器可以单独使用，也可以与 `@CacheKey()` 装饰器配合使用。
 
-#### Adjust tracking
+#### 调整跟踪
 
-By default, Nest uses the request URL (in an HTTP app) or cache key (in websockets and microservices apps, set through the `@CacheKey()` decorator) to associate cache records with your endpoints. Nevertheless, sometimes you might want to set up tracking based on different factors, for example, using HTTP headers (e.g. `Authorization` to properly identify `profile` endpoints).
+默认情况下，Nest 使用请求 URL（在 HTTP 应用中）或缓存键（在 WebSocket 和微服务应用中，通过 `@CacheKey()` 装饰器设置）来将缓存记录与你的端点关联起来。然而，有时你可能希望基于不同因素设置跟踪，例如使用 HTTP 头（例如 `Authorization` 来正确识别 `profile` 端点）。
 
-In order to accomplish that, create a subclass of `CacheInterceptor` and override the `trackBy()` method.
+为了实现这一点，创建一个 `CacheInterceptor` 的子类并重写 `trackBy()` 方法。
 
 ```typescript
 @Injectable()
@@ -222,15 +221,15 @@ class HttpCacheInterceptor extends CacheInterceptor {
 }
 ```
 
-#### Using alternative Cache stores
+#### 使用替代缓存存储
 
-Switching to a different cache store is straightforward. First, install the appropriate package. For example, to use Redis, install the `@keyv/redis` package:
+切换到不同的缓存存储非常简单。首先，安装相应的包。例如，要使用 Redis，请安装 `@keyv/redis` 包：
 
 ```bash
 $ npm install @keyv/redis
 ```
 
-With this in place, you can register the `CacheModule` with multiple stores as shown below:
+安装完成后，你可以注册 `CacheModule` 并使用多个存储，如下所示：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -260,15 +259,15 @@ import { CacheableMemory } from 'cacheable';
 export class AppModule {}
 ```
 
-In this example, we've registered two stores: `CacheableMemory` and `KeyvRedis`. The `CacheableMemory` store is a simple in-memory store, while `KeyvRedis` is a Redis store. The `stores` array is used to specify the stores you want to use. The first store in the array is the default store, and the rest are fallback stores.
+在这个例子中，我们注册了两个存储：`CacheableMemory` 和 `KeyvRedis`。`CacheableMemory` 存储是一个简单的内存存储，而 `KeyvRedis` 是一个 Redis 存储。`stores` 数组用于指定你想要使用的存储。数组中的第一个存储是默认存储，其余的是备用存储。
 
-Check out the [Keyv documentation](https://keyv.org/docs/) for more information on available stores.
+查看 [Keyv 文档](https://keyv.org/docs/)以获取有关可用存储的更多信息。
 
-#### Async configuration
+#### 异步配置
 
-You may want to asynchronously pass in module options instead of passing them statically at compile time. In this case, use the `registerAsync()` method, which provides several ways to deal with async configuration.
+你可能希望异步传入模块选项，而不是在编译时静态传递它们。在这种情况下，使用 `registerAsync()` 方法，它提供了几种处理异步配置的方式。
 
-One approach is to use a factory function:
+一种方法是使用工厂函数：
 
 ```typescript
 CacheModule.registerAsync({
@@ -278,7 +277,7 @@ CacheModule.registerAsync({
 });
 ```
 
-Our factory behaves like all other asynchronous module factories (it can be `async` and is able to inject dependencies through `inject`).
+我们的工厂函数的行为与其他所有异步模块工厂类似（可以是 `async` 的，并且能够通过 `inject` 注入依赖项）。
 
 ```typescript
 CacheModule.registerAsync({
@@ -290,7 +289,7 @@ CacheModule.registerAsync({
 });
 ```
 
-Alternatively, you can use the `useClass` method:
+或者，你可以使用 `useClass` 方法：
 
 ```typescript
 CacheModule.registerAsync({
@@ -298,7 +297,7 @@ CacheModule.registerAsync({
 });
 ```
 
-The above construction will instantiate `CacheConfigService` inside `CacheModule` and will use it to get the options object. The `CacheConfigService` has to implement the `CacheOptionsFactory` interface in order to provide the configuration options:
+上述构造将在 `CacheModule` 内部实例化 `CacheConfigService`，并使用它来获取选项对象。`CacheConfigService` 必须实现 `CacheOptionsFactory` 接口以提供配置选项：
 
 ```typescript
 @Injectable()
@@ -311,7 +310,7 @@ class CacheConfigService implements CacheOptionsFactory {
 }
 ```
 
-If you wish to use an existing configuration provider imported from a different module, use the `useExisting` syntax:
+如果你希望使用从其他模块导入的现有配置提供者，请使用 `useExisting` 语法：
 
 ```typescript
 CacheModule.registerAsync({
@@ -320,11 +319,11 @@ CacheModule.registerAsync({
 });
 ```
 
-This works the same as `useClass` with one critical difference - `CacheModule` will lookup imported modules to reuse any already-created `ConfigService`, instead of instantiating its own.
+这与 `useClass` 的工作方式相同，但有一个关键区别——`CacheModule` 将查找导入的模块以重用任何已创建的 `ConfigService`，而不是实例化自己的。
 
-> info **Hint** `CacheModule#register`, `CacheModule#registerAsync` and `CacheOptionsFactory` have an optional generic (type argument) to narrow down store-specific configuration options, making it type safe.
+> info **提示** `CacheModule#register`、`CacheModule#registerAsync` 和 `CacheOptionsFactory` 有一个可选的泛型（类型参数）来缩小特定于存储的配置选项，使其类型安全。
 
-You can also pass so-called `extraProviders` to the `registerAsync()` method. These providers will be merged with the module providers.
+你还可以向 `registerAsync()` 方法传递所谓的 `extraProviders`。这些提供者将与模块提供者合并。
 
 ```typescript
 CacheModule.registerAsync({
@@ -334,8 +333,8 @@ CacheModule.registerAsync({
 });
 ```
 
-This is useful when you want to provide additional dependencies to the factory function or the class constructor.
+当你希望向工厂函数或类构造函数提供额外的依赖项时，这非常有用。
 
-#### Example
+#### 示例
 
-A working example is available [here](https://github.com/nestjs/nest/tree/master/sample/20-cache).
+一个可运行的示例可在[这里](https://github.com/nestjs/nest/tree/master/sample/20-cache)找到。

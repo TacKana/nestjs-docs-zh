@@ -1,41 +1,41 @@
-### Adapters
+### 适配器
 
-The WebSockets module is platform-agnostic, hence, you can bring your own library (or even a native implementation) by making use of `WebSocketAdapter` interface. This interface forces to implement few methods described in the following table:
+WebSockets 模块是平台无关的，因此你可以通过实现 `WebSocketAdapter` 接口来使用自己的库（甚至是原生实现）。该接口强制实现下表中描述的少数方法：
 
 <table>
   <tr>
     <td><code>create</code></td>
-    <td>Creates a socket instance based on passed arguments</td>
+    <td>基于传递的参数创建套接字实例</td>
   </tr>
   <tr>
     <td><code>bindClientConnect</code></td>
-    <td>Binds the client connection event</td>
+    <td>绑定客户端连接事件</td>
   </tr>
   <tr>
     <td><code>bindClientDisconnect</code></td>
-    <td>Binds the client disconnection event (optional*)</td>
+    <td>绑定客户端断开连接事件（可选*）</td>
   </tr>
   <tr>
     <td><code>bindMessageHandlers</code></td>
-    <td>Binds the incoming message to the corresponding message handler</td>
+    <td>将传入消息绑定到相应的消息处理器</td>
   </tr>
   <tr>
     <td><code>close</code></td>
-    <td>Terminates a server instance</td>
+    <td>终止服务器实例</td>
   </tr>
 </table>
 
-#### Extend socket.io
+#### 扩展 socket.io
 
-The [socket.io](https://github.com/socketio/socket.io) package is wrapped in an `IoAdapter` class. What if you would like to enhance the basic functionality of the adapter? For instance, your technical requirements require a capability to broadcast events across multiple load-balanced instances of your web service. For this, you can extend `IoAdapter` and override a single method which responsibility is to instantiate new socket.io servers. But first of all, let's install the required package.
+[socket.io](https://github.com/socketio/socket.io) 包被封装在 `IoAdapter` 类中。如果你想增强适配器的基本功能怎么办？例如，你的技术要求能够跨 Web 服务的多个负载均衡实例广播事件。为此，你可以扩展 `IoAdapter` 并重写一个负责实例化新 socket.io 服务器的方法。但首先，让我们安装所需的包。
 
-> warning **Warning** To use socket.io with multiple load-balanced instances you either have to disable polling by setting `transports: ['websocket']` in your clients socket.io configuration or you have to enable cookie based routing in your load balancer. Redis alone is not enough. See [here](https://socket.io/docs/v4/using-multiple-nodes/#enabling-sticky-session) for more information.
+> warning **警告** 要在多个负载均衡实例中使用 socket.io，你必须在客户端 socket.io 配置中设置 `transports: ['websocket']` 来禁用轮询，或者在负载均衡器中启用基于 cookie 的路由。仅使用 Redis 是不够的。更多信息请参见[此处](https://socket.io/docs/v4/using-multiple-nodes/#enabling-sticky-session)。
 
 ```bash
 $ npm i --save redis socket.io @socket.io/redis-adapter
 ```
 
-Once the package is installed, we can create a `RedisIoAdapter` class.
+安装包后，我们可以创建一个 `RedisIoAdapter` 类。
 
 ```typescript
 import { IoAdapter } from '@nestjs/platform-socket.io';
@@ -63,7 +63,7 @@ export class RedisIoAdapter extends IoAdapter {
 }
 ```
 
-Afterward, simply switch to your newly created Redis adapter.
+之后，只需切换到新创建的 Redis 适配器。
 
 ```typescript
 const app = await NestFactory.create(AppModule);
@@ -73,32 +73,32 @@ await redisIoAdapter.connectToRedis();
 app.useWebSocketAdapter(redisIoAdapter);
 ```
 
-#### Ws library
+#### Ws 库
 
-Another available adapter is a `WsAdapter` which in turn acts like a proxy between the framework and integrate blazing fast and thoroughly tested [ws](https://github.com/websockets/ws) library. This adapter is fully compatible with native browser WebSockets and is far faster than socket.io package. Unluckily, it has significantly fewer functionalities available out-of-the-box. In some cases, you don't necessarily need them though.
+另一个可用的适配器是 `WsAdapter`，它充当框架与集成极快且经过充分测试的 [ws](https://github.com/websockets/ws) 库之间的代理。此适配器与原生浏览器 WebSockets 完全兼容，并且比 socket.io 包快得多。不幸的是，它开箱即用的功能要少得多。但在某些情况下，你并不一定需要它们。
 
-> info **Hint** `ws` library does not support namespaces (communication channels popularised by `socket.io`). However, to somehow mimic this feature, you can mount multiple `ws` servers on different paths (example: `@WebSocketGateway({{ '{' }} path: '/users' {{ '}' }})`).
+> info **提示** `ws` 库不支持命名空间（由 `socket.io` 推广的通信通道）。但是，为了模拟此功能，你可以在不同路径上挂载多个 `ws` 服务器（例如：`@WebSocketGateway({{ '{' }} path: '/users' {{ '}' }})`）。
 
-In order to use `ws`, we firstly have to install the required package:
+为了使用 `ws`，我们首先必须安装所需的包：
 
 ```bash
 $ npm i --save @nestjs/platform-ws
 ```
 
-Once the package is installed, we can switch an adapter:
+安装包后，我们可以切换适配器：
 
 ```typescript
 const app = await NestFactory.create(AppModule);
 app.useWebSocketAdapter(new WsAdapter(app));
 ```
 
-> info **Hint** The `WsAdapter` is imported from `@nestjs/platform-ws`.
+> info **提示** `WsAdapter` 是从 `@nestjs/platform-ws` 导入的。
 
-The `wsAdapter` is designed to handle messages in the `{{ '{' }} event: string, data: any {{ '}' }}` format. If you need to receive and process messages in a different format, you'll need to configure a message parser to convert them into this required format.
+`wsAdapter` 旨在处理 `{{ '{' }} event: string, data: any {{ '}' }}` 格式的消息。如果你需要以不同格式接收和处理消息，你需要配置一个消息解析器将其转换为所需的格式。
 
 ```typescript
 const wsAdapter = new WsAdapter(app, {
-  // To handle messages in the [event, data] format
+  // 处理 [event, data] 格式的消息
   messageParser: (data) => {
     const [event, payload] = JSON.parse(data.toString());
     return { event, data: payload };
@@ -106,11 +106,11 @@ const wsAdapter = new WsAdapter(app, {
 });
 ```
 
-Alternatively, you can configure the message parser after the adapter is created by using the `setMessageParser` method.
+或者，你可以在创建适配器后使用 `setMessageParser` 方法配置消息解析器。
 
-#### Advanced (custom adapter)
+#### 高级（自定义适配器）
 
-For demonstration purposes, we are going to integrate the [ws](https://github.com/websockets/ws) library manually. As mentioned, the adapter for this library is already created and is exposed from the `@nestjs/platform-ws` package as a `WsAdapter` class. Here is how the simplified implementation could potentially look like:
+出于演示目的，我们将手动集成 [ws](https://github.com/websockets/ws) 库。如前所述，该库的适配器已经创建，并从 `@nestjs/platform-ws` 包中作为 `WsAdapter` 类公开。以下是简化实现的可能样子：
 
 ```typescript
 @@filename(ws-adapter)
@@ -165,9 +165,9 @@ export class WsAdapter implements WebSocketAdapter {
 }
 ```
 
-> info **Hint** When you want to take advantage of [ws](https://github.com/websockets/ws) library, use built-in `WsAdapter` instead of creating your own one.
+> info **提示** 当你想利用 [ws](https://github.com/websockets/ws) 库时，请使用内置的 `WsAdapter` 而不是创建自己的适配器。
 
-Then, we can set up a custom adapter using `useWebSocketAdapter()` method:
+然后，我们可以使用 `useWebSocketAdapter()` 方法设置自定义适配器：
 
 ```typescript
 @@filename(main)
@@ -175,6 +175,6 @@ const app = await NestFactory.create(AppModule);
 app.useWebSocketAdapter(new WsAdapter(app));
 ```
 
-#### Example
+#### 示例
 
-A working example that uses `WsAdapter` is available [here](https://github.com/nestjs/nest/tree/master/sample/16-gateways-ws).
+一个使用 `WsAdapter` 的工作示例可在[此处](https://github.com/nestjs/nest/tree/master/sample/16-gateways-ws)找到。

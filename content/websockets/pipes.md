@@ -1,12 +1,12 @@
-### Pipes
+### 管道（Pipes）
 
-There is no fundamental difference between [regular pipes](/pipes) and web sockets pipes. The only difference is that instead of throwing `HttpException`, you should use `WsException`. In addition, all pipes will be only applied to the `data` parameter (because validating or transforming `client` instance is useless).
+[常规管道](/pipes)与 WebSocket 管道本质上没有区别。唯一的区别在于，你应该使用 `WsException` 而不是抛出 `HttpException`。此外，所有管道仅会应用于 `data` 参数（因为验证或转换 `client` 实例毫无意义）。
 
-> info **Hint** The `WsException` class is exposed from `@nestjs/websockets` package.
+> info **提示** `WsException` 类由 `@nestjs/websockets` 包导出。
 
-#### Binding pipes
+#### 绑定管道
 
-The following example uses a manually instantiated method-scoped pipe. Just as with HTTP based applications, you can also use gateway-scoped pipes (i.e., prefix the gateway class with a `@UsePipes()` decorator).
+以下示例使用手动实例化的方法作用域管道。就像基于 HTTP 的应用程序一样，你也可以使用网关作用域的管道（例如，在网关类前添加 `@UsePipes()` 装饰器）。
 
 ```typescript
 @@filename()

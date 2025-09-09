@@ -1,0 +1,682 @@
+{
+  "content/cli/libraries.md": {
+    "source_hash": "fd24cd63103e4c903d2eb01e79b3ce6c9d93800d",
+    "last_translated_at": "2025-09-09T01:58:40.375Z",
+    "translator_version": "1.0"
+  },
+  "content/cli/overview.md": {
+    "source_hash": "71644baea19e349e8f590852ec891ab93d11714f",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/cli/scripts.md": {
+    "source_hash": "4eefcc1dfae488487d30dd5982c46d08829c568b",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/cli/usages.md": {
+    "source_hash": "4811dc662f990719edd040e4ddcf6c292a5bf49d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/cli/workspaces.md": {
+    "source_hash": "930dacba9772e404e2cdd8cb709f470647734263",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/devtools/ci-cd.md": {
+    "source_hash": "a88b5f63c7f9604c5cb90566c74f89da73d904f2",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/devtools/overview.md": {
+    "source_hash": "5aebdd10068fb8ce43855b541e04f8561ed9da41",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/discover/who-uses.md": {
+    "source_hash": "b8e292f79489785e7b264fef2f12504399530c29",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/errors.md": {
+    "source_hash": "a3a775529bb16957437a16c0f101484a71a1fbfd",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/global-prefix.md": {
+    "source_hash": "0877756e4b1f4a9a08212a9b5bd0d5d38741d036",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/http-adapter.md": {
+    "source_hash": "58f849db1ca14fbb88d4c4b70ffb646db1204993",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/hybrid-application.md": {
+    "source_hash": "ecbd42c0aea3c6b176e6552f697e87c30bc8a3d1",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/keep-alive-connections.md": {
+    "source_hash": "a2e82d50e104fc62efce6c1cf4c9b0aac46a6927",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/multiple-servers.md": {
+    "source_hash": "8c4a84c313269510788c6994b5d0e2a24906733c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/raw-body.md": {
+    "source_hash": "43c07112ca7f917f217002085796c2f1479d77f6",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/request-lifecycle.md": {
+    "source_hash": "23464f8ff4b85bce03fae321765ec81760a0afd2",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/faq/serverless.md": {
+    "source_hash": "9241c86a1f961ba1ea586e2058018c3c5328d1f0",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/async-components.md": {
+    "source_hash": "293187ef6efc7defc3075116bbc8f96b76c83524",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/circular-dependency.md": {
+    "source_hash": "c0c133b8ab836d55956a8bf58be8cad74c063e8b",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/dependency-injection.md": {
+    "source_hash": "62687d925733bf47839e96b6043e54db67808b74",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/discovery-service.md": {
+    "source_hash": "63db7a18d04d8716328ed32567a75502e000af73",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/dynamic-modules.md": {
+    "source_hash": "b98490e0e1eb78cb93935fb70ea022033d2fbc2e",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/execution-context.md": {
+    "source_hash": "79b7828b7e04f09686368359c3e73cde8645a4ce",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/lazy-loading-modules.md": {
+    "source_hash": "68076b5462738227112c8588bbc5a606d653a86d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/lifecycle-events.md": {
+    "source_hash": "3318cc661dcb6d6f7c3801b8eaeb895d61f82fbe",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/module-reference.md": {
+    "source_hash": "bbbc9fdd1c7eb1ba2f4f824fb29a97174bd24049",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/platform-agnosticism.md": {
+    "source_hash": "c45d248e6a00e426f1e2a11fd748551579d9ca1d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/provider-scopes.md": {
+    "source_hash": "c13c4aed0159758a81277ecc059c799dfc848a13",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/fundamentals/unit-testing.md": {
+    "source_hash": "1721ee3cd64bf126e8cdc1fbe3f4ec8ea9a22771",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/cli-plugin.md": {
+    "source_hash": "c07d69e4054a754566123c0efbf5305b1d43175c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/complexity.md": {
+    "source_hash": "9de8f5ce758b644d45bab5e5690ecdad0fdad1ca",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/directives.md": {
+    "source_hash": "331c1eb7d5e8a3bc50760cfbe8fa65adc7532244",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/extensions.md": {
+    "source_hash": "bc273aed8fdc79dfae080f0ef1d58206d79672c3",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/federation.md": {
+    "source_hash": "bf02202c4eee549ec94e281504a48f6fe854e3da",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/field-middleware.md": {
+    "source_hash": "2be66b04c14f453354af7d85f56eb7f456ccdcb8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/guards-interceptors.md": {
+    "source_hash": "e06e087c4391266576382f8d4c1a63d929543392",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/interfaces.md": {
+    "source_hash": "967951987c3909086037c828a7cfe150bb7e9431",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/mapped-types.md": {
+    "source_hash": "de8fe21f5725ddf3eeb086238b7bc15ebbc43324",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/mutations.md": {
+    "source_hash": "b3e0af11b3f2f6de42ba0e406bdb8fa551ebc94a",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/plugins.md": {
+    "source_hash": "52d0d5c6f6765f901024c092b1f3c4ca04940eae",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/quick-start.md": {
+    "source_hash": "749890b2b02474780c7e45e356d53d61a4c50530",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/resolvers-map.md": {
+    "source_hash": "03e69222d0c7be2ab7783777d5b9185a9731821e",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/scalars.md": {
+    "source_hash": "d3f22c25b63a0563634fc20385f31322b211444c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/schema-generator.md": {
+    "source_hash": "e406251998244dd6b7b23485c4fbaa30c394cd1e",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/sharing-models.md": {
+    "source_hash": "ebdd10d24bb04b5d659ebff451956dff908309d8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/subscriptions.md": {
+    "source_hash": "11594648227d197263e3eff88ed92c9cc45cd9d1",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/graphql/unions-and-enums.md": {
+    "source_hash": "3c8761641bf100a0573845ec73503f10b9707523",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/basics.md": {
+    "source_hash": "0de4f056dfcbfe66f12d27d21e7a0a75dd31ad43",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/custom-transport.md": {
+    "source_hash": "8ca6c847da223827d9c381dad1780f44034d5332",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/exception-filters.md": {
+    "source_hash": "0b9858b3e2f9e76779c30d32dae121d1306cadd0",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/grpc.md": {
+    "source_hash": "f116ac3cc27dbb8f10d956ef73b356c912c31915",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/guards.md": {
+    "source_hash": "c1b96da5e10761e710951abebf6cd09963cd2d3d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/interceptors.md": {
+    "source_hash": "ab4701df85355c69d58b3526db35ecc2bc2d4f47",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/kafka.md": {
+    "source_hash": "2660093a67c43fe0e797e0b3b24a357d8a838207",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/mqtt.md": {
+    "source_hash": "9a4519e14a125e4aff6d28a2ac4313d3b3662a0f",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/nats.md": {
+    "source_hash": "af0f3f7b630c7e65d02dc045b75f100c9a00e7d6",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/pipes.md": {
+    "source_hash": "5e2968070b51d6092bff6c4048a53634faf9e707",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/rabbitmq.md": {
+    "source_hash": "a95e15a9ac5ef9017168ee153c296bc0baba7133",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/microservices/redis.md": {
+    "source_hash": "f1a9a79b46fac270efef89e58ab4ba5d52ed3338",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/cli-plugin.md": {
+    "source_hash": "0d90669832bb5b0feeede4a6365a9c0079cae5d4",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/decorators.md": {
+    "source_hash": "887fd618c6db6335aa2f63d8f1461098b0fb67fb",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/introduction.md": {
+    "source_hash": "ac6d1ce99293f044544d7478077b3996d53385a4",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/mapped-types.md": {
+    "source_hash": "99d18bf2782136471bf94380ee0f46c29cdc30ed",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/operations.md": {
+    "source_hash": "0b2a147c1e0c7f7edbd4c072236ebc5e9ed8dbc3",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/other-features.md": {
+    "source_hash": "c0b4856e3730178fd9bb5ec6ef09dc39846b0120",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/security.md": {
+    "source_hash": "a46cf9f0c8303ddd2c2a7b54f8ef49648b559fdd",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/openapi/types-and-parameters.md": {
+    "source_hash": "5c881e003b21081d11624c532d6fcbe15f3bf6f1",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/async-local-storage.md": {
+    "source_hash": "ea7422b16323cc3159217877eb66656e2d420963",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/cqrs.md": {
+    "source_hash": "d67e5c445feffb5a4473eae14535a89e4b04c330",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/crud-generator.md": {
+    "source_hash": "7125122bacb5c00aac1773718aca53475467fa4d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/documentation.md": {
+    "source_hash": "b759af782dfbe9badf33a617cf83c0af35dfecc8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/hot-reload.md": {
+    "source_hash": "ce1f3578d960dc6981b10bc647f4f9159c8bf6d7",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/mikroorm.md": {
+    "source_hash": "a422b2951c74be0ca029d5d9f7b6f9067d0fa455",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/mongodb.md": {
+    "source_hash": "8e6e3c7e7e9263cb6983849a8982ab4f6b039d2c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/necord.md": {
+    "source_hash": "dd9c26f64dad34ddfe51db6be3f11eaee2663b3f",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/nest-commander.md": {
+    "source_hash": "4adc69bf05bdbe83da802adbb620a0d9b117adea",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/passport.md": {
+    "source_hash": "c9547b1fa6490cfda9f3d1404c45e5799ce3c688",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/prisma.md": {
+    "source_hash": "2fa520a41efe285411e1bd4df76553efbb09ab2b",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/repl.md": {
+    "source_hash": "7296924a4333f0b00a01ad4120667c19594f782e",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/router-module.md": {
+    "source_hash": "79fb11965daa71c4a9d91105c9be96db4bb2f38d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/sentry.md": {
+    "source_hash": "9a7954a6ce1e1457386ec2ba036842ba163e229c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/serve-static.md": {
+    "source_hash": "3100a160204939bfbd7eecccdf3354604d9e9639",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/sql-sequelize.md": {
+    "source_hash": "df851dd502650d014f816e9fa6badc2747674369",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/sql-typeorm.md": {
+    "source_hash": "c1613c4720d64bff26699b0a5c3e44434e589bd8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/suites.md": {
+    "source_hash": "9869e6db611868bfda1c22dbfb030badf00de8b3",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/swc.md": {
+    "source_hash": "8fe8c3e9d46e086773da094ac45c4c6d8e8a76c5",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/recipes/terminus.md": {
+    "source_hash": "af18586ea2674115b0e8d51ef63c9f04edc57d02",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/authentication.md": {
+    "source_hash": "e3d75def0aa0e1444a4afa2f603b9813403ee6ef",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/authorization.md": {
+    "source_hash": "4f32b373ad24fe11da45b2c5eb3523137d67bd62",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/cors.md": {
+    "source_hash": "fb5d68aaf1d140522835404ebe68433034672fec",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/csrf.md": {
+    "source_hash": "64846e927db4ca5ac0ac05617ab877ec9fc7f450",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/encryption-hashing.md": {
+    "source_hash": "71691d49279899f38991dfb38299b66642eaa35b",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/helmet.md": {
+    "source_hash": "3cf2d71ddcb26576c3bf148172aa583a24bcc787",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/security/rate-limiting.md": {
+    "source_hash": "43cefcbb34f3b09bffe283dd7db6ff2b2b24da00",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/caching.md": {
+    "source_hash": "e4d12c97cbf1428b126193f8ab9e4cc951768834",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/compression.md": {
+    "source_hash": "63f653f4bbad7af8c35e3f594d7f4a85370c234e",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/configuration.md": {
+    "source_hash": "7fefb23fc792761911ae4374947d73f3dec6ed51",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/cookies.md": {
+    "source_hash": "759c0a378f7a8eb8ae8a76e927986cd17973e24c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/events.md": {
+    "source_hash": "fef6e4d6a4e6988804bd78615dbe1156462cf5db",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/file-upload.md": {
+    "source_hash": "02663af9f79a24d6ff179890b3528103ee7741da",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/http-module.md": {
+    "source_hash": "1b382817816efb5966f93437a32ddf4136505364",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/logger.md": {
+    "source_hash": "5e1752ecf157249f695c3ac9379cc643dc5352ba",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/mongo.md": {
+    "source_hash": "cd08d6e711dcf665a42852fcc8b0ced134dc0223",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/mvc.md": {
+    "source_hash": "e2d88e717d16912e0c945de125fdb3d47280e6d8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/performance.md": {
+    "source_hash": "1fd4ce78d574ace14e734a481a0d3078c9db33ae",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/queues.md": {
+    "source_hash": "685d649ec82a4d3032a36c980f6adea73d96a026",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/serialization.md": {
+    "source_hash": "f225a1dbaa86fb055a1f0d29bede2abd7561faf0",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/server-sent-events.md": {
+    "source_hash": "a3511e8baa1e14badb48b2d8f17daac223e4b05b",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/sessions.md": {
+    "source_hash": "4acd65ec9f9c7de6d6d438b40fad530753323bb6",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/sql.md": {
+    "source_hash": "cca06f862a609bf6520f3d129f49873e845dbb58",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/streaming-files.md": {
+    "source_hash": "1c6ff70bffd240a12e63b2e1cd75424b15df6b4a",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/task-scheduling.md": {
+    "source_hash": "6f9cf512249233ddaa5a4f562cfd55c59cc7f411",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/validation.md": {
+    "source_hash": "a7f59fdc55dc0ddecd27889f15785cdeb8c031ba",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/techniques/versioning.md": {
+    "source_hash": "98a0a2c83e6d83ed3d4aa489e0e20b69c1915872",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/adapter.md": {
+    "source_hash": "6fdfd89901c4dc3a955a101e365d702d2409afc0",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/exception-filters.md": {
+    "source_hash": "7d4d28ea0e6f2aab3c427e68be91b47f5261a001",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/gateways.md": {
+    "source_hash": "fb1d717462ba418ab033023544a9007043c96906",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/guards.md": {
+    "source_hash": "51a44c6228c80e1afe78048f01ec8441a5234264",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/interceptors.md": {
+    "source_hash": "d1df9cee0b92af7cd34173cae388edd5dd6090dd",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/websockets/pipes.md": {
+    "source_hash": "9e465e41dcb05493c7d1349365ac14c3a236b45f",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/application-context.md": {
+    "source_hash": "b89b965f5f1630425fbc15ee9d5f788996386330",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/components.md": {
+    "source_hash": "826a0ed13f73162c9e85611e72af56c70baabda1",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/controllers.md": {
+    "source_hash": "36a25c1f7b757fdaf23b375877b54c6ff95e50e8",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/custom-decorators.md": {
+    "source_hash": "31bec3fdf551100a140bfce071c70fa03c4c2c9c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/deployment.md": {
+    "source_hash": "54ff2eca811a2f48921cc78e6828f23b98af4881",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/enterprise.md": {
+    "source_hash": "dcffe9bbd141d53398bc29428d7ec2389aca0452",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/exception-filters.md": {
+    "source_hash": "6f632c8213be267a8c4bbd3815e4a7faacb4ec9c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/first-steps.md": {
+    "source_hash": "f2dbc2c98af9a94506d07c79fd920b456ed84245",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/guards.md": {
+    "source_hash": "313f89c667ff64821a53ad7a76342c07fe9d3ed9",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/interceptors.md": {
+    "source_hash": "8c9d31a1853a95291e8ef6d15351a7443b771d9c",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/introduction.md": {
+    "source_hash": "0fe020bd95570f024063375bc577ca9b39c1afc2",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/middlewares.md": {
+    "source_hash": "8d166d0881629c47bca8f2f1ca7eebfa215f1507",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/migration.md": {
+    "source_hash": "fac6422dbb6fbf96f05ac2b997020b041fcd1190",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/modules.md": {
+    "source_hash": "02f4a1a949c7101242acd996df73eb1bca570149",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/pipes.md": {
+    "source_hash": "ba7db0d9eb4764ed540ff42b7c23c1f8d554b52d",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  },
+  "content/support.md": {
+    "source_hash": "db3a21cea96535e8e7a7a10c930c06a1ecdc119a",
+    "last_translated_at": "2025-09-09T01:58:40.379Z",
+    "translator_version": "1.0"
+  }
+}

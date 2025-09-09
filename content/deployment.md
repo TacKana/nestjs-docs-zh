@@ -1,183 +1,183 @@
-### Deployment
+### 部署
 
-When you're ready to deploy your NestJS application to production, there are key steps you can take to ensure it runs as efficiently as possible. In this guide, we'll explore essential tips and best practices to help you deploy your NestJS application successfully.
+当你准备好将 NestJS 应用部署到生产环境时，有一些关键步骤可以帮助你确保其以最高效的方式运行。在本指南中，我们将探讨一些基本技巧和最佳实践，助你成功部署 NestJS 应用。
 
-#### Prerequisites
+#### 前置条件
 
-Before deploying your NestJS application, ensure you have:
+在部署 NestJS 应用之前，请确保你已具备：
 
-- A working NestJS application that is ready for deployment.
-- Access to a deployment platform or server where you can host your application.
-- All necessary environment variables set up for your application.
-- Any required services, like a database, set up and ready to go.
-- At least an LTS version of Node.js installed on your deployment platform.
+- 一个可运行且准备部署的 NestJS 应用。
+- 可以托管应用的部署平台或服务器的访问权限。
+- 为应用配置好所有必要的环境变量。
+- 所有必需的服务（如数据库）已设置并准备就绪。
+- 部署平台上至少安装了 LTS 版本的 Node.js。
 
-> info **Hint** If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com/ 'Deploy Nest'), our official platform for deploying NestJS applications on AWS. With Mau, deploying your NestJS application is as simple as clicking a few buttons and running a single command:
+> info **提示** 如果你正在寻找基于云的平台来部署 NestJS 应用，不妨试试 [Mau](https://mau.nestjs.com/ '部署 Nest')，这是我们官方在 AWS 上部署 NestJS 应用的平台。使用 Mau，部署你的 NestJS 应用就像点击几下按钮并运行一个命令那么简单：
 >
 > ```bash
 > $ npm install -g @nestjs/mau
 > $ mau deploy
 > ```
 >
-> Once the deployment is complete, you'll have your NestJS application up and running on AWS in seconds!
+> 部署完成后，你的 NestJS 应用将在几秒钟内在 AWS 上启动并运行！
 
-#### Building your application
+#### 构建你的应用
 
-To build your NestJS application, you need to compile your TypeScript code into JavaScript. This process generates a `dist` directory containing the compiled files. You can build your application by running the following command:
+要构建你的 NestJS 应用，你需要将 TypeScript 代码编译成 JavaScript。这个过程会生成一个包含编译后文件的 `dist` 目录。你可以通过运行以下命令来构建应用：
 
 ```bash
 $ npm run build
 ```
 
-This command typically runs the `nest build` command under the hood, which is basically a wrapper around the TypeScript compiler with some additional features (assets copying, etc.). In case you have a custom build script, you can run it directly. Also, for NestJS CLI mono-repos, make sure to pass the name of the project to build as an argument (`npm run build my-app`).
+这个命令通常在底层运行 `nest build` 命令，它基本上是 TypeScript 编译器的一个包装器，附带了一些额外功能（如资源复制等）。如果你有自定义的构建脚本，也可以直接运行它。另外，对于 NestJS CLI 单仓库项目，确保将项目名称作为参数传递（`npm run build my-app`）。
 
-Upon successful compilation, you should see a `dist` directory in your project root containing the compiled files, with the entry point being `main.js`. If you have any `.ts` files located in the root directory of your project (and your `tsconfig.json` configured to compile them), they will be copied to the `dist` directory as well, modifying the directory structure a bit (instead of `dist/main.js`, you will have `dist/src/main.js` so keep that in mind when configuring your server).
+编译成功后，你会在项目根目录看到一个 `dist` 目录，其中包含编译后的文件，入口点为 `main.js`。如果你的项目根目录中有任何 `.ts` 文件（并且 `tsconfig.json` 配置为编译它们），它们也会被复制到 `dist` 目录，这可能会稍微改变目录结构（例如，不是 `dist/main.js`，而是 `dist/src/main.js`，在配置服务器时请注意这一点）。
 
-#### Production environment
+#### 生产环境
 
-Your production environment is where your application will be accessible to external users. This could be a cloud-based platform like [AWS](https://aws.amazon.com/) (with EC2, ECS, etc.), [Azure](https://azure.microsoft.com/), or [Google Cloud](https://cloud.google.com/), or even a dedicated server you manage, such as [Hetzner](https://www.hetzner.com/).
+你的生产环境是外部用户可以访问你应用的地方。这可以是基于云的平台，如 [AWS](https://aws.amazon.com/)（使用 EC2、ECS 等）、[Azure](https://azure.microsoft.com/) 或 [Google Cloud](https://cloud.google.com/)，甚至是你自己管理的专用服务器，比如 [Hetzner](https://www.hetzner.com/)。
 
-To simplify the deployment process and avoid manual setup, you can use a service like [Mau](https://mau.nestjs.com/ 'Deploy Nest'), our official platform for deploying NestJS applications on AWS. For more details, check out [this section](todo).
+为了简化部署过程并避免手动设置，你可以使用像 [Mau](https://mau.nestjs.com/ '部署 Nest') 这样的服务，这是我们官方在 AWS 上部署 NestJS 应用的平台。更多详情，请查看[此部分](todo)。
 
-Some of the pros of using a **cloud-based platform** or service like [Mau](https://mau.nestjs.com/ 'Deploy Nest') include:
+使用**基于云的平台**或像 [Mau](https://mau.nestjs.com/ '部署 Nest') 这样的服务的一些优点包括：
 
-- Scalability: Easily scale your application as your user base grows.
-- Security: Benefit from built-in security features and compliance certifications.
-- Monitoring: Monitor your application's performance and health in real-time.
-- Reliability: Ensure your application is always available with high uptime guarantees.
+- 可扩展性：随着用户增长，轻松扩展你的应用。
+- 安全性：受益于内置的安全功能和合规认证。
+- 监控：实时监控应用的性能和健康状况。
+- 可靠性：通过高可用性保证，确保你的应用始终可用。
 
-On the other hand, cloud-based platforms are typically more expensive than self-hosting, and you may have less control over the underlying infrastructure. Simple VPS can be a good choice if you're looking for a more cost-effective solution and have the technical expertise to manage the server yourself, but keep in mind that you'll need to handle tasks like server maintenance, security, and backups manually.
+另一方面，基于云的平台通常比自托管更昂贵，并且你可能对底层基础设施的控制较少。如果你正在寻找更具成本效益的解决方案，并且有技术专长自己管理服务器，简单的 VPS 可能是一个不错的选择，但请记住，你需要手动处理服务器维护、安全和备份等任务。
 
 #### NODE_ENV=production
 
-While there's technically no difference between development and production in Node.js and NestJS, it's a good practice to set the `NODE_ENV` environment variable to `production` when running your application in a production environment, as some libraries in the ecosystem may behave differently based on this variable (e.g., enabling or disabling debugging output, etc.).
+虽然 Node.js 和 NestJS 在技术上没有开发和生产环境的区别，但在生产环境中运行应用时，将 `NODE_ENV` 环境变量设置为 `production` 是一个好习惯，因为生态系统中的一些库可能会根据这个变量表现出不同的行为（例如，启用或禁用调试输出等）。
 
-You can set the `NODE_ENV` environment variable when starting your application like so:
+你可以在启动应用时这样设置 `NODE_ENV` 环境变量：
 
 ```bash
 $ NODE_ENV=production node dist/main.js
 ```
 
-Or just set it in your cloud provider's/Mau dashboard.
+或者直接在云提供商/Mau 的控制面板中设置它。
 
-#### Running your application
+#### 运行你的应用
 
-To run your NestJS application in production, just use the following command:
+要在生产环境中运行你的 NestJS 应用，只需使用以下命令：
 
 ```bash
-$ node dist/main.js # Adjust this based on your entry point location
+$ node dist/main.js # 根据你的入口点位置调整此命令
 ```
 
-This command starts your application, which will listen on the specified port (usually `3000` by default). Ensure that this matches the port you’ve configured in your application.
+这个命令会启动你的应用，它将监听指定的端口（默认为 `3000`）。确保这与你应用中配置的端口匹配。
 
-Alternatively, you can use the `nest start` command. This command is a wrapper around `node dist/main.js`, but it has one key difference: it automatically runs `nest build` before starting the application, so you don’t need to manually execute `npm run build`.
+或者，你可以使用 `nest start` 命令。这个命令是 `node dist/main.js` 的包装器，但它有一个关键区别：它在启动应用之前会自动运行 `nest build`，因此你不需要手动执行 `npm run build`。
 
-#### Health checks
+#### 健康检查
 
-Health checks are essential for monitoring the health and status of your NestJS application in production. By setting up a health check endpoint, you can regularly verify that your app is running as expected and respond to issues before they become critical.
+健康检查对于监控生产环境中 NestJS 应用的健康和状态至关重要。通过设置健康检查端点，你可以定期验证应用是否按预期运行，并在问题变得严重之前做出响应。
 
-In NestJS, you can easily implement health checks using the **@nestjs/terminus** package, which provides a powerful tool for adding health checks, including database connections, external services, and custom checks.
+在 NestJS 中，你可以使用 **@nestjs/terminus** 包轻松实现健康检查，它提供了强大的工具来添加健康检查，包括数据库连接、外部服务和自定义检查。
 
-Check out [this guide](/recipes/terminus) to learn how to implement health checks in your NestJS application, and ensure your app is always monitored and responsive.
+查看[本指南](/recipes/terminus)了解如何在你的 NestJS 应用中实现健康检查，并确保你的应用始终受到监控且响应迅速。
 
-#### Logging
+#### 日志记录
 
-Logging is essential for any production-ready application. It helps track errors, monitor behavior, and troubleshoot issues. In NestJS, you can easily manage logging with the built-in logger or opt for external libraries if you need more advanced features.
+日志记录对于任何生产就绪的应用都是必不可少的。它有助于跟踪错误、监控行为和排查问题。在 NestJS 中，你可以使用内置的日志记录器轻松管理日志，或者如果需要更高级的功能，可以选择外部库。
 
-Best practices for logging:
+日志记录的最佳实践：
 
-- Log Errors, Not Exceptions: Focus on logging detailed error messages to speed up debugging and issue resolution.
-- Avoid Sensitive Data: Never log sensitive information like passwords or tokens to protect security.
-- Use Correlation IDs: In distributed systems, include unique identifiers (like correlation IDs) in your logs to trace requests across different services.
-- Use Log Levels: Categorize logs by severity (e.g., `info`, `warn`, `error`) and disable debug or verbose logs in production to reduce noise.
+- 记录错误，而非异常：专注于记录详细的错误消息，以加快调试和问题解决。
+- 避免敏感数据：切勿记录敏感信息，如密码或令牌，以保护安全。
+- 使用关联 ID：在分布式系统中，在日志中包含唯一标识符（如关联 ID），以跨不同服务追踪请求。
+- 使用日志级别：按严重性分类日志（例如，`info`、`warn`、`error`），并在生产环境中禁用调试或详细日志以减少噪音。
 
-> info **Hint** If you're using [AWS](https://aws.amazon.com/) (with [Mau](https://mau.nestjs.com/ 'Deploy Nest') or directly), consider JSON logging to make it easier to parse and analyze your logs.
+> info **提示** 如果你正在使用 [AWS](https://aws.amazon.com/)（通过 [Mau](https://mau.nestjs.com/ '部署 Nest') 或直接使用），考虑使用 JSON 日志记录，以便更轻松地解析和分析日志。
 
-For distributed applications, using a centralized logging service like ElasticSearch, Loggly, or Datadog can be incredibly useful. These tools offer powerful features like log aggregation, search, and visualization, making it easier to monitor and analyze your application's performance and behavior.
+对于分布式应用，使用像 ElasticSearch、Loggly 或 Datadog 这样的集中式日志记录服务会非常有用。这些工具提供强大的功能，如日志聚合、搜索和可视化，使监控和分析应用性能和行为变得更加容易。
 
-#### Scaling up or out
+#### 扩展
 
-Scaling your NestJS application effectively is crucial for handling increased traffic and ensuring optimal performance. There are two primary strategies for scaling: **vertical scaling** and **horizontal scaling**. Understanding these approaches will help you design your application to manage load efficiently.
+有效地扩展你的 NestJS 应用对于处理增加的流量和确保最佳性能至关重要。有两种主要的扩展策略：**垂直扩展**和**水平扩展**。理解这些方法将帮助你设计应用以高效管理负载。
 
-**Vertical scaling**, often referred to as "scaling up" involves increasing the resources of a single server to enhance its performance. This could mean adding more CPU, RAM, or storage to your existing machine. Here are some key points to consider:
+**垂直扩展**，通常称为“向上扩展”，涉及增加单个服务器的资源以提升其性能。这可能意味着为现有机器添加更多 CPU、RAM 或存储。以下是一些需要考虑的关键点：
 
-- Simplicity: Vertical scaling is generally simpler to implement since you only need to upgrade your existing server rather than manage multiple instances.
-- Limitations: There are physical limits to how much you can scale a single machine. Once you reach the maximum capacity, you may need to consider other options.
-- Cost-Effectiveness: For applications with moderate traffic, vertical scaling can be cost-effective, as it reduces the need for additional infrastructure.
+- 简单性：垂直扩展通常更简单，因为你只需要升级现有服务器，而不是管理多个实例。
+- 限制：单个机器的扩展有物理限制。一旦达到最大容量，你可能需要考虑其他选项。
+- 成本效益：对于中等流量的应用，垂直扩展可能更具成本效益，因为它减少了对额外基础设施的需求。
 
-Example: If your NestJS app is hosted on a virtual machine and you notice that it’s running slowly during peak hours, you can upgrade your VM to a larger instance with more resources. To upgrade your VM, just navigate to your current provider's dashboard and select a larger instance type.
+示例：如果你的 NestJS 应用托管在虚拟机上，并且你注意到在高峰时段运行缓慢，你可以将虚拟机升级到具有更多资源的更大实例。要升级虚拟机，只需导航到当前提供商的控制面板并选择更大的实例类型。
 
-**Horizontal scaling**, or "scaling out" involves adding more servers or instances to distribute the load. This strategy is widely used in cloud environments and is essential for applications expecting high traffic. Here are the benefits and considerations:
+**水平扩展**，或“向外扩展”，涉及添加更多服务器或实例以分配负载。这种策略在云环境中广泛使用，对于预期高流量的应用至关重要。以下是好处和考虑因素：
 
-- Increased Capacity: By adding more instances of your application, you can handle a larger number of concurrent users without degrading performance.
-- Redundancy: Horizontal scaling offers redundancy, as the failure of one server won't bring down your entire application. Traffic can be redistributed among the remaining servers.
-- Load Balancing: To manage multiple instances effectively, use load balancers (like Nginx or AWS Elastic Load Balancing) to distribute incoming traffic evenly across your servers.
+- 增加容量：通过添加更多应用实例，你可以处理更多并发用户而不会降低性能。
+- 冗余：水平扩展提供冗余，因为一台服务器的故障不会导致整个应用宕机。流量可以重新分配到剩余的服务器。
+- 负载均衡：为了有效管理多个实例，使用负载均衡器（如 Nginx 或 AWS Elastic Load Balancing）将传入流量均匀分配到你的服务器。
 
-Example: For a NestJS application experiencing high traffic, you can deploy multiple instances of your app in a cloud environment and use a load balancer to route requests, ensuring that no single instance becomes a bottleneck.
+示例：对于经历高流量的 NestJS 应用，你可以在云环境中部署多个应用实例，并使用负载均衡器路由请求，确保没有单个实例成为瓶颈。
 
-This process is straightforward with containerization technologies like [Docker](https://www.docker.com/) and container orchestration platforms such as [Kubernetes](https://kubernetes.io/). Additionally, you can leverage cloud-specific load balancers like [AWS Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) or [Azure Load Balancer](https://azure.microsoft.com/en-us/services/load-balancer/) to distribute traffic across your application instances.
+使用像 [Docker](https://www.docker.com/) 这样的容器化技术和像 [Kubernetes](https://kubernetes.io/) 这样的容器编排平台，这个过程非常简单。此外，你可以利用云特定的负载均衡器，如 [AWS Elastic Load Balancing](https://aws.amazon.com/elasticloadbalancing/) 或 [Azure Load Balancer](https://azure.microsoft.com/en-us/services/load-balancer/)，将流量分配到你的应用实例。
 
-> info **Hint** [Mau](https://mau.nestjs.com/ 'Deploy Nest') offers built-in support for horizontal scaling on AWS, allowing you to easily deploy multiple instances of your NestJS application and manage them with just a few clicks.
+> info **提示** [Mau](https://mau.nestjs.com/ '部署 Nest') 在 AWS 上提供内置的水平扩展支持，让你可以轻松部署多个 NestJS 应用实例，并通过几次点击管理它们。
 
-#### Some other tips
+#### 其他一些技巧
 
-There are a few more tips to keep in mind when deploying your NestJS application:
+部署 NestJS 应用时，还有几点需要注意：
 
-- **Security**: Ensure your application is secure and protected from common threats like SQL injection, XSS, etc. See the "Security" category for more details.
-- **Monitoring**: Use monitoring tools like [Prometheus](https://prometheus.io/) or [New Relic](https://newrelic.com/) to track your application's performance and health. If you're using a cloud provider/Mau, they may offer built-in monitoring services (like [AWS CloudWatch](https://aws.amazon.com/cloudwatch/) etc.)
-- **Do not hardcode environment variables**: Avoid hardcoding sensitive information like API keys, passwords, or tokens in your code. Use environment variables or a secrets manager to store and access these values securely.
-- **Backups**: Regularly back up your data to prevent data loss in case of an incident.
-- **Automate deployments**: Use CI/CD pipelines to automate your deployment process and ensure consistency across environments.
-- **Rate limiting**: Implement rate limiting to prevent abuse and protect your application from DDoS attacks. Check out [Rate limiting chapter](/security/rate-limiting) for more details, or use a service like [AWS WAF](https://aws.amazon.com/waf/) for advanced protection.
+- **安全性**：确保你的应用安全，并保护其免受常见威胁，如 SQL 注入、XSS 等。更多详情请参见“安全”类别。
+- **监控**：使用像 [Prometheus](https://prometheus.io/) 或 [New Relic](https://newrelic.com/) 这样的监控工具来跟踪应用的性能和健康状况。如果你使用云提供商/Mau，它们可能提供内置的监控服务（如 [AWS CloudWatch](https://aws.amazon.com/cloudwatch/) 等）。
+- **不要硬编码环境变量**：避免在代码中硬编码敏感信息，如 API 密钥、密码或令牌。使用环境变量或密钥管理器安全地存储和访问这些值。
+- **备份**：定期备份数据，以防事件导致数据丢失。
+- **自动化部署**：使用 CI/CD 流水线自动化部署过程，并确保环境间的一致性。
+- **速率限制**：实施速率限制以防止滥用并保护你的应用免受 DDoS 攻击。更多详情请查看[速率限制章节](/security/rate-limiting)，或使用像 [AWS WAF](https://aws.amazon.com/waf/) 这样的服务进行高级保护。
 
-#### Dockerizing your application
+#### 将你的应用容器化
 
-[Docker](https://www.docker.com/) is a platform that uses containerization to allow developers to package applications along with their dependencies into a standardized unit called a container. Containers are lightweight, portable, and isolated, making them ideal for deploying applications in various environments, from local development to production.
+[Docker](https://www.docker.com/) 是一个使用容器化的平台，允许开发者将应用及其依赖项打包成一个称为容器的标准化单元。容器轻量、可移植且隔离，非常适合在各种环境中部署应用，从本地开发到生产环境。
 
-Benefits of Dockerizing your NestJS application:
+将你的 NestJS 应用容器化的好处：
 
-- Consistency: Docker ensures that your application runs the same way on any machine, eliminating the "it works on my machine" problem.
-- Isolation: Each container runs in its isolated environment, preventing conflicts between dependencies.
-- Scalability: Docker makes it easy to scale your application by running multiple containers across different machines or cloud instances.
-- Portability: Containers can be easily moved between environments, making it simple to deploy your application on different platforms.
+- 一致性：Docker 确保你的应用在任何机器上以相同的方式运行，消除了“在我机器上可以运行”的问题。
+- 隔离性：每个容器在其隔离的环境中运行，防止依赖项之间的冲突。
+- 可扩展性：Docker 使得通过在不同机器或云实例上运行多个容器来扩展应用变得容易。
+- 可移植性：容器可以轻松在环境之间移动，使得在不同平台上部署应用变得简单。
 
-To install Docker, follow the instructions on the [official website](https://www.docker.com/get-started). Once Docker is installed, you can create a `Dockerfile` in your NestJS project to define the steps for building your container image.
+要安装 Docker，请遵循[官方网站](https://www.docker.com/get-started)上的说明。安装 Docker 后，你可以在 NestJS 项目中创建一个 `Dockerfile` 来定义构建容器镜像的步骤。
 
-The `Dockerfile` is a text file that contains the instructions Docker uses to build your container image.
+`Dockerfile` 是一个文本文件，包含 Docker 用于构建容器镜像的指令。
 
-Here's a sample Dockerfile for a NestJS application:
+以下是一个 NestJS 应用的示例 Dockerfile：
 
 ```bash
-# Use the official Node.js image as the base image
+# 使用官方的 Node.js 镜像作为基础镜像
 FROM node:20
 
-# Set the working directory inside the container
+# 设置容器内的工作目录
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# 复制 package.json 和 package-lock.json 到工作目录
 COPY package*.json ./
 
-# Install the application dependencies
+# 安装应用依赖
 RUN npm install
 
-# Copy the rest of the application files
+# 复制其余的应用文件
 COPY . .
 
-# Build the NestJS application
+# 构建 NestJS 应用
 RUN npm run build
 
-# Expose the application port
+# 暴露应用端口
 EXPOSE 3000
 
-# Command to run the application
+# 运行应用的命令
 CMD ["node", "dist/main"]
 ```
 
-> info **Hint** Make sure to replace `node:20` with the appropriate Node.js version you're using in your project. You can find the available Node.js Docker images on the [official Docker Hub repository](https://hub.docker.com/_/node).
+> info **提示** 确保将 `node:20` 替换为你项目中使用的适当 Node.js 版本。你可以在[官方 Docker Hub 仓库](https://hub.docker.com/_/node)中找到可用的 Node.js Docker 镜像。
 
-This is a basic Dockerfile that sets up a Node.js environment, installs the application dependencies, builds the NestJS application, and runs it. You can customize this file based on your project requirements (e.g., use different base images, optimize the build process, only install production dependencies, etc.).
+这是一个基本的 Dockerfile，它设置了 Node.js 环境，安装了应用依赖，构建了 NestJS 应用并运行它。你可以根据项目需求自定义此文件（例如，使用不同的基础镜像，优化构建过程，仅安装生产依赖等）。
 
-Let's also create a `.dockerignore` file to specify which files and directories Docker should ignore when building the image. Create a `.dockerignore` file in your project root:
+让我们也创建一个 `.dockerignore` 文件，指定 Docker 在构建镜像时应忽略哪些文件和目录。在项目根目录创建 `.dockerignore` 文件：
 
 ```bash
 node_modules
@@ -187,77 +187,77 @@ dist
 .git
 ```
 
-This file ensures that unnecessary files are not included in the container image, keeping it lightweight. Now that you have your Dockerfile set up, you can build your Docker image. Open your terminal, navigate to your project directory, and run the following command:
+这个文件确保不必要的文件不会包含在容器镜像中，保持其轻量。现在你已经设置好了 Dockerfile，可以构建你的 Docker 镜像。打开终端，导航到你的项目目录，并运行以下命令：
 
 ```bash
 docker build -t my-nestjs-app .
 ```
 
-In this command:
+在这个命令中：
 
-- `-t my-nestjs-app`: Tags the image with the name `my-nestjs-app`.
-- `.`: Indicates the current directory as the build context.
+- `-t my-nestjs-app`：用名称 `my-nestjs-app` 标记镜像。
+- `.`：表示当前目录作为构建上下文。
 
-After building the image, you can run it as a container. Execute the following command:
+构建镜像后，你可以将其作为容器运行。执行以下命令：
 
 ```bash
 docker run -p 3000:3000 my-nestjs-app
 ```
 
-In this command:
+在这个命令中：
 
-- `-p 3000:3000`: Maps port 3000 on your host machine to port 3000 in the container.
-- `my-nestjs-app`: Specifies the image to run.
+- `-p 3000:3000`：将主机上的端口 3000 映射到容器中的端口 3000。
+- `my-nestjs-app`：指定要运行的镜像。
 
-Your NestJS application should now be running inside a Docker container.
+你的 NestJS 应用现在应该在 Docker 容器中运行。
 
-If you want to deploy your Docker image to a cloud provider or share it with others, you'll need to push it to a Docker registry (like [Docker Hub](https://hub.docker.com/), [AWS ECR](https://aws.amazon.com/ecr/), or [Google Container Registry](https://cloud.google.com/container-registry)).
+如果你想将 Docker 镜像部署到云提供商或与他人共享，你需要将其推送到 Docker 注册表（如 [Docker Hub](https://hub.docker.com/)、[AWS ECR](https://aws.amazon.com/ecr/) 或 [Google Container Registry](https://cloud.google.com/container-registry)）。
 
-Once you decide on a registry, you can push your image by following these steps:
+一旦你决定了注册表，你可以通过以下步骤推送你的镜像：
 
 ```bash
-docker login # Log in to your Docker registry
-docker tag my-nestjs-app your-dockerhub-username/my-nestjs-app # Tag your image
-docker push your-dockerhub-username/my-nestjs-app # Push your image
+docker login # 登录到你的 Docker 注册表
+docker tag my-nestjs-app your-dockerhub-username/my-nestjs-app # 标记你的镜像
+docker push your-dockerhub-username/my-nestjs-app # 推送你的镜像
 ```
 
-Replace `your-dockerhub-username` with your Docker Hub username or the appropriate registry URL. After pushing your image, you can pull it on any machine and run it as a container.
+将 `your-dockerhub-username` 替换为你的 Docker Hub 用户名或适当的注册表 URL。推送镜像后，你可以在任何机器上拉取它并将其作为容器运行。
 
-Cloud providers like AWS, Azure, and Google Cloud offer managed container services that simplify deploying and managing containers at scale. These services provide features like auto-scaling, load balancing, and monitoring, making it easier to run your NestJS application in production.
+像 AWS、Azure 和 Google Cloud 这样的云提供商提供托管的容器服务，简化了大规模部署和管理容器。这些服务提供自动扩展、负载均衡和监控等功能，使在生产环境中运行 NestJS 应用变得更加容易。
 
-#### Easy deployment with Mau
+#### 使用 Mau 轻松部署
 
-[Mau](https://mau.nestjs.com/ 'Deploy Nest') is our official platform for deploying NestJS applications on [AWS](https://aws.amazon.com/). If you're not ready to manage your infrastructure manually (or just want to save time), Mau is the perfect solution for you.
+[Mau](https://mau.nestjs.com/ '部署 Nest') 是我们官方在 [AWS](https://aws.amazon.com/) 上部署 NestJS 应用的平台。如果你还没有准备好手动管理基础设施（或者只是想节省时间），Mau 是你的完美解决方案。
 
-With Mau, provisioning and maintaining your infrastructure is as simple as clicking just a few buttons. Mau is designed to be simple and intuitive, so you can focus on building your applications and not worry about the underlying infrastructure. Under the hood, we use **Amazon Web Services** to provide you with a powerful and reliable platform, while abstracting away all the complexity of AWS. We take care of all the heavy lifting for you, so you can focus on building your applications and growing your business.
+使用 Mau，配置和维护你的基础设施就像点击几下按钮那么简单。Mau 设计简单直观，因此你可以专注于构建应用，而不必担心底层基础设施。在底层，我们使用 **Amazon Web Services** 为你提供强大可靠的平台，同时抽象掉 AWS 的所有复杂性。我们为你处理所有繁重的工作，因此你可以专注于构建应用和发展业务。
 
-[Mau](https://mau.nestjs.com/ 'Deploy Nest') is perfect for startups, small-to-medium businesses, large enterprises, and developers who want to get up and running quickly without having to spend a lot of time on learning and managing infrastructure. It's incredibly easy to use, and you can have your infrastructure up and running in minutes. It also leverages AWS behind the scenes, giving you all the advantages of AWS without the hassle of managing its complexities.
+[Mau](https://mau.nestjs.com/ '部署 Nest') 非常适合初创公司、中小型企业、大型企业以及希望快速启动而不必花费大量时间学习和管理基础设施的开发者。它非常易于使用，你可以在几分钟内启动并运行基础设施。它还利用 AWS 在幕后运行，让你享有 AWS 的所有优势，而无需管理其复杂性。
 
 <figure><img src="/assets/mau-metrics.png" /></figure>
 
-With [Mau](https://mau.nestjs.com/ 'Deploy Nest'), you can:
+使用 [Mau](https://mau.nestjs.com/ '部署 Nest')，你可以：
 
-- Deploy your NestJS applications with just a few clicks (APIs, microservices, etc.).
-- Provision **databases** such as:
+- 仅需几次点击即可部署你的 NestJS 应用（API、微服务等）。
+- 配置**数据库**，例如：
   - PostgreSQL
   - MySQL
   - MongoDB (DocumentDB)
   - Redis
-  - more
-- Set up broker services like:
+  - 更多
+- 设置代理服务，如：
   - RabbitMQ
   - Kafka
   - NATS
-- Deploy scheduled tasks (**CRON jobs**) and background workers.
-- Deploy lambda functions and serverless applications.
-- Setup **CI/CD pipelines** for automated deployments.
-- And much more!
+- 部署计划任务（**CRON 作业**）和后台工作程序。
+- 部署 lambda 函数和无服务器应用。
+- 设置 **CI/CD 流水线**以实现自动化部署。
+- 以及更多！
 
-To deploy your NestJS application with Mau, just run the following command:
+要使用 Mau 部署你的 NestJS 应用，只需运行以下命令：
 
 ```bash
 $ npm install -g @nestjs/mau
 $ mau deploy
 ```
 
-Sign up today and [Deploy with Mau](https://mau.nestjs.com/ 'Deploy Nest') to get your NestJS applications up and running on AWS in minutes!
+立即注册并通过 [Mau 部署](https://mau.nestjs.com/ '部署 Nest')，在几分钟内让你的 NestJS 应用在 AWS 上启动并运行！

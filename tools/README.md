@@ -1,19 +1,13 @@
-# docs.nestjs.com project tooling
+# docs.nestjs.com 项目工具
 
-This document gives an overview of the tools we use to generate the content for the
-docs.nestjs.com website.
+本文档概述了我们用于生成 docs.nestjs.com 网站内容的工具。
 
-# Transforms
+# 转换
 
-All the content that is rendered by the docs.nestjs.com application, and some of its
-configuration files, are generated from source files by [Dgeni](https://github.com/angular/dgeni).
-Dgeni is a general purpose documentation generation tool.
+所有由 docs.nestjs.com 应用程序渲染的内容，以及其部分配置文件，都是通过 [Dgeni](https://github.com/angular/dgeni) 从源文件生成的。Dgeni 是一个通用的文档生成工具。
 
-Markdown files in `content` are processed and transformed
-into files that are consumed by the `docs.nestjs.com` web frontend.
+`content` 目录下的 Markdown 文件会被处理和转换为可供 `docs.nestjs.com` 网站前端使用的文件。
 
 # dgeni-cli
 
-The dgeni CLI `tools/dgeni-cli.ts` is wrapper to start a Dgeni package from the command line.
-We do not take use of the CLI interface provided by the Dgeni package itself, mainly because
-it does not support TypeScript compilation on the fly.
+dgeni CLI `tools/dgeni-cli.ts` 是一个用于从命令行启动 Dgeni 包的封装器。我们没有使用 Dgeni 包本身提供的 CLI 接口，主要原因是它不支持 TypeScript 的即时编译。

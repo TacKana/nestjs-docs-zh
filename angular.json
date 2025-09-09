@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "docs.nestjs.com": {
+    "nestjs.xuxo.top": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -63,18 +63,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "docs.nestjs.com:build"
+            "buildTarget": "nestjs.xuxo.top:build"
           },
           "configurations": {
             "production": {
-              "buildTarget": "docs.nestjs.com:build:production"
+              "buildTarget": "nestjs.xuxo.top:build:production"
             }
           }
         },
-        "extract-i18n": {
+        "extract-": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "docs.nestjs.com:build"
+            "buildTarget": "nestjs.xuxo.top:build"
           }
         },
         "test": {

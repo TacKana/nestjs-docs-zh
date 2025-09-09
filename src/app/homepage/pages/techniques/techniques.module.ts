@@ -36,17 +36,17 @@ const routes: Routes = [
   {
     path: 'serialization',
     component: SerializationComponent,
-    data: { title: 'Serialization' },
+    data: { title: '序列化' },
   },
   {
     path: 'caching',
     component: CachingComponent,
-    data: { title: 'Caching' },
+    data: { title: '缓存' },
   },
   {
     path: 'validation',
     component: ValidationComponent,
-    data: { title: 'Validation' },
+    data: { title: '校验' },
   },
   {
     path: 'sql',
@@ -55,7 +55,7 @@ const routes: Routes = [
   {
     path: 'database',
     component: SqlComponent,
-    data: { title: 'Database' },
+    data: { title: '数据库' },
   },
   {
     path: 'mongodb',
@@ -65,32 +65,32 @@ const routes: Routes = [
   {
     path: 'file-upload',
     component: FileUploadComponent,
-    data: { title: 'File upload' },
+    data: { title: '文件上传' },
   },
   {
     path: 'streaming-files',
     component: StreamingFilesComponent,
-    data: { title: 'Streaming Files' },
+    data: { title: '文件流' },
   },
   {
     path: 'logger',
     component: LoggerComponent,
-    data: { title: 'Logger' },
+    data: { title: '日志' },
   },
   {
     path: 'performance',
     component: PerformanceComponent,
-    data: { title: 'Performance (Fastify)' },
+    data: { title: '性能（Fastify）' },
   },
   {
     path: 'http-module',
     component: HttpModuleComponent,
-    data: { title: 'HTTP module' },
+    data: { title: 'HTTP 模块' },
   },
   {
     path: 'configuration',
     component: ConfigurationComponent,
-    data: { title: 'Configuration' },
+    data: { title: '配置' },
   },
   {
     path: 'security',
@@ -104,17 +104,17 @@ const routes: Routes = [
   {
     path: 'task-scheduling',
     component: TaskSchedulingComponent,
-    data: { title: 'Task Scheduling' },
+    data: { title: '任务调度' },
   },
   {
     path: 'compression',
     component: CompressionComponent,
-    data: { title: 'Compression' },
+    data: { title: '压缩' },
   },
   {
     path: 'queues',
     component: QueuesComponent,
-    data: { title: 'Queues' },
+    data: { title: '队列' },
   },
   {
     path: 'hot-reload',
@@ -123,22 +123,22 @@ const routes: Routes = [
   {
     path: 'server-sent-events',
     component: ServerSentEventsComponent,
-    data: { title: 'Server-Sent Events' },
+    data: { title: '服务端推送事件' },
   },
   {
     path: 'versioning',
     component: VersioningComponent,
-    data: { title: 'Versioning' },
+    data: { title: '版本控制' },
   },
   {
     path: 'events',
     component: EventsComponent,
-    data: { title: 'Events' },
+    data: { title: '事件' },
   },
   {
     path: 'session',
     component: SessionComponent,
-    data: { title: 'Session' },
+    data: { title: '会话' },
   },
 ];
 

@@ -1,25 +1,25 @@
-### Exception filters
+### 异常过滤器
 
-The only difference between the HTTP [exception filter](/exception-filters) layer and the corresponding web sockets layer is that instead of throwing `HttpException`, you should use `WsException`.
+HTTP [异常过滤器](/exception-filters)层与对应的 WebSocket 层之间的唯一区别在于，不应抛出 `HttpException`，而应使用 `WsException`。
 
 ```typescript
-throw new WsException('Invalid credentials.');
+throw new WsException('无效凭据。');
 ```
 
-> info **Hint** The `WsException` class is imported from the `@nestjs/websockets` package.
+> info **提示** `WsException` 类从 `@nestjs/websockets` 包中导入。
 
-With the sample above, Nest will handle the thrown exception and emit the `exception` message with the following structure:
+在上面的示例中，Nest 将处理抛出的异常，并发射以下结构的 `exception` 消息：
 
 ```typescript
 {
   status: 'error',
-  message: 'Invalid credentials.'
+  message: '无效凭据。'
 }
 ```
 
-#### Filters
+#### 过滤器
 
-Web sockets exception filters behave equivalently to HTTP exception filters. The following example uses a manually instantiated method-scoped filter. Just as with HTTP based applications, you can also use gateway-scoped filters (i.e., prefix the gateway class with a `@UseFilters()` decorator).
+WebSocket 异常过滤器的行为与 HTTP 异常过滤器相同。以下示例使用手动实例化的方法作用域过滤器。与基于 HTTP 的应用一样，你也可以使用网关作用域的过滤器（即在网关类前添加 `@UseFilters()` 装饰器）。
 
 ```typescript
 @UseFilters(new WsExceptionFilter())
@@ -30,11 +30,11 @@ onEvent(client, data: any): WsResponse<any> {
 }
 ```
 
-#### Inheritance
+#### 继承
 
-Typically, you'll create fully customized exception filters crafted to fulfill your application requirements. However, there might be use-cases when you would like to simply extend the **core exception filter**, and override the behavior based on certain factors.
+通常，你会创建完全自定义的异常过滤器，以满足应用程序的需求。但在某些情况下，你可能希望简单地扩展**核心异常过滤器**，并根据特定因素重写其行为。
 
-In order to delegate exception processing to the base filter, you need to extend `BaseWsExceptionFilter` and call the inherited `catch()` method.
+为了将异常处理委托给基础过滤器，你需要扩展 `BaseWsExceptionFilter` 并调用继承的 `catch()` 方法。
 
 ```typescript
 @@filename()
@@ -59,4 +59,4 @@ export class AllExceptionsFilter extends BaseWsExceptionFilter {
 }
 ```
 
-The above implementation is just a shell demonstrating the approach. Your implementation of the extended exception filter would include your tailored **business logic** (e.g., handling various conditions).
+上面的实现只是一个展示方法的框架。扩展异常过滤器的实现应包括你定制的**业务逻辑**（例如，处理各种条件）。

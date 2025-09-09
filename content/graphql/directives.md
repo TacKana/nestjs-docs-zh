@@ -1,16 +1,16 @@
-### Directives
+### 指令（Directives）
 
-A directive can be attached to a field or fragment inclusion, and can affect execution of the query in any way the server desires (read more [here](https://graphql.org/learn/queries/#directives)). The GraphQL specification provides several default directives:
+指令可以附加在字段或片段包含上，并且能以服务器期望的任何方式影响查询的执行（了解更多[请点击此处](https://graphql.org/learn/queries/#directives)）。GraphQL 规范提供了几个默认指令：
 
-- `@include(if: Boolean)` - only include this field in the result if the argument is true
-- `@skip(if: Boolean)` - skip this field if the argument is true
-- `@deprecated(reason: String)` - marks field as deprecated with message
+- `@include(if: Boolean)` - 仅在参数为 true 时，在结果中包含此字段
+- `@skip(if: Boolean)` - 如果参数为 true，则跳过此字段
+- `@deprecated(reason: String)` - 使用消息标记字段为已弃用
 
-A directive is an identifier preceded by a `@` character, optionally followed by a list of named arguments, which can appear after almost any element in the GraphQL query and schema languages.
+指令是一个以 `@` 字符开头的标识符，后面可以跟随一组命名参数，它可以出现在 GraphQL 查询和模式语言中的几乎所有元素之后。
 
-#### Custom directives
+#### 自定义指令
 
-To instruct what should happen when Apollo/Mercurius encounters your directive, you can create a transformer function. This function uses the `mapSchema` function to iterate through locations in your schema (field definitions, type definitions, etc.) and perform corresponding transformations.
+为了指示 Apollo/Mercurius 遇到你的指令时应该执行什么操作，你可以创建一个转换器函数。该函数使用 `mapSchema` 函数来遍历模式中的位置（字段定义、类型定义等）并执行相应的转换。
 
 ```typescript
 import { getDirective, MapperKind, mapSchema } from '@graphql-tools/utils';
@@ -31,8 +31,8 @@ export function upperDirectiveTransformer(
       if (upperDirective) {
         const { resolve = defaultFieldResolver } = fieldConfig;
 
-        // Replace the original resolver with a function that *first* calls
-        // the original resolver, then converts its result to upper case
+        // 将原始解析器替换为一个函数，该函数*首先*调用
+        // 原始解析器，然后将其结果转换为大写
         fieldConfig.resolve = async function (source, args, context, info) {
           const result = await resolve(source, args, context, info);
           if (typeof result === 'string') {
@@ -47,7 +47,7 @@ export function upperDirectiveTransformer(
 }
 ```
 
-Now, apply the `upperDirectiveTransformer` transformation function in the `GraphQLModule#forRoot` method using the `transformSchema` function:
+现在，在 `GraphQLModule#forRoot` 方法中使用 `transformSchema` 函数应用 `upperDirectiveTransformer` 转换函数：
 
 ```typescript
 GraphQLModule.forRoot({
@@ -56,11 +56,11 @@ GraphQLModule.forRoot({
 });
 ```
 
-Once registered, the `@upper` directive can be used in our schema. However, the way you apply the directive will vary depending on the approach you use (code first or schema first).
+一旦注册，`@upper` 指令就可以在我们的模式中使用。然而，应用指令的方式会根据你使用的方法（代码优先或模式优先）而有所不同。
 
-#### Code first
+#### 代码优先（Code first）
 
-In the code first approach, use the `@Directive()` decorator to apply the directive.
+在代码优先方法中，使用 `@Directive()` 装饰器来应用指令。
 
 ```typescript
 @Directive('@upper')
@@ -68,21 +68,21 @@ In the code first approach, use the `@Directive()` decorator to apply the direct
 title: string;
 ```
 
-> info **Hint** The `@Directive()` decorator is exported from the `@nestjs/graphql` package.
+> **提示** `@Directive()` 装饰器是从 `@nestjs/graphql` 包中导出的。
 
-Directives can be applied on fields, field resolvers, input and object types, as well as queries, mutations, and subscriptions. Here's an example of the directive applied on the query handler level:
+指令可以应用于字段、字段解析器、输入和对象类型，以及查询、变更和订阅。以下是指令应用于查询处理程序级别的示例：
 
 ```typescript
-@Directive('@deprecated(reason: "This query will be removed in the next version")')
+@Directive('@deprecated(reason: "此查询将在下一版本中移除")')
 @Query(() => Author, { name: 'author' })
 async getAuthor(@Args({ name: 'id', type: () => Int }) id: number) {
   return this.authorsService.findOneById(id);
 }
 ```
 
-> warn **Warning** Directives applied through the `@Directive()` decorator will not be reflected in the generated schema definition file.
+> **警告** 通过 `@Directive()` 装饰器应用的指令不会反映在生成的模式定义文件中。
 
-Lastly, make sure to declare directives in the `GraphQLModule`, as follows:
+最后，确保在 `GraphQLModule` 中声明指令，如下所示：
 
 ```typescript
 GraphQLModule.forRoot({
@@ -99,11 +99,11 @@ GraphQLModule.forRoot({
 }),
 ```
 
-> info **Hint** Both `GraphQLDirective` and `DirectiveLocation` are exported from the `graphql` package.
+> **提示** `GraphQLDirective` 和 `DirectiveLocation` 都是从 `graphql` 包中导出的。
 
-#### Schema first
+#### 模式优先（Schema first）
 
-In the schema first approach, apply directives directly in SDL.
+在模式优先方法中，直接在 SDL 中应用指令。
 
 ```graphql
 directive @upper on FIELD_DEFINITION

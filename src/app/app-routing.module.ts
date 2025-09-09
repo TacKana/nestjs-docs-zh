@@ -32,12 +32,12 @@ const routes: Routes = [
       {
         path: 'first-steps',
         component: FirstStepsComponent,
-        data: { title: 'First steps' },
+        data: { title: '入门' },
       },
       {
         path: 'controllers',
         component: ControllersComponent,
-        data: { title: 'Controllers' },
+        data: { title: '控制器' },
       },
       {
         path: 'components',
@@ -46,47 +46,47 @@ const routes: Routes = [
       {
         path: 'providers',
         component: ComponentsComponent,
-        data: { title: 'Providers' },
+        data: { title: '提供者' },
       },
       {
         path: 'modules',
         component: ModulesComponent,
-        data: { title: 'Modules' },
+        data: { title: '模块' },
       },
       {
         path: 'middleware',
         component: MiddlewaresComponent,
-        data: { title: 'Middleware' },
+        data: { title: '中间件' },
       },
       {
         path: 'pipes',
         component: PipesComponent,
-        data: { title: 'Pipes' },
+        data: { title: '管道' },
       },
       {
         path: 'guards',
         component: GuardsComponent,
-        data: { title: 'Guards' },
+        data: { title: '守卫' },
       },
       {
         path: 'exception-filters',
         component: ExceptionFiltersComponent,
-        data: { title: 'Exception filters' },
+        data: { title: '异常过滤器' },
       },
       {
         path: 'interceptors',
         component: InterceptorsComponent,
-        data: { title: 'Interceptors' },
+        data: { title: '拦截器' },
       },
       {
         path: 'custom-decorators',
         component: CustomDecoratorsComponent,
-        data: { title: 'Custom decorators' },
+        data: { title: '自定义装饰器' },
       },
       {
         path: 'standalone-applications',
         component: ApplicationContextComponent,
-        data: { title: 'Standalone applications' },
+        data: { title: '独立应用程序' },
       },
       {
         path: 'application-context',
@@ -95,22 +95,22 @@ const routes: Routes = [
       {
         path: 'discover/companies',
         component: WhoUsesComponent,
-        data: { title: 'Discover - Who is using Nest?' },
+        data: { title: '发现 - 谁在使用 Nest？' },
       },
       {
         path: 'migration-guide',
         component: MigrationComponent,
-        data: { title: 'Migration guide - FAQ' },
+        data: { title: '迁移指南 - 常见问题' },
       },
       {
         path: 'deployment',
         component: DeploymentComponent,
-        data: { title: 'Deployment' },
+        data: { title: '部署' },
       },
       {
         path: 'support',
         component: SupportComponent,
-        data: { title: 'Support' },
+        data: { title: '支持' },
       },
       {
         path: 'consulting',
@@ -130,7 +130,7 @@ const routes: Routes = [
       {
         path: 'enterprise',
         component: EnterpriseComponent,
-        data: { title: 'Official Support' },
+        data: { title: '官方支持' },
       },
       {
         path: 'fundamentals',

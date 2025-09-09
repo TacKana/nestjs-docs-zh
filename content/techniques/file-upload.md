@@ -1,20 +1,20 @@
-### File upload
+### 文件上传
 
-To handle file uploading, Nest provides a built-in module based on the [multer](https://github.com/expressjs/multer) middleware package for Express. Multer handles data posted in the `multipart/form-data` format, which is primarily used for uploading files via an HTTP `POST` request. This module is fully configurable and you can adjust its behavior to your application requirements.
+为处理文件上传，Nest 提供了一个基于 Express 的 [multer](https://github.com/expressjs/multer) 中间件包的内置模块。Multer 处理以 `multipart/form-data` 格式提交的数据，该格式主要用于通过 HTTP `POST` 请求上传文件。该模块完全可配置，您可以根据应用程序需求调整其行为。
 
-> warning **Warning** Multer cannot process data which is not in the supported multipart format (`multipart/form-data`). Also, note that this package is not compatible with the `FastifyAdapter`.
+> warning **警告** Multer 无法处理不支持的多部分格式（`multipart/form-data`）数据。另外，请注意此包与 `FastifyAdapter` 不兼容。
 
-For better type safety, let's install Multer typings package:
+为了更好的类型安全，让我们安装 Multer 类型包：
 
 ```shell
 $ npm i -D @types/multer
 ```
 
-With this package installed, we can now use the `Express.Multer.File` type (you can import this type as follows: `import {{ '{' }} Express {{ '}' }} from 'express'`).
+安装此包后，我们现在可以使用 `Express.Multer.File` 类型（您可以通过以下方式导入此类型：`import {{ '{' }} Express {{ '}' }} from 'express'`）。
 
-#### Basic example
+#### 基础示例
 
-To upload a single file, simply tie the `FileInterceptor()` interceptor to the route handler and extract `file` from the `request` using the `@UploadedFile()` decorator.
+要上传单个文件，只需将 `FileInterceptor()` 拦截器绑定到路由处理程序，并使用 `@UploadedFile()` 装饰器从 `request` 中提取 `file`。
 
 ```typescript
 @@filename()
@@ -32,18 +32,18 @@ uploadFile(file) {
 }
 ```
 
-> info **Hint** The `FileInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFile()` decorator is exported from `@nestjs/common`.
+> info **提示** `FileInterceptor()` 装饰器从 `@nestjs/platform-express` 包导出。`@UploadedFile()` 装饰器从 `@nestjs/common` 导出。
 
-The `FileInterceptor()` decorator takes two arguments:
+`FileInterceptor()` 装饰器接受两个参数：
 
-- `fieldName`: string that supplies the name of the field from the HTML form that holds a file
-- `options`: optional object of type `MulterOptions`. This is the same object used by the multer constructor (more details [here](https://github.com/expressjs/multer#multeropts)).
+- `fieldName`：提供 HTML 表单中包含文件的字段名称的字符串
+- `options`：类型为 `MulterOptions` 的可选对象。这与 multer 构造函数使用的对象相同（更多详情[在此](https://github.com/expressjs/multer#multeropts)）。
 
-> warning **Warning** `FileInterceptor()` may not be compatible with third party cloud providers like Google Firebase or others.
+> warning **警告** `FileInterceptor()` 可能与第三方云提供商（如 Google Firebase 或其他）不兼容。
 
-#### File validation
+#### 文件验证
 
-Often times it can be useful to validate incoming file metadata, like file size or file mime-type. For this, you can create your own [Pipe](https://docs.nestjs.com/pipes) and bind it to the parameter annotated with the `UploadedFile` decorator. The example below demonstrates how a basic file size validator pipe could be implemented:
+通常，验证传入的文件元数据（如文件大小或文件 MIME 类型）会很有用。为此，您可以创建自己的[管道](https://docs.nestjs.com/pipes)并将其绑定到用 `UploadedFile` 装饰器注释的参数。以下示例演示了如何实现一个基本的文件大小验证管道：
 
 ```typescript
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
@@ -51,27 +51,27 @@ import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
 @Injectable()
 export class FileSizeValidationPipe implements PipeTransform {
   transform(value: any, metadata: ArgumentMetadata) {
-    // "value" is an object containing the file's attributes and metadata
+    // "value" 是包含文件属性和元数据的对象
     const oneKb = 1000;
     return value.size < oneKb;
   }
 }
 ```
 
-This can be used in conjunction with the `FileInterceptor` as follows:
+这可以与 `FileInterceptor` 结合使用，如下所示：
 
 ```typescript
 @Post('file')
 @UseInterceptors(FileInterceptor('file'))
 uploadFileAndValidate(@UploadedFile(
   new FileSizeValidationPipe(),
-  // other pipes can be added here
+  // 可以在此处添加其他管道
 ) file: Express.Multer.File, ) {
   return file;
 }
 ```
 
-Nest provides a built-in pipe to handle common use cases and facilitate/standardize the addition of new ones. This pipe is called `ParseFilePipe`, and you can use it as follows:
+Nest 提供了一个内置管道来处理常见用例，并促进/标准化新管道的添加。此管道称为 `ParseFilePipe`，您可以按如下方式使用它：
 
 ```typescript
 @Post('file')
@@ -80,7 +80,7 @@ uploadFileAndPassValidation(
   @UploadedFile(
     new ParseFilePipe({
       validators: [
-        // ... Set of file validator instances here
+        // ... 此处设置文件验证器实例
       ]
     })
   )
@@ -93,47 +93,47 @@ uploadFileAndPassValidation(
 }
 ```
 
-As you can see, it's required to specify an array of file validators that will be executed by the `ParseFilePipe`. We'll discuss the interface of a validator, but it's worth mentioning this pipe also has two additional **optional** options:
+如您所见，需要指定一个文件验证器数组，这些验证器将由 `ParseFilePipe` 执行。我们将讨论验证器的接口，但值得一提的是，此管道还有两个额外的**可选**选项：
 
 <table>
   <tr>
     <td><code>errorHttpStatusCode</code></td>
-    <td>The HTTP status code to be thrown in case <b>any</b> validator fails. Default is <code>400</code> (BAD REQUEST)</td>
+    <td>在<b>任何</b>验证器失败时抛出的 HTTP 状态码。默认为 <code>400</code>（错误请求）</td>
   </tr>
   <tr>
     <td><code>exceptionFactory</code></td>
-    <td>A factory which receives the error message and returns an error.</td>
+    <td>接收错误消息并返回错误的工厂函数。</td>
   </tr>
 </table>
 
-Now, back to the `FileValidator` interface. To integrate validators with this pipe, you have to either use built-in implementations or provide your own custom `FileValidator`. See example below:
+现在，回到 `FileValidator` 接口。要将验证器与此管道集成，您必须使用内置实现或提供自己的自定义 `FileValidator`。请参见以下示例：
 
 ```typescript
 export abstract class FileValidator<TValidationOptions = Record<string, any>> {
   constructor(protected readonly validationOptions: TValidationOptions) {}
 
   /**
-   * Indicates if this file should be considered valid, according to the options passed in the constructor.
-   * @param file the file from the request object
+   * 根据构造函数中传递的选项，指示此文件是否应视为有效。
+   * @param file 来自请求对象的文件
    */
   abstract isValid(file?: any): boolean | Promise<boolean>;
 
   /**
-   * Builds an error message in case the validation fails.
-   * @param file the file from the request object
+   * 在验证失败时构建错误消息。
+   * @param file 来自请求对象的文件
    */
   abstract buildErrorMessage(file: any): string;
 }
 ```
 
-> info **Hint** The `FileValidator` interfaces supports async validation via its `isValid` function. To leverage type security, you can also type the `file` parameter as `Express.Multer.File` in case you are using express (default) as a driver.
+> info **提示** `FileValidator` 接口通过其 `isValid` 函数支持异步验证。为了利用类型安全，如果您使用 express（默认）作为驱动程序，还可以将 `file` 参数类型化为 `Express.Multer.File`。
 
-`FileValidator` is a regular class that has access to the file object and validates it according to the options provided by the client. Nest has two built-in `FileValidator` implementations you can use in your project:
+`FileValidator` 是一个常规类，可以访问文件对象并根据客户端提供的选项对其进行验证。Nest 有两个内置的 `FileValidator` 实现，您可以在项目中使用：
 
-- `MaxFileSizeValidator` - Checks if a given file's size is less than the provided value (measured in `bytes`)
-- `FileTypeValidator` - Checks if a given file's mime-type matches a given string or RegExp.  By default, validates the mime-type using file content [magic number](https://www.ibm.com/support/pages/what-magic-number)
+- `MaxFileSizeValidator` - 检查给定文件的大小是否小于提供的值（以 `bytes` 为单位）
+- `FileTypeValidator` - 检查给定文件的 MIME 类型是否与给定的字符串或正则表达式匹配。默认使用文件内容的[魔数](https://www.ibm.com/support/pages/what-magic-number)验证 MIME 类型
 
-To understand how these can be used in conjunction with the aforementioned `FileParsePipe`, we'll use an altered snippet of the last presented example:
+要理解这些如何与上述 `FileParsePipe` 结合使用，我们将使用最后呈现示例的修改片段：
 
 ```typescript
 @UploadedFile(
@@ -147,9 +147,9 @@ To understand how these can be used in conjunction with the aforementioned `File
 file: Express.Multer.File,
 ```
 
-> info **Hint** If the number of validators increase largely or their options are cluttering the file, you can define this array in a separate file and import it here as a named constant like `fileValidators`.
+> info **提示** 如果验证器的数量大幅增加或其选项使文件混乱，您可以在单独的文件中定义此数组，并将其作为命名常量（如 `fileValidators`）导入此处。
 
-Finally, you can use the special `ParseFilePipeBuilder` class that lets you compose & construct your validators. By using it as shown below you can avoid manual instantiation of each validator and just pass their options directly:
+最后，您可以使用特殊的 `ParseFilePipeBuilder` 类来组合和构建您的验证器。通过如下使用，可以避免手动实例化每个验证器，而是直接传递它们的选项：
 
 ```typescript
 @UploadedFile(
@@ -167,17 +167,17 @@ Finally, you can use the special `ParseFilePipeBuilder` class that lets you comp
 file: Express.Multer.File,
 ```
 
-> info **Hint** File presence is required by default, but you can make it optional by adding `fileIsRequired: false` parameter inside `build` function options (at the same level as `errorHttpStatusCode`).
+> info **提示** 默认情况下文件是必需的，但您可以通过在 `build` 函数选项中（与 `errorHttpStatusCode` 同一级别）添加 `fileIsRequired: false` 参数来使其变为可选。
 
-#### Array of files
+#### 文件数组
 
-To upload an array of files (identified with a single field name), use the `FilesInterceptor()` decorator (note the plural **Files** in the decorator name). This decorator takes three arguments:
+要上传文件数组（使用单个字段名标识），请使用 `FilesInterceptor()` 装饰器（注意装饰器名称中的复数形式 **Files**）。此装饰器接受三个参数：
 
-- `fieldName`: as described above
-- `maxCount`: optional number defining the maximum number of files to accept
-- `options`: optional `MulterOptions` object, as described above
+- `fieldName`：如上所述
+- `maxCount`：定义要接受的最大文件数的可选数字
+- `options`：如上所述的可选 `MulterOptions` 对象
 
-When using `FilesInterceptor()`, extract files from the `request` with the `@UploadedFiles()` decorator.
+使用 `FilesInterceptor()` 时，使用 `@UploadedFiles()` 装饰器从 `request` 中提取文件。
 
 ```typescript
 @@filename()
@@ -195,16 +195,16 @@ uploadFile(files) {
 }
 ```
 
-> info **Hint** The `FilesInterceptor()` decorator is exported from the `@nestjs/platform-express` package. The `@UploadedFiles()` decorator is exported from `@nestjs/common`.
+> info **提示** `FilesInterceptor()` 装饰器从 `@nestjs/platform-express` 包导出。`@UploadedFiles()` 装饰器从 `@nestjs/common` 导出。
 
-#### Multiple files
+#### 多个文件
 
-To upload multiple files (all with different field name keys), use the `FileFieldsInterceptor()` decorator. This decorator takes two arguments:
+要上传多个文件（所有文件都有不同的字段名键），请使用 `FileFieldsInterceptor()` 装饰器。此装饰器接受两个参数：
 
-- `uploadedFields`: an array of objects, where each object specifies a required `name` property with a string value specifying a field name, as described above, and an optional `maxCount` property, as described above
-- `options`: optional `MulterOptions` object, as described above
+- `uploadedFields`：对象数组，每个对象指定一个必需的 `name` 属性（字符串值，指定字段名，如上所述）和一个可选的 `maxCount` 属性（如上所述）
+- `options`：如上所述的可选 `MulterOptions` 对象
 
-When using `FileFieldsInterceptor()`, extract files from the `request` with the `@UploadedFiles()` decorator.
+使用 `FileFieldsInterceptor()` 时，使用 `@UploadedFiles()` 装饰器从 `request` 中提取文件。
 
 ```typescript
 @@filename()
@@ -228,11 +228,11 @@ uploadFile(files) {
 }
 ```
 
-#### Any files
+#### 任意文件
 
-To upload all fields with arbitrary field name keys, use the `AnyFilesInterceptor()` decorator. This decorator can accept an optional `options` object as described above.
+要上传所有具有任意字段名键的字段，请使用 `AnyFilesInterceptor()` 装饰器。此装饰器可以接受一个可选的 `options` 对象，如上所述。
 
-When using `AnyFilesInterceptor()`, extract files from the `request` with the `@UploadedFiles()` decorator.
+使用 `AnyFilesInterceptor()` 时，使用 `@UploadedFiles()` 装饰器从 `request` 中提取文件。
 
 ```typescript
 @@filename()
@@ -250,9 +250,9 @@ uploadFile(files) {
 }
 ```
 
-#### No files
+#### 无文件
 
-To accept `multipart/form-data` but not allow any files to be uploaded, use the `NoFilesInterceptor`. This sets multipart data as attributes on the request body. Any files sent with the request will throw a `BadRequestException`.
+要接受 `multipart/form-data` 但不允许上传任何文件，请使用 `NoFilesInterceptor`。这会将多部分数据设置为请求正文上的属性。随请求发送的任何文件都将抛出 `BadRequestException`。
 
 ```typescript
 @Post('upload')
@@ -262,9 +262,9 @@ handleMultiPartData(@Body() body) {
 }
 ```
 
-#### Default options
+#### 默认选项
 
-You can specify multer options in the file interceptors as described above. To set default options, you can call the static `register()` method when you import the `MulterModule`, passing in supported options. You can use all options listed [here](https://github.com/expressjs/multer#multeropts).
+您可以在文件拦截器中指定 multer 选项，如上所述。要设置默认选项，可以在导入 `MulterModule` 时调用静态 `register()` 方法，传入支持的选项。您可以使用[此处](https://github.com/expressjs/multer#multeropts)列出的所有选项。
 
 ```typescript
 MulterModule.register({
@@ -272,13 +272,13 @@ MulterModule.register({
 });
 ```
 
-> info **Hint** The `MulterModule` class is exported from the `@nestjs/platform-express` package.
+> info **提示** `MulterModule` 类从 `@nestjs/platform-express` 包导出。
 
-#### Async configuration
+#### 异步配置
 
-When you need to set `MulterModule` options asynchronously instead of statically, use the `registerAsync()` method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.
+当您需要异步而不是静态地设置 `MulterModule` 选项时，请使用 `registerAsync()` 方法。与大多数动态模块一样，Nest 提供了几种处理异步配置的技术。
 
-One technique is to use a factory function:
+一种技术是使用工厂函数：
 
 ```typescript
 MulterModule.registerAsync({
@@ -288,7 +288,7 @@ MulterModule.registerAsync({
 });
 ```
 
-Like other [factory providers](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory), our factory function can be `async` and can inject dependencies through `inject`.
+像其他[工厂提供者](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory)一样，我们的工厂函数可以是 `async` 的，并且可以通过 `inject` 注入依赖项。
 
 ```typescript
 MulterModule.registerAsync({
@@ -300,7 +300,7 @@ MulterModule.registerAsync({
 });
 ```
 
-Alternatively, you can configure the `MulterModule` using a class instead of a factory, as shown below:
+或者，您可以使用类而不是工厂来配置 `MulterModule`，如下所示：
 
 ```typescript
 MulterModule.registerAsync({
@@ -308,7 +308,7 @@ MulterModule.registerAsync({
 });
 ```
 
-The construction above instantiates `MulterConfigService` inside `MulterModule`, using it to create the required options object. Note that in this example, the `MulterConfigService` has to implement the `MulterOptionsFactory` interface, as shown below. The `MulterModule` will call the `createMulterOptions()` method on the instantiated object of the supplied class.
+上述构造在 `MulterModule` 内部实例化 `MulterConfigService`，使用它来创建所需的选项对象。请注意，在此示例中，`MulterConfigService` 必须实现 `MulterOptionsFactory` 接口，如下所示。`MulterModule` 将在提供的类的实例化对象上调用 `createMulterOptions()` 方法。
 
 ```typescript
 @Injectable()
@@ -321,7 +321,7 @@ class MulterConfigService implements MulterOptionsFactory {
 }
 ```
 
-If you want to reuse an existing options provider instead of creating a private copy inside the `MulterModule`, use the `useExisting` syntax.
+如果您想在 `MulterModule` 内部重用现有的选项提供者而不是创建私有副本，请使用 `useExisting` 语法。
 
 ```typescript
 MulterModule.registerAsync({
@@ -330,7 +330,7 @@ MulterModule.registerAsync({
 });
 ```
 
-You can also pass so-called `extraProviders` to the `registerAsync()` method. These providers will be merged with the module providers.
+您还可以将所谓的 `extraProviders` 传递给 `registerAsync()` 方法。这些提供者将与模块提供者合并。
 
 ```typescript
 MulterModule.registerAsync({
@@ -340,8 +340,8 @@ MulterModule.registerAsync({
 });
 ```
 
-This is useful when you want to provide additional dependencies to the factory function or the class constructor.
+当您想为工厂函数或类构造函数提供额外的依赖项时，这很有用。
 
-#### Example
+#### 示例
 
-A working example is available [here](https://github.com/nestjs/nest/tree/master/sample/29-file-upload).
+一个可工作的示例可在[此处](https://github.com/nestjs/nest/tree/master/sample/29-file-upload)找到。

@@ -1,22 +1,22 @@
-### Complexity
+### 复杂度
 
-> warning **Warning** This chapter applies only to the code first approach.
+> warning **警告** 本章仅适用于代码优先（code first）方式。
 
-Query complexity allows you to define how complex certain fields are, and to restrict queries with a **maximum complexity**. The idea is to define how complex each field is by using a simple number. A common default is to give each field a complexity of `1`. In addition, the complexity calculation of a GraphQL query can be customized with so-called complexity estimators. A complexity estimator is a simple function that calculates the complexity for a field. You can add any number of complexity estimators to the rule, which are then executed one after another. The first estimator that returns a numeric complexity value determines the complexity for that field.
+查询复杂度功能允许您定义某些字段的复杂程度，并限制查询的**最大复杂度**。其思路是通过一个简单的数字来定义每个字段的复杂度。常见的默认做法是为每个字段分配复杂度 `1`。此外，GraphQL 查询的复杂度计算可以通过所谓的复杂度估算器（complexity estimators）来自定义。复杂度估算器是一个简单的函数，用于计算字段的复杂度。您可以在规则中添加任意数量的复杂度估算器，它们会依次执行。第一个返回数值复杂度值的估算器将决定该字段的复杂度。
 
-The `@nestjs/graphql` package integrates very well with tools like [graphql-query-complexity](https://github.com/slicknode/graphql-query-complexity) that provides a cost analysis-based solution. With this library, you can reject queries to your GraphQL server that are deemed too costly to execute.
+`@nestjs/graphql` 包与 [graphql-query-complexity](https://github.com/slicknode/graphql-query-complexity) 等工具集成得很好，后者提供了一个基于成本分析的解决方案。借助这个库，您可以拒绝执行那些被认为过于昂贵的 GraphQL 服务器查询。
 
-#### Installation
+#### 安装
 
-To begin using it, we first install the required dependency.
+要开始使用，我们首先安装所需的依赖项。
 
 ```bash
 $ npm install --save graphql-query-complexity
 ```
 
-#### Getting started
+#### 快速开始
 
-Once the installation process is complete, we can define the `ComplexityPlugin` class:
+安装完成后，我们可以定义 `ComplexityPlugin` 类：
 
 ```typescript
 import { GraphQLSchemaHost } from '@nestjs/graphql';
@@ -65,32 +65,32 @@ export class ComplexityPlugin implements ApolloServerPlugin {
 }
 ```
 
-For demonstration purposes, we specified the maximum allowed complexity as `20`. In the example above, we used 2 estimators, the `simpleEstimator` and the `fieldExtensionsEstimator`.
+出于演示目的，我们将最大允许复杂度指定为 `20`。在上面的示例中，我们使用了两个估算器：`simpleEstimator` 和 `fieldExtensionsEstimator`。
 
-- `simpleEstimator`: the simple estimator returns a fixed complexity for each field
-- `fieldExtensionsEstimator`: the field extensions estimator extracts the complexity value for each field of your schema
+- `simpleEstimator`：简单估算器为每个字段返回一个固定的复杂度值
+- `fieldExtensionsEstimator`：字段扩展估算器从您的模式中提取每个字段的复杂度值
 
-> info **Hint** Remember to add this class to the providers array in any module.
+> info **提示** 请记得在任何模块的 providers 数组中添加此类。
 
-#### Field-level complexity
+#### 字段级复杂度
 
-With this plugin in place, we can now define the complexity for any field by specifying the `complexity` property in the options object passed into the `@Field()` decorator, as follows:
+有了这个插件，我们现在可以通过在传递给 `@Field()` 装饰器的选项对象中指定 `complexity` 属性来定义任何字段的复杂度，如下所示：
 
 ```typescript
 @Field({ complexity: 3 })
 title: string;
 ```
 
-Alternatively, you can define the estimator function:
+或者，您可以定义估算器函数：
 
 ```typescript
 @Field({ complexity: (options: ComplexityEstimatorArgs) => ... })
 title: string;
 ```
 
-#### Query/Mutation-level complexity
+#### 查询/变更级复杂度
 
-In addition, `@Query()` and `@Mutation()` decorators may have a `complexity` property specified like so:
+此外，`@Query()` 和 `@Mutation()` 装饰器可以指定 `complexity` 属性，如下所示：
 
 ```typescript
 @Query({ complexity: (options: ComplexityEstimatorArgs) => options.args.count * options.childComplexity })
