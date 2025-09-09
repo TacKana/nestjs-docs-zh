@@ -1,14 +1,14 @@
-### Mapped types
+### 映射类型
 
-As you build out features like **CRUD** (Create/Read/Update/Delete) it's often useful to construct variants on a base entity type. Nest provides several utility functions that perform type transformations to make this task more convenient.
+在构建诸如 **CRUD**（创建/读取/更新/删除）这类功能时，基于基础实体类型构造变体通常非常有用。Nest 提供了若干实用函数来执行类型转换，以使这一任务更加便捷。
 
-#### Partial
+#### 局部类型（Partial）
 
-When building input validation types (also called DTOs), it's often useful to build **create** and **update** variations on the same type. For example, the **create** variant may require all fields, while the **update** variant may make all fields optional.
+在构建输入验证类型（也称为 DTO）时，通常会对同一类型构建**创建**和**更新**两种变体。例如，**创建**变体可能要求所有字段，而**更新**变体则可能将所有字段设为可选。
 
-Nest provides the `PartialType()` utility function to make this task easier and minimize boilerplate.
+Nest 提供了 `PartialType()` 实用函数来简化这一任务并减少样板代码。
 
-The `PartialType()` function returns a type (class) with all the properties of the input type set to optional. For example, suppose we have a **create** type as follows:
+`PartialType()` 函数返回一个类型（类），其所有属性均设置为可选，输入类型保持不变。例如，假设我们有一个如下所示的**创建**类型：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -25,17 +25,17 @@ export class CreateCatDto {
 }
 ```
 
-By default, all of these fields are required. To create a type with the same fields, but with each one optional, use `PartialType()` passing the class reference (`CreateCatDto`) as an argument:
+默认情况下，所有这些字段都是必填的。要创建一个具有相同字段但每个字段均为可选的类型，可以使用 `PartialType()`，并将类引用（`CreateCatDto`）作为参数传入：
 
 ```typescript
 export class UpdateCatDto extends PartialType(CreateCatDto) {}
 ```
 
-> info **Hint** The `PartialType()` function is imported from the `@nestjs/swagger` package.
+> info **提示** `PartialType()` 函数是从 `@nestjs/swagger` 包中导入的。
 
-#### Pick
+#### 选取类型（Pick）
 
-The `PickType()` function constructs a new type (class) by picking a set of properties from an input type. For example, suppose we start with a type like:
+`PickType()` 函数通过从输入类型中选取一组属性来构造一个新类型（类）。例如，假设我们从以下类型开始：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -52,17 +52,17 @@ export class CreateCatDto {
 }
 ```
 
-We can pick a set of properties from this class using the `PickType()` utility function:
+我们可以使用 `PickType()` 实用函数从这个类中选取一组属性：
 
 ```typescript
 export class UpdateCatAgeDto extends PickType(CreateCatDto, ['age'] as const) {}
 ```
 
-> info **Hint** The `PickType()` function is imported from the `@nestjs/swagger` package.
+> info **提示** `PickType()` 函数是从 `@nestjs/swagger` 包中导入的。
 
-#### Omit
+#### 排除类型（Omit）
 
-The `OmitType()` function constructs a type by picking all properties from an input type and then removing a particular set of keys. For example, suppose we start with a type like:
+`OmitType()` 函数通过选取输入类型的所有属性，然后移除特定的一组键来构造一个类型。例如，假设我们从以下类型开始：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -79,17 +79,17 @@ export class CreateCatDto {
 }
 ```
 
-We can generate a derived type that has every property **except** `name` as shown below. In this construct, the second argument to `OmitType` is an array of property names.
+我们可以生成一个派生类型，该类型拥有除 `name` 之外的**所有**属性，如下所示。在此结构中，`OmitType` 的第二个参数是属性名称的数组。
 
 ```typescript
 export class UpdateCatDto extends OmitType(CreateCatDto, ['name'] as const) {}
 ```
 
-> info **Hint** The `OmitType()` function is imported from the `@nestjs/swagger` package.
+> info **提示** `OmitType()` 函数是从 `@nestjs/swagger` 包中导入的。
 
-#### Intersection
+#### 交集类型（Intersection）
 
-The `IntersectionType()` function combines two types into one new type (class). For example, suppose we start with two types like:
+`IntersectionType()` 函数将两个类型合并为一个新类型（类）。例如，假设我们有两个如下所示的类型：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -108,7 +108,7 @@ export class AdditionalCatInfo {
 }
 ```
 
-We can generate a new type that combines all properties in both types.
+我们可以生成一个新类型，合并两个类型中的所有属性。
 
 ```typescript
 export class UpdateCatDto extends IntersectionType(
@@ -117,11 +117,11 @@ export class UpdateCatDto extends IntersectionType(
 ) {}
 ```
 
-> info **Hint** The `IntersectionType()` function is imported from the `@nestjs/swagger` package.
+> info **提示** `IntersectionType()` 函数是从 `@nestjs/swagger` 包中导入的。
 
-#### Composition
+#### 组合使用
 
-The type mapping utility functions are composable. For example, the following will produce a type (class) that has all of the properties of the `CreateCatDto` type except for `name`, and those properties will be set to optional:
+类型映射实用函数可以组合使用。例如，以下代码将生成一个类型（类），该类型拥有 `CreateCatDto` 类型中除 `name` 之外的所有属性，并且这些属性将被设置为可选：
 
 ```typescript
 export class UpdateCatDto extends PartialType(

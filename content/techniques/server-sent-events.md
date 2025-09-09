@@ -1,10 +1,10 @@
-### Server-Sent Events
+### 服务器发送事件（Server-Sent Events）
 
-Server-Sent Events (SSE) is a server push technology enabling a client to receive automatic updates from a server via HTTP connection. Each notification is sent as a block of text terminated by a pair of newlines (learn more [here](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)).
+服务器发送事件（SSE）是一种服务器推送技术，允许客户端通过 HTTP 连接从服务器自动接收更新。每个通知都以文本块的形式发送，以一对换行符终止（了解更多请参阅[这里](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events)）。
 
-#### Usage
+#### 使用方法
 
-To enable Server-Sent events on a route (route registered within a **controller class**), annotate the method handler with the `@Sse()` decorator.
+要在路由（在**控制器类**中注册的路由）上启用服务器发送事件，请使用 `@Sse()` 装饰器标注方法处理程序。
 
 ```typescript
 @Sse('sse')
@@ -13,13 +13,13 @@ sse(): Observable<MessageEvent> {
 }
 ```
 
-> info **Hint** The `@Sse()` decorator and `MessageEvent` interface are imported from the `@nestjs/common`, while `Observable`, `interval`, and `map` are imported from the `rxjs` package.
+> info **提示** `@Sse()` 装饰器和 `MessageEvent` 接口从 `@nestjs/common` 导入，而 `Observable`、`interval` 和 `map` 则从 `rxjs` 包导入。
 
-> warning **Warning** Server-Sent Events routes must return an `Observable` stream.
+> warning **警告** 服务器发送事件路由必须返回一个 `Observable` 流。
 
-In the example above, we defined a route named `sse` that will allow us to propagate real-time updates. These events can be listened to using the [EventSource API](https://developer.mozilla.org/en-US/docs/Web/API/EventSource).
+在上面的示例中，我们定义了一个名为 `sse` 的路由，它将允许我们传播实时更新。这些事件可以使用 [EventSource API](https://developer.mozilla.org/en-US/docs/Web/API/EventSource) 进行监听。
 
-The `sse` method returns an `Observable` that emits multiple `MessageEvent` (in this example, it emits a new `MessageEvent` every second). The `MessageEvent` object should respect the following interface to match the specification:
+`sse` 方法返回一个发出多个 `MessageEvent` 的 `Observable`（在此示例中，它每秒发出一个新的 `MessageEvent`）。`MessageEvent` 对象应符合以下接口以匹配规范：
 
 ```typescript
 export interface MessageEvent {
@@ -30,11 +30,11 @@ export interface MessageEvent {
 }
 ```
 
-With this in place, we can now create an instance of the `EventSource` class in our client-side application, passing the `/sse` route (which matches the endpoint we have passed into the `@Sse()` decorator above) as a constructor argument.
+完成这些设置后，我们现在可以在客户端应用程序中创建一个 `EventSource` 类的实例，并将 `/sse` 路由（与我们传递给上方 `@Sse()` 装饰器的端点相匹配）作为构造函数参数传入。
 
-`EventSource` instance opens a persistent connection to an HTTP server, which sends events in `text/event-stream` format. The connection remains open until closed by calling `EventSource.close()`.
+`EventSource` 实例会打开一个到 HTTP 服务器的持久连接，该服务器以 `text/event-stream` 格式发送事件。连接保持打开状态，直到调用 `EventSource.close()` 关闭。
 
-Once the connection is opened, incoming messages from the server are delivered to your code in the form of events. If there is an event field in the incoming message, the triggered event is the same as the event field value. If no event field is present, then a generic `message` event is fired ([source](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)).
+一旦连接打开，来自服务器的传入消息将以事件的形式传递到您的代码中。如果传入消息中有事件字段，则触发的事件与事件字段值相同。如果没有事件字段，则触发通用的 `message` 事件（[来源](https://developer.mozilla.org/en-US/docs/Web/API/EventSource)）。
 
 ```javascript
 const eventSource = new EventSource('/sse');
@@ -43,6 +43,6 @@ eventSource.onmessage = ({ data }) => {
 };
 ```
 
-#### Example
+#### 示例
 
-A working example is available [here](https://github.com/nestjs/nest/tree/master/sample/28-sse).
+可运行的示例可在[此处](https://github.com/nestjs/nest/tree/master/sample/28-sse)找到。

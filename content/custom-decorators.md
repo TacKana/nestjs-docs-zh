@@ -1,16 +1,16 @@
-### Custom route decorators
+### 自定义路由装饰器
 
-Nest is built around a language feature called **decorators**. Decorators are a well-known concept in a lot of commonly used programming languages, but in the JavaScript world, they're still relatively new. In order to better understand how decorators work, we recommend reading [this article](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841). Here's a simple definition:
+Nest 的核心功能围绕一种名为**装饰器（decorators）**的语言特性构建。装饰器在许多常用编程语言中是一个广为人知的概念，但在 JavaScript 领域中仍相对较新。为了更好地理解装饰器的工作原理，建议阅读[这篇文章](https://medium.com/google-developers/exploring-es7-decorators-76ecb65fb841)。以下是一个简单的定义：
 
 <blockquote class="external">
-  An ES2016 decorator is an expression which returns a function and can take a target, name and property descriptor as arguments.
-  You apply it by prefixing the decorator with an <code>@</code> character and placing this at the very top of what
-  you are trying to decorate. Decorators can be defined for either a class, a method or a property.
+  ES2016 装饰器是一个返回函数的表达式，可以接收目标对象、名称和属性描述符作为参数。
+  通过在被装饰对象前添加 <code>@</code> 字符来应用它，并将其置于被装饰对象的最顶部。
+  装饰器可以定义在类、方法或属性上。
 </blockquote>
 
-#### Param decorators
+#### 参数装饰器
 
-Nest provides a set of useful **param decorators** that you can use together with the HTTP route handlers. Below is a list of the provided decorators and the plain Express (or Fastify) objects they represent
+Nest 提供了一系列实用的**参数装饰器**，可与 HTTP 路由处理程序结合使用。下表列出了这些装饰器及其对应的原生 Express（或 Fastify）对象：
 
 <table>
   <tbody>
@@ -57,15 +57,15 @@ Nest provides a set of useful **param decorators** that you can use together wit
   </tbody>
 </table>
 
-Additionally, you can create your own **custom decorators**. Why is this useful?
+此外，你还可以创建自己的**自定义装饰器**。这有什么用处呢？
 
-In the node.js world, it's common practice to attach properties to the **request** object. Then you manually extract them in each route handler, using code like the following:
+在 Node.js 的世界中，将属性附加到**请求（request）**对象上是一种常见做法。然后你需要在每个路由处理程序中手动提取它们，使用如下代码：
 
 ```typescript
 const user = req.user;
 ```
 
-In order to make your code more readable and transparent, you can create a `@User()` decorator and reuse it across all of your controllers.
+为了使代码更具可读性和透明度，你可以创建一个 `@User()` 装饰器，并在所有控制器中重复使用它。
 
 ```typescript
 @@filename(user.decorator)
@@ -79,7 +79,7 @@ export const User = createParamDecorator(
 );
 ```
 
-Then, you can simply use it wherever it fits your requirements.
+然后，你可以在任何符合需求的地方简单地使用它。
 
 ```typescript
 @@filename()
@@ -95,9 +95,9 @@ async findOne(user) {
 }
 ```
 
-#### Passing data
+#### 传递数据
 
-When the behavior of your decorator depends on some conditions, you can use the `data` parameter to pass an argument to the decorator's factory function. One use case for this is a custom decorator that extracts properties from the request object by key. Let's assume, for example, that our <a href="techniques/authentication#implementing-passport-strategies">authentication layer</a> validates requests and attaches a user entity to the request object. The user entity for an authenticated request might look like:
+当装饰器的行为依赖于某些条件时，你可以使用 `data` 参数向装饰器的工厂函数传递参数。一个应用场景是通过键从请求对象中提取属性的自定义装饰器。例如，假设我们的<a href="techniques/authentication#implementing-passport-strategies">认证层</a>验证请求并将用户实体附加到请求对象上。经过认证的请求的用户实体可能如下所示：
 
 ```json
 {
@@ -109,7 +109,7 @@ When the behavior of your decorator depends on some conditions, you can use the 
 }
 ```
 
-Let's define a decorator that takes a property name as key, and returns the associated value if it exists (or undefined if it doesn't exist, or if the `user` object has not been created).
+让我们定义一个装饰器，它以属性名作为键，如果存在则返回关联的值（如果不存在或 `user` 对象尚未创建，则返回 undefined）。
 
 ```typescript
 @@filename(user.decorator)
@@ -134,7 +134,7 @@ export const User = createParamDecorator((data, ctx) => {
 });
 ```
 
-Here's how you could then access a particular property via the `@User()` decorator in the controller:
+然后，在控制器中，你可以通过 `@User()` 装饰器访问特定属性：
 
 ```typescript
 @@filename()
@@ -150,13 +150,13 @@ async findOne(firstName) {
 }
 ```
 
-You can use this same decorator with different keys to access different properties. If the `user` object is deep or complex, this can make for easier and more readable request handler implementations.
+你可以使用相同的装饰器配合不同的键来访问不同的属性。如果 `user` 对象结构深层或复杂，这可以使请求处理程序的实现更加简单和易读。
 
-> info **Hint** For TypeScript users, note that `createParamDecorator<T>()` is a generic. This means you can explicitly enforce type safety, for example `createParamDecorator<string>((data, ctx) => ...)`. Alternatively, specify a parameter type in the factory function, for example `createParamDecorator((data: string, ctx) => ...)`. If you omit both, the type for `data` will be `any`.
+> info **提示** 对于 TypeScript 用户，注意 `createParamDecorator<T>()` 是一个泛型。这意味着你可以显式强制执行类型安全，例如 `createParamDecorator<string>((data, ctx) => ...)`。或者，在工厂函数中指定参数类型，例如 `createParamDecorator((data: string, ctx) => ...)`。如果两者都省略，`data` 的类型将为 `any`。
 
-#### Working with pipes
+#### 与管道配合使用
 
-Nest treats custom param decorators in the same fashion as the built-in ones (`@Body()`, `@Param()` and `@Query()`). This means that pipes are executed for the custom annotated parameters as well (in our examples, the `user` argument). Moreover, you can apply the pipe directly to the custom decorator:
+Nest 以与内置装饰器（`@Body()`、`@Param()` 和 `@Query()`）相同的方式处理自定义参数装饰器。这意味着管道也会为自定义注解的参数执行（在我们的例子中是 `user` 参数）。此外，你可以直接将管道应用到自定义装饰器上：
 
 ```typescript
 @@filename()
@@ -175,11 +175,11 @@ async findOne(user) {
 }
 ```
 
-> info **Hint** Note that `validateCustomDecorators` option must be set to true. `ValidationPipe` does not validate arguments annotated with the custom decorators by default.
+> info **提示** 注意 `validateCustomDecorators` 选项必须设置为 true。默认情况下，`ValidationPipe` 不会验证使用自定义装饰器注解的参数。
 
-#### Decorator composition
+#### 装饰器组合
 
-Nest provides a helper method to compose multiple decorators. For example, suppose you want to combine all decorators related to authentication into a single decorator. This could be done with the following construction:
+Nest 提供了一个辅助方法来组合多个装饰器。例如，假设你想将所有与认证相关的装饰器合并为一个装饰器。可以通过以下结构实现：
 
 ```typescript
 @@filename(auth.decorator)
@@ -206,7 +206,7 @@ export function Auth(...roles) {
 }
 ```
 
-You can then use this custom `@Auth()` decorator as follows:
+然后，你可以像这样使用这个自定义的 `@Auth()` 装饰器：
 
 ```typescript
 @Get('users')
@@ -214,6 +214,6 @@ You can then use this custom `@Auth()` decorator as follows:
 findAllUsers() {}
 ```
 
-This has the effect of applying all four decorators with a single declaration.
+这样，通过单个声明就能应用所有四个装饰器。
 
-> warning **Warning** The `@ApiHideProperty()` decorator from the `@nestjs/swagger` package is not composable and won't work properly with the `applyDecorators` function.
+> warning **警告** 来自 `@nestjs/swagger` 包的 `@ApiHideProperty()` 装饰器不可组合，并且与 `applyDecorators` 函数无法正常工作。

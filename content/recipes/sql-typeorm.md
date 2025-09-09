@@ -1,20 +1,20 @@
 ### SQL (TypeORM)
 
-##### This chapter applies only to TypeScript
+##### 本章节仅适用于 TypeScript
 
-> **Warning** In this article, you'll learn how to create a `DatabaseModule` based on the **TypeORM** package from scratch using custom providers mechanism. As a consequence, this solution contains a lot of overhead that you can omit using ready to use and available out-of-the-box dedicated `@nestjs/typeorm` package. To learn more, see [here](/techniques/sql).
+> **警告** 在本文中，您将学习如何基于 **TypeORM** 包，使用自定义提供者机制从零开始创建 `DatabaseModule`。因此，这个解决方案包含了很多您可以通过使用现成的、开箱即用的专用 `@nestjs/typeorm` 包来避免的额外工作。了解更多信息，请参阅[这里](/techniques/sql)。
 
-[TypeORM](https://github.com/typeorm/typeorm) is definitely the most mature Object Relational Mapper (ORM) available in the node.js world. Since it's written in TypeScript, it works pretty well with the Nest framework.
+[TypeORM](https://github.com/typeorm/typeorm) 无疑是 Node.js 世界中最成熟的对象关系映射器（ORM）。由于它是用 TypeScript 编写的，因此与 Nest 框架配合得非常好。
 
-#### Getting started
+#### 开始使用
 
-To start the adventure with this library we have to install all required dependencies:
+要开始使用这个库，我们必须安装所有必需的依赖项：
 
 ```bash
 $ npm install --save typeorm mysql2
 ```
 
-The first step we need to do is to establish the connection with our database using `new DataSource().initialize()` class imported from the `typeorm` package. The `initialize()` function returns a `Promise`, and therefore we have to create an [async provider](/fundamentals/async-components).
+我们需要做的第一步是使用从 `typeorm` 包导入的 `new DataSource().initialize()` 类来建立与数据库的连接。`initialize()` 函数返回一个 `Promise`，因此我们必须创建一个[异步提供者](/fundamentals/async-components)。
 
 ```typescript
 @@filename(database.providers)
@@ -43,11 +43,11 @@ export const databaseProviders = [
 ];
 ```
 
-> warning **Warning** Setting `synchronize: true` shouldn't be used in production - otherwise you can lose production data.
+> 警告 **警告** 在生产环境中不应使用 `synchronize: true` —— 否则可能会丢失生产数据。
 
-> info **Hint** Following best practices, we declared the custom provider in the separated file which has a `*.providers.ts` suffix.
+> 提示 **提示** 遵循最佳实践，我们在单独的文件中声明了自定义提供者，该文件具有 `*.providers.ts` 后缀。
 
-Then, we need to export these providers to make them **accessible** for the rest of the application.
+然后，我们需要导出这些提供者，以便应用程序的其余部分可以**访问**它们。
 
 ```typescript
 @@filename(database.module)
@@ -61,13 +61,13 @@ import { databaseProviders } from './database.providers';
 export class DatabaseModule {}
 ```
 
-Now we can inject the `DATA_SOURCE` object using `@Inject()` decorator. Each class that would depend on the `DATA_SOURCE` async provider will wait until a `Promise` is resolved.
+现在我们可以使用 `@Inject()` 装饰器注入 `DATA_SOURCE` 对象。每个依赖于 `DATA_SOURCE` 异步提供者的类将等待 `Promise` 被解析。
 
-#### Repository pattern
+#### 仓库模式
 
-The [TypeORM](https://github.com/typeorm/typeorm) supports the repository design pattern, thus each entity has its own Repository. These repositories can be obtained from the database connection.
+[TypeORM](https://github.com/typeorm/typeorm) 支持仓库设计模式，因此每个实体都有自己的仓库。这些仓库可以从数据库连接中获取。
 
-But firstly, we need at least one entity. We are going to reuse the `Photo` entity from the official documentation.
+但首先，我们至少需要一个实体。我们将重用官方文档中的 `Photo` 实体。
 
 ```typescript
 @@filename(photo.entity)
@@ -95,7 +95,7 @@ export class Photo {
 }
 ```
 
-The `Photo` entity belongs to the `photo` directory. This directory represents the `PhotoModule`. Now, let's create a **Repository** provider:
+`Photo` 实体属于 `photo` 目录。该目录代表 `PhotoModule`。现在，让我们创建一个**仓库**提供者：
 
 ```typescript
 @@filename(photo.providers)
@@ -111,9 +111,9 @@ export const photoProviders = [
 ];
 ```
 
-> warning **Warning** In the real-world applications you should avoid **magic strings**. Both `PHOTO_REPOSITORY` and `DATA_SOURCE` should be kept in the separated `constants.ts` file.
+> 警告 **警告** 在实际应用中，应避免使用**魔术字符串**。`PHOTO_REPOSITORY` 和 `DATA_SOURCE` 都应保存在单独的 `constants.ts` 文件中。
 
-Now we can inject the `Repository<Photo>` to the `PhotoService` using the `@Inject()` decorator:
+现在我们可以使用 `@Inject()` 装饰器将 `Repository<Photo>` 注入到 `PhotoService` 中：
 
 ```typescript
 @@filename(photo.service)
@@ -134,9 +134,9 @@ export class PhotoService {
 }
 ```
 
-The database connection is **asynchronous**, but Nest makes this process completely invisible for the end-user. The `PhotoRepository` is waiting for the db connection, and the `PhotoService` is delayed until repository is ready to use. The entire application can start when each class is instantiated.
+数据库连接是**异步的**，但 Nest 使这个过程对最终用户完全不可见。`PhotoRepository` 正在等待数据库连接，而 `PhotoService` 会延迟到仓库准备就绪。整个应用程序可以在每个类实例化时启动。
 
-Here is a final `PhotoModule`:
+以下是最终的 `PhotoModule`：
 
 ```typescript
 @@filename(photo.module)
@@ -155,4 +155,4 @@ import { PhotoService } from './photo.service';
 export class PhotoModule {}
 ```
 
-> info **Hint** Do not forget to import the `PhotoModule` into the root `AppModule`.
+> 提示 **提示** 不要忘记将 `PhotoModule` 导入到根 `AppModule` 中。

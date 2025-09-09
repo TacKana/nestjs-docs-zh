@@ -2,56 +2,58 @@
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM Downloads" /></a>
+<p align="center">一个用于构建高效、可扩展服务端应用的渐进式 <a href="http://nodejs.org" target="_blank">Node.js</a> 框架。</p>
+<p align="center">
+<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM 版本" /></a>
+<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="软件包许可证" /></a>
+<a href="https://www.npmjs.com/~nestjscore"><img src="https://img.shields.io/npm/dm/@nestjs/core.svg" alt="NPM 下载量" /></a>
 <a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-  <a href="https://dev.to/nestjs"><img src="https://img.shields.io/badge/blog-dev.to-green"/></a>
-<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
-  <a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
+<a href="https://dev.to/nestjs"><img src="https://img.shields.io/badge/blog-dev.to-green"/></a>
+<a href="https://opencollective.com/nest#backer"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Open Collective 赞助者" /></a>
+<a href="https://opencollective.com/nest#sponsor"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Open Collective 赞助商" /></a>
+<a href="https://paypal.me/kamilmysliwiec"><img src="https://img.shields.io/badge/Donate-PayPal-dc3d53.svg"/></a>
+<a href="https://twitter.com/nestframework"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
 </p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+<!--
+[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
+[![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)
+-->
 
-## Description
+## 项目简介
 
-This project is built on top of the [Angular CLI](https://github.com/angular/angular-cli). It uses the [Dgeni documentation generator](https://github.com/angular/dgeni) to compile source documentation in markdown format into the published format. The Repository contains [docs.nestjs.com](https://docs.nestjs.com) source code, the official Nest documentation.
+本项目基于 [Angular CLI](https://github.com/angular/angular-cli) 构建，使用 [Dgeni 文档生成器](https://github.com/angular/dgeni) 将源码文档（markdown 格式）编译为发布格式。此仓库包含 [docs.nestjs.com](https://docs.nestjs.com) 的源代码，即官方 Nest 文档。
 
-## Installing
+## 安装方法
 
-Install project dependencies and start a local server with the following terminal commands:
+安装项目依赖并通过以下命令启动本地服务器：
 
 ```bash
 $ npm install
 $ npm run start
 ```
 
-Navigate to [`http://localhost:4200/`](http://localhost:4200/).
+在浏览器中访问 [`http://localhost:4200/`](http://localhost:4200/)。
 
-All pages are written in [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) and located in the `content` directory.
+所有页面均采用 [markdown](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) 编写，位于 `content` 目录下。
 
-## Build
+## 构建
 
-Run `npm run build` to build the project. The build artifacts will be stored in the `dist/` directory.
+运行 `npm run build` 构建项目，构建产物将存储在 `dist/` 目录。
 
-To run build in _watch mode_, run `npm run build:watch`. Any content changes will be recompiled and rebuilt, and the content served at [`http://localhost:4200/`](http://localhost:4200/).
+如需 _监听模式_ 构建，运行 `npm run build:watch`。内容变更会自动重新编译并重建，内容通过 [`http://localhost:4200/`](http://localhost:4200/) 提供。
 
-Use `npm run build:prod` for a production build.
+生产环境构建请使用 `npm run build:prod`。
 
-## Support
+## 支持
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://opencollective.com/nest).
+Nest 是一个 MIT 许可的开源项目。项目的发展离不开赞助商和出色的支持者。如果你愿意加入他们，请[点击这里了解更多](https://opencollective.com/nest)。
 
-## Stay in touch
+## 联系我们
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+- 作者 - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
+- 官网 - [https://nestjs.com](https://nestjs.com/)
+- 推特 - [@nestframework](https://twitter.com/nestframework)
 
-## License
+## 许可证
 
-Nest is [MIT licensed](LICENSE).
+Nest 遵循 [MIT 许可证](LICENSE)。

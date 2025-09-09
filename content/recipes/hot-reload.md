@@ -1,26 +1,26 @@
-### Hot Reload
+### 热重载
 
-The highest impact on your application's bootstrapping process is **TypeScript compilation**. Fortunately, with [webpack](https://github.com/webpack/webpack) HMR (Hot-Module Replacement), we don't need to recompile the entire project each time a change occurs. This significantly decreases the amount of time necessary to instantiate your application, and makes iterative development a lot easier.
+对应用启动过程影响最大的是 **TypeScript 编译**。幸运的是，借助 [webpack](https://github.com/webpack/webpack) 的 HMR（热模块替换）功能，我们无需在每次变更时重新编译整个项目。这显著减少了实例化应用所需的时间，并使迭代开发更加轻松。
 
-> warning **Warning** Note that `webpack` won't automatically copy your assets (e.g. `graphql` files) to the `dist` folder. Similarly, `webpack` is not compatible with glob static paths (e.g., the `entities` property in `TypeOrmModule`).
+> warning **警告** 请注意，`webpack` 不会自动将你的资源文件（例如 `graphql` 文件）复制到 `dist` 目录。同样，`webpack` 与全局静态路径（例如 `TypeOrmModule` 中的 `entities` 属性）不兼容。
 
-### With CLI
+### 使用 CLI
 
-If you are using the [Nest CLI](https://docs.nestjs.com/cli/overview), the configuration process is pretty straightforward. The CLI wraps `webpack`, which allows use of the `HotModuleReplacementPlugin`.
+如果你使用 [Nest CLI](https://docs.nestjs.com/cli/overview)，配置过程非常简单。CLI 封装了 `webpack`，允许使用 `HotModuleReplacementPlugin`。
 
-#### Installation
+#### 安装
 
-First install the required packages:
+首先安装所需的包：
 
 ```bash
 $ npm i --save-dev webpack-node-externals run-script-webpack-plugin webpack
 ```
 
-> info **Hint** If you use **Yarn Berry** (not classic Yarn), install the `webpack-pnp-externals` package instead of the `webpack-node-externals`.
+> info **提示** 如果你使用 **Yarn Berry**（非经典版 Yarn），请安装 `webpack-pnp-externals` 包而非 `webpack-node-externals`。
 
-#### Configuration
+#### 配置
 
-Once the installation is complete, create a `webpack-hmr.config.js` file in the root directory of your application.
+安装完成后，在应用的根目录创建一个 `webpack-hmr.config.js` 文件。
 
 ```typescript
 const nodeExternals = require('webpack-node-externals');
@@ -47,13 +47,13 @@ module.exports = function (options, webpack) {
 };
 ```
 
-> info **Hint** With **Yarn Berry** (not classic Yarn), instead of using the `nodeExternals` in the `externals` configuration property, use the `WebpackPnpExternals` from `webpack-pnp-externals` package: `WebpackPnpExternals({{ '{' }} exclude: ['webpack/hot/poll?100'] {{ '}' }})`.
+> info **提示** 对于 **Yarn Berry**（非经典版 Yarn），在 `externals` 配置属性中，使用 `webpack-pnp-externals` 包中的 `WebpackPnpExternals` 替代 `nodeExternals`：`WebpackPnpExternals({{ '{' }} exclude: ['webpack/hot/poll?100'] {{ '}' }})`。
 
-This function takes the original object containing the default webpack configuration as a first argument, and the reference to the underlying `webpack` package used by the Nest CLI as the second one. Also, it returns a modified webpack configuration with the `HotModuleReplacementPlugin`, `WatchIgnorePlugin`, and `RunScriptWebpackPlugin` plugins.
+此函数接收包含默认 webpack 配置的原始对象作为第一个参数，以及 Nest CLI 使用的底层 `webpack` 包的引用作为第二个参数。同时，它返回一个修改后的 webpack 配置，其中包含 `HotModuleReplacementPlugin`、`WatchIgnorePlugin` 和 `RunScriptWebpackPlugin` 插件。
 
-#### Hot-Module Replacement
+#### 热模块替换
 
-To enable **HMR**, open the application entry file (`main.ts`) and add the following webpack-related instructions:
+要启用 **HMR**，打开应用入口文件（`main.ts`）并添加以下 webpack 相关指令：
 
 ```typescript
 declare const module: any;
@@ -70,35 +70,35 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To simplify the execution process, add a script to your `package.json` file.
+为了简化执行过程，在 `package.json` 文件中添加一个脚本。
 
 ```json
 "start:dev": "nest build --webpack --webpackPath webpack-hmr.config.js --watch"
 ```
 
-Now simply open your command line and run the following command:
+现在只需打开命令行并运行以下命令：
 
 ```bash
 $ npm run start:dev
 ```
 
-### Without CLI
+### 不使用 CLI
 
-If you are not using the [Nest CLI](https://docs.nestjs.com/cli/overview), the configuration will be slightly more complex (will require more manual steps).
+如果你不使用 [Nest CLI](https://docs.nestjs.com/cli/overview)，配置会稍复杂一些（需要更多手动步骤）。
 
-#### Installation
+#### 安装
 
-First install the required packages:
+首先安装所需的包：
 
 ```bash
 $ npm i --save-dev webpack webpack-cli webpack-node-externals ts-loader run-script-webpack-plugin
 ```
 
-> info **Hint** If you use **Yarn Berry** (not classic Yarn), install the `webpack-pnp-externals` package instead of the `webpack-node-externals`.
+> info **提示** 如果你使用 **Yarn Berry**（非经典版 Yarn），请安装 `webpack-pnp-externals` 包而非 `webpack-node-externals`。
 
-#### Configuration
+#### 配置
 
-Once the installation is complete, create a `webpack.config.js` file in the root directory of your application.
+安装完成后，在应用的根目录创建一个 `webpack.config.js` 文件。
 
 ```typescript
 const webpack = require('webpack');
@@ -135,13 +135,13 @@ module.exports = {
 };
 ```
 
-> info **Hint** With **Yarn Berry** (not classic Yarn), instead of using the `nodeExternals` in the `externals` configuration property, use the `WebpackPnpExternals` from `webpack-pnp-externals` package: `WebpackPnpExternals({{ '{' }} exclude: ['webpack/hot/poll?100'] {{ '}' }})`.
+> info **提示** 对于 **Yarn Berry**（非经典版 Yarn），在 `externals` 配置属性中，使用 `webpack-pnp-externals` 包中的 `WebpackPnpExternals` 替代 `nodeExternals`：`WebpackPnpExternals({{ '{' }} exclude: ['webpack/hot/poll?100'] {{ '}' }})`。
 
-This configuration tells webpack a few essential things about your application: location of the entry file, which directory should be used to hold **compiled** files, and what kind of loader we want to use to compile source files. Generally, you should be able to use this file as-is, even if you don't fully understand all of the options.
+此配置告诉 webpack 关于你应用的一些关键信息：入口文件的位置、用于存放**编译后**文件的目录，以及我们希望用于编译源文件的加载器类型。通常，即使你并不完全理解所有选项，也应该能够直接使用此文件。
 
-#### Hot-Module Replacement
+#### 热模块替换
 
-To enable **HMR**, open the application entry file (`main.ts`) and add the following webpack-related instructions:
+要启用 **HMR**，打开应用入口文件（`main.ts`）并添加以下 webpack 相关指令：
 
 ```typescript
 declare const module: any;
@@ -158,18 +158,18 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To simplify the execution process, add a script to your `package.json` file.
+为了简化执行过程，在 `package.json` 文件中添加一个脚本。
 
 ```json
 "start:dev": "webpack --config webpack.config.js --watch"
 ```
 
-Now simply open your command line and run the following command:
+现在只需打开命令行并运行以下命令：
 
 ```bash
 $ npm run start:dev
 ```
 
-#### Example
+#### 示例
 
-A working example is available [here](https://github.com/nestjs/nest/tree/master/sample/08-webpack).
+可运行的示例可在[此处](https://github.com/nestjs/nest/tree/master/sample/08-webpack)找到。

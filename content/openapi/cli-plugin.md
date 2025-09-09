@@ -1,28 +1,27 @@
-### CLI Plugin
+### CLI 插件
 
-[TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html)'s metadata reflection system has several limitations which make it impossible to, for instance, determine what properties a class consists of or recognize whether a given property is optional or required. However, some of these constraints can be addressed at compilation time. Nest provides a plugin that enhances the TypeScript compilation process to reduce the amount of boilerplate code required.
+[TypeScript](https://www.typescriptlang.org/docs/handbook/decorators.html) 的元数据反射系统存在一些限制，例如无法确定类包含哪些属性，或识别某个属性是可选还是必需。然而，部分限制可以在编译时解决。Nest 提供了一个插件，用于增强 TypeScript 编译过程，以减少所需的样板代码。
 
-> info **Hint** This plugin is **opt-in**. If you prefer, you can declare all decorators manually, or only specific decorators where you need them.
+> info **提示** 此插件为**可选**。如果愿意，您可以手动声明所有装饰器，或仅在需要时声明特定装饰器。
 
-#### Overview
+#### 概述
 
-The Swagger plugin will automatically:
+Swagger 插件将自动执行以下操作：
 
-- annotate all DTO properties with `@ApiProperty` unless `@ApiHideProperty` is used
-- set the `required` property depending on the question mark (e.g. `name?: string` will set `required: false`)
-- set the `type` or `enum` property depending on the type (supports arrays as well)
-- set the `default` property based on the assigned default value
-- set several validation rules based on `class-validator` decorators (if `classValidatorShim` set to `true`)
-- add a response decorator to every endpoint with a proper status and `type` (response model)
-- generate descriptions for properties and endpoints based on comments (if `introspectComments` set to `true`)
-- generate example values for properties based on comments (if `introspectComments` set to `true`)
+- 除非使用 `@ApiHideProperty`，否则所有 DTO 属性都将使用 `@ApiProperty` 进行注解
+- 根据问号设置 `required` 属性（例如 `name?: string` 将设置 `required: false`）
+- 根据类型设置 `type` 或 `enum` 属性（同样支持数组）
+- 根据分配的默认值设置 `default` 属性
+- 基于 `class-validator` 装饰器设置多个验证规则（如果 `classValidatorShim` 设置为 `true`）
+- 为每个端点添加响应装饰器，包含正确的状态和 `type`（响应模型）
+- 基于注释生成属性和端点的描述（如果 `introspectComments` 设置为 `true`）
+- 基于注释生成属性的示例值（如果 `introspectComments` 设置为 `true`）
 
-Please, note that your filenames **must have** one of the following suffixes: `['.dto.ts', '.entity.ts']` (e.g., `create-user.dto.ts`) in order to be analysed by the plugin.
+请注意，您的文件名**必须**具有以下后缀之一：`['.dto.ts', '.entity.ts']`（例如 `create-user.dto.ts`），以便插件进行分析。
 
-If you are using a different suffix, you can adjust the plugin's behavior by specifying the `dtoFileNameSuffix` option (see below).
+如果您使用不同的后缀，可以通过指定 `dtoFileNameSuffix` 选项来调整插件的行为（见下文）。
 
-Previously, if you wanted to provide an interactive experience with the Swagger UI,
-you had to duplicate a lot of code to let the package know how your models/components should be declared in the specification. For example, you could define a simple `CreateUserDto` class as follows:
+以前，如果您想通过 Swagger UI 提供交互式体验，必须重复大量代码以让包知道您的模型/组件应如何在规范中声明。例如，您可以定义一个简单的 `CreateUserDto` 类如下：
 
 ```typescript
 export class CreateUserDto {
@@ -40,9 +39,9 @@ export class CreateUserDto {
 }
 ```
 
-While not a significant issue with medium-sized projects, it becomes verbose & hard to maintain once you have a large set of classes.
+对于中型项目来说，这虽然不是大问题，但一旦拥有大量类，就会变得冗长且难以维护。
 
-By [enabling the Swagger plugin](/openapi/cli-plugin#using-the-cli-plugin), the above class definition can be declared simply:
+通过[启用 Swagger 插件](/openapi/cli-plugin#using-the-cli-plugin)，上述类定义可以简化为：
 
 ```typescript
 export class CreateUserDto {
@@ -53,83 +52,83 @@ export class CreateUserDto {
 }
 ```
 
-> info **Note** The Swagger plugin will derive the @ApiProperty() annotations from the TypeScript types and class-validator decorators. This helps in clearly describing your API for the generated Swagger UI documentation. However, the validation at runtime would still be handled by class-validator decorators. So, it is required to continue using validators like `IsEmail()`, `IsNumber()`, etc.
+> info **注意** Swagger 插件将从 TypeScript 类型和 class-validator 装饰器派生出 @ApiProperty() 注解。这有助于为生成的 Swagger UI 文档清晰地描述您的 API。然而，运行时的验证仍将由 class-validator 装饰器处理。因此，仍需继续使用诸如 `IsEmail()`、`IsNumber()` 等验证器。
 
-Hence, if you intend to rely on automatic annotations for generating documentations and still wish for runtime validations, then the class-validator decorators are still necessary.
+因此，如果您打算依赖自动注解生成文档，并且仍希望进行运行时验证，那么 class-validator 装饰器仍然是必需的。
 
-> info **Hint** When using [mapped types utilities](https://docs.nestjs.com/openapi/mapped-types) (like `PartialType`) in DTOs import them from `@nestjs/swagger` instead of `@nestjs/mapped-types` for the plugin to pick up the schema.
+> info **提示** 在 DTO 中使用[映射类型工具](https://docs.nestjs.com/openapi/mapped-types)（如 `PartialType`）时，请从 `@nestjs/swagger` 导入它们，而不是 `@nestjs/mapped-types`，以便插件能够识别模式。
 
-The plugin adds appropriate decorators on the fly based on the **Abstract Syntax Tree**. Thus you won't have to struggle with `@ApiProperty` decorators scattered throughout the code.
+该插件基于**抽象语法树（AST）** 动态添加适当的装饰器。因此，您无需为散落在代码中的 `@ApiProperty` 装饰器而烦恼。
 
-> info **Hint** The plugin will automatically generate any missing swagger properties, but if you need to override them, you simply set them explicitly via `@ApiProperty()`.
+> info **提示** 插件将自动生成任何缺失的 swagger 属性，但如果您需要覆盖它们，只需通过 `@ApiProperty()` 显式设置即可。
 
-#### Comments introspection
+#### 注释内省
 
-With the comments introspection feature enabled, CLI plugin will generate descriptions and example values for properties based on comments.
+启用注释内省功能后，CLI 插件将基于注释生成属性的描述和示例值。
 
-For example, given an example `roles` property:
+例如，给定一个示例 `roles` 属性：
 
 ```typescript
 /**
- * A list of user's roles
+ * 用户角色列表
  * @example ['admin']
  */
 @ApiProperty({
-  description: `A list of user's roles`,
+  description: `用户角色列表`,
   example: ['admin'],
 })
 roles: RoleEnum[] = [];
 ```
 
-You must duplicate both description and example values. With `introspectComments` enabled, the CLI plugin can extract these comments and automatically provide descriptions (and examples, if defined) for properties. Now, the above property can be declared simply as follows:
+您必须重复描述和示例值。启用 `introspectComments` 后，CLI 插件可以提取这些注释，并自动为属性提供描述（如果已定义，还包括示例）。现在，上述属性可以简化为：
 
 ```typescript
 /**
- * A list of user's roles
+ * 用户角色列表
  * @example ['admin']
  */
 roles: RoleEnum[] = [];
 ```
 
-There are `dtoKeyOfComment` and `controllerKeyOfComment` plugin options available for customizing how the plugin assigns values to the `ApiProperty` and `ApiOperation` decorators, respectively. See the example below:
+提供了 `dtoKeyOfComment` 和 `controllerKeyOfComment` 插件选项，分别用于自定义插件如何为 `ApiProperty` 和 `ApiOperation` 装饰器赋值。参见以下示例：
 
 ```typescript
 export class SomeController {
   /**
-   * Create some resource
+   * 创建某个资源
    */
   @Post()
   create() {}
 }
 ```
 
-This is equivalent to the following instruction:
+这等同于以下指令：
 
 ```typescript
-@ApiOperation({ summary: "Create some resource" })
+@ApiOperation({ summary: "创建某个资源" })
 ```
 
-> info **Hint** For models, the same logic applies but is used with the `ApiProperty` decorator instead.
+> info **提示** 对于模型，同样的逻辑适用，但用于 `ApiProperty` 装饰器。
 
-For controllers, you can provide not only a summary but also a description (remarks), tags (such as` @deprecated`), and response examples, like this:
+对于控制器，您不仅可以提供摘要，还可以提供描述（remarks）、标签（如 `@deprecated`）和响应示例，如下所示：
 
 ```ts
 /**
- * Create a new cat
+ * 创建新猫咪
  *
- * @remarks This operation allows you to create a new cat.
+ * @remarks 此操作允许您创建新猫咪。
  *
  * @deprecated
- * @throws {500} Something went wrong.
- * @throws {400} Bad Request.
+ * @throws {500} 出现错误。
+ * @throws {400} 请求错误。
  */
 @Post()
 async create(): Promise<Cat> {}
 ```
 
-#### Using the CLI plugin
+#### 使用 CLI 插件
 
-To enable the plugin, open `nest-cli.json` (if you use [Nest CLI](/cli/overview)) and add the following `plugins` configuration:
+要启用插件，请打开 `nest-cli.json`（如果您使用 [Nest CLI](/cli/overview)）并添加以下 `plugins` 配置：
 
 ```javascript
 {
@@ -141,7 +140,7 @@ To enable the plugin, open `nest-cli.json` (if you use [Nest CLI](/cli/overview)
 }
 ```
 
-You can use the `options` property to customize the behavior of the plugin.
+您可以使用 `options` 属性来自定义插件的行为。
 
 ```javascript
 {
@@ -162,7 +161,7 @@ You can use the `options` property to customize the behavior of the plugin.
 }
 ```
 
-The `options` property has to fulfill the following interface:
+`options` 属性必须满足以下接口：
 
 ```typescript
 export interface PluginOptions {
@@ -179,54 +178,54 @@ export interface PluginOptions {
 
 <table>
   <tr>
-    <th>Option</th>
-    <th>Default</th>
-    <th>Description</th>
+    <th>选项</th>
+    <th>默认值</th>
+    <th>描述</th>
   </tr>
   <tr>
     <td><code>dtoFileNameSuffix</code></td>
     <td><code>['.dto.ts', '.entity.ts']</code></td>
-    <td>DTO (Data Transfer Object) files suffix</td>
+    <td>DTO（数据传输对象）文件后缀</td>
   </tr>
   <tr>
     <td><code>controllerFileNameSuffix</code></td>
     <td><code>.controller.ts</code></td>
-    <td>Controller files suffix</td>
+    <td>控制器文件后缀</td>
   </tr>
   <tr>
     <td><code>classValidatorShim</code></td>
     <td><code>true</code></td>
-    <td>If set to true, the module will reuse <code>class-validator</code> validation decorators (e.g. <code>@Max(10)</code> will add <code>max: 10</code> to schema definition) </td>
+    <td>如果设置为 true，模块将重用 <code>class-validator</code> 验证装饰器（例如 <code>@Max(10)</code> 将在模式定义中添加 <code>max: 10</code>）</td>
   </tr>
   <tr>
     <td><code>dtoKeyOfComment</code></td>
     <td><code>'description'</code></td>
-    <td>The property key to set the comment text to on <code>ApiProperty</code>.</td>
+    <td>在 <code>ApiProperty</code> 上设置注释文本的属性键</td>
   </tr>
   <tr>
     <td><code>controllerKeyOfComment</code></td>
     <td><code>'summary'</code></td>
-    <td>The property key to set the comment text to on <code>ApiOperation</code>.</td>
+    <td>在 <code>ApiOperation</code> 上设置注释文本的属性键</td>
   </tr>
   <tr>
     <td><code>introspectComments</code></td>
     <td><code>false</code></td>
-    <td>If set to true, plugin will generate descriptions and example values for properties based on comments</td>
+    <td>如果设置为 true，插件将基于注释生成属性的描述和示例值</td>
   </tr>
   <tr>
     <td><code>skipAutoHttpCode</code></td>
     <td><code>false</code></td>
-    <td>Disables the automatic addition of <code>@HttpCode()</code> in controllers</td>
+    <td>禁用控制器中自动添加 <code>@HttpCode()</code></td>
   </tr>
   <tr>
     <td><code>esmCompatible</code></td>
     <td><code>false</code></td>
-    <td>If set to true, resolves syntax errors encountered when using ESM (<code>&#123; "type": "module" &#125;</code>).</td>
+    <td>如果设置为 true，解决使用 ESM（<code>&#123; "type": "module" &#125;</code>）时遇到的语法错误</td>
   </tr>
 </table>
 
-Make sure to delete the `/dist` folder and rebuild your application whenever plugin options are updated.
-If you don't use the CLI but instead have a custom `webpack` configuration, you can use this plugin in combination with `ts-loader`:
+每当插件选项更新时，请确保删除 `/dist` 文件夹并重新构建您的应用程序。
+如果您不使用 CLI，而是使用自定义的 `webpack` 配置，您可以将此插件与 `ts-loader` 结合使用：
 
 ```javascript
 getCustomTransformers: (program: any) => ({
@@ -234,81 +233,81 @@ getCustomTransformers: (program: any) => ({
 }),
 ```
 
-#### SWC builder
+#### SWC 构建器
 
-For standard setups (non-monorepo), to use CLI Plugins with the SWC builder, you need to enable type checking, as described [here](/recipes/swc#type-checking).
+对于标准设置（非 monorepo），要将 CLI 插件与 SWC 构建器一起使用，您需要启用类型检查，如[此处](/recipes/swc#type-checking)所述。
 
 ```bash
 $ nest start -b swc --type-check
 ```
 
-For monorepo setups, follow the instructions [here](/recipes/swc#monorepo-and-cli-plugins).
+对于 monorepo 设置，请遵循[此处](/recipes/swc#monorepo-and-cli-plugins)的说明。
 
 ```bash
 $ npx ts-node src/generate-metadata.ts
-# OR npx ts-node apps/{YOUR_APP}/src/generate-metadata.ts
+# 或 npx ts-node apps/{YOUR_APP}/src/generate-metadata.ts
 ```
 
-Now, the serialized metadata file must be loaded by the `SwaggerModule#loadPluginMetadata` method, as shown below:
+现在，序列化的元数据文件必须由 `SwaggerModule#loadPluginMetadata` 方法加载，如下所示：
 
 ```typescript
-import metadata from './metadata'; // <-- file auto-generated by the "PluginMetadataGenerator"
+import metadata from './metadata'; // <-- 由 "PluginMetadataGenerator" 自动生成的文件
 
-await SwaggerModule.loadPluginMetadata(metadata); // <-- here
+await SwaggerModule.loadPluginMetadata(metadata); // <-- 这里
 const document = SwaggerModule.createDocument(app, config);
 ```
 
-#### Integration with `ts-jest` (e2e tests)
+#### 与 `ts-jest` 集成（e2e 测试）
 
-To run e2e tests, `ts-jest` compiles your source code files on the fly, in memory. This means, it doesn't use Nest CLI compiler and does not apply any plugins or perform AST transformations.
+要运行 e2e 测试，`ts-jest` 会动态地在内存中编译您的源代码文件。这意味着它不使用 Nest CLI 编译器，也不应用任何插件或执行 AST 转换。
 
-To enable the plugin, create the following file in your e2e tests directory:
+要启用插件，请在您的 e2e 测试目录中创建以下文件：
 
 ```javascript
 const transformer = require('@nestjs/swagger/plugin');
 
 module.exports.name = 'nestjs-swagger-transformer';
-// you should change the version number anytime you change the configuration below - otherwise, jest will not detect changes
+// 每当更改以下配置时，您应更改版本号 - 否则，jest 将无法检测到更改
 module.exports.version = 1;
 
 module.exports.factory = (cs) => {
   return transformer.before(
     {
-      // @nestjs/swagger/plugin options (can be empty)
+      // @nestjs/swagger/plugin 选项（可以为空）
     },
-    cs.program, // "cs.tsCompiler.program" for older versions of Jest (<= v27)
+    cs.program, // 对于旧版本的 Jest（<= v27），使用 "cs.tsCompiler.program"
   );
 };
 ```
 
-With this in place, import AST transformer within your `jest` configuration file. By default (in the starter application), e2e tests configuration file is located under the `test` folder and is named `jest-e2e.json`.
+完成此操作后，在您的 `jest` 配置文件中导入 AST 转换器。默认情况下（在入门应用程序中），e2e 测试配置文件位于 `test` 文件夹下，名为 `jest-e2e.json`。
 
-If you use `jest@<29`, then use the snippet below.
+如果您使用 `jest@<29`，请使用以下代码片段。
 
 ```json
 {
-  ... // other configuration
+  ... // 其他配置
   "globals": {
     "ts-jest": {
       "astTransformers": {
-        "before": ["<path to the file created above>"]
+        "before": ["<上面创建的文件的路径>"]
       }
     }
   }
 }
 ```
 
-If you use `jest@^29`, then use the snippet below, as the previous approach got deprecated.
+如果您使用 `jest@^29`，请使用以下代码片段，因为之前的方法已被弃用。
 
 ```json
 {
-  ... // other configuration
+  ... // 其他配置
   "transform": {
     "^.+\\.(t|j)s$": [
       "ts-jest",
       {
         "astTransformers": {
-          "before": ["<path to the file created above>"]
+          "before": ["<上面创建的文件的路径>"]
         }
       }
     ]
@@ -316,28 +315,28 @@ If you use `jest@^29`, then use the snippet below, as the previous approach got 
 }
 ```
 
-#### Troubleshooting `jest` (e2e tests)
+#### 排查 `jest` 问题（e2e 测试）
 
-In case `jest` does not seem to pick up your configuration changes, it's possible that Jest has already **cached** the build result. To apply the new configuration, you need to clear Jest's cache directory.
+如果 `jest` 似乎没有拾取您的配置更改，可能是 Jest 已经**缓存**了构建结果。要应用新配置，您需要清除 Jest 的缓存目录。
 
-To clear the cache directory, run the following command in your NestJS project folder:
+要清除缓存目录，请在您的 NestJS 项目文件夹中运行以下命令：
 
 ```bash
 $ npx jest --clearCache
 ```
 
-In case the automatic cache clearance fails, you can still manually remove the cache folder with the following commands:
+如果自动清除缓存失败，您仍然可以使用以下命令手动删除缓存文件夹：
 
 ```bash
-# Find jest cache directory (usually /tmp/jest_rs)
-# by running the following command in your NestJS project root
+# 查找 jest 缓存目录（通常是 /tmp/jest_rs）
+# 通过在您的 NestJS 项目根目录运行以下命令
 $ npx jest --showConfig | grep cache
-# ex result:
+# 示例结果：
 #   "cache": true,
 #   "cacheDirectory": "/tmp/jest_rs"
 
-# Remove or empty the Jest cache directory
-$ rm -rf  <cacheDirectory value>
-# ex:
+# 删除或清空 Jest 缓存目录
+$ rm -rf  <cacheDirectory 值>
+# 示例：
 # rm -rf /tmp/jest_rs
 ```

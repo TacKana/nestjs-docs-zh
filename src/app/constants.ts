@@ -1,2 +1,2 @@
-export const HOMEPAGE_TITLE = 'Documentation';
-export const TITLE_SUFFIX = ' | NestJS - A progressive Node.js framework';
+export const HOMEPAGE_TITLE = '文档首页';
+export const TITLE_SUFFIX = ' | NestJS - 一个渐进式的 Node.js 框架';

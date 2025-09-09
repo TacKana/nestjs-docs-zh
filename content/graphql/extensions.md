@@ -1,12 +1,12 @@
-### Extensions
+### 扩展功能
 
-> warning **Warning** This chapter applies only to the code first approach.
+> warning **警告** 本章节仅适用于代码优先（code first）开发方式。
 
-Extensions is an **advanced, low-level feature** that lets you define arbitrary data in the types configuration. Attaching custom metadata to certain fields allows you to create more sophisticated, generic solutions. For example, with extensions, you can define field-level roles required to access particular fields. Such roles can be reflected at runtime to determine whether the caller has sufficient permissions to retrieve a specific field.
+扩展功能是一项**高级底层特性**，允许你在类型配置中定义任意数据。通过为特定字段附加自定义元数据，你可以创建更复杂、更通用的解决方案。例如，借助扩展功能，你可以定义访问特定字段所需的字段级角色。这类角色可以在运行时被识别，用于判断调用者是否具备检索特定字段的足够权限。
 
-#### Adding custom metadata
+#### 添加自定义元数据
 
-To attach custom metadata for a field, use the `@Extensions()` decorator exported from the `@nestjs/graphql` package.
+要为字段附加自定义元数据，请使用从 `@nestjs/graphql` 包导出的 `@Extensions()` 装饰器。
 
 ```typescript
 @Field()
@@ -14,15 +14,15 @@ To attach custom metadata for a field, use the `@Extensions()` decorator exporte
 password: string;
 ```
 
-In the example above, we assigned the `role` metadata property the value of `Role.ADMIN`. `Role` is a simple TypeScript enum that groups all the user roles available in our system.
+在上面的示例中，我们将 `role` 元数据属性赋值为 `Role.ADMIN`。`Role` 是一个简单的 TypeScript 枚举，用于归类系统中所有可用的用户角色。
 
-Note, in addition to setting metadata on fields, you can use the `@Extensions()` decorator at the class level and method level (e.g., on the query handler).
+注意，除了在字段上设置元数据外，你还可以在类级别和方法级别（例如，在查询处理器上）使用 `@Extensions()` 装饰器。
 
-#### Using custom metadata
+#### 使用自定义元数据
 
-Logic that leverages the custom metadata can be as complex as needed. For example, you can create a simple interceptor that stores/logs events per method invocation, or a [field middleware](/graphql/field-middleware) that matches roles required to retrieve a field with the caller permissions (field-level permissions system).
+利用自定义元数据的逻辑可以根据需要变得复杂。例如，你可以创建一个简单的拦截器来存储/记录每次方法调用的事件，或者使用一个[字段中间件](/graphql/field-middleware)来匹配检索字段所需的角色与调用者的权限（字段级权限系统）。
 
-For illustration purposes, let's define a `checkRoleMiddleware` that compares a user's role (hardcoded here) with a role required to access a target field:
+为了便于说明，让我们定义一个 `checkRoleMiddleware`，用于比较用户角色（此处为硬编码）与访问目标字段所需的角色：
 
 ```typescript
 export const checkRoleMiddleware: FieldMiddleware = async (
@@ -33,21 +33,21 @@ export const checkRoleMiddleware: FieldMiddleware = async (
   const { extensions } = info.parentType.getFields()[info.fieldName];
 
   /**
-   * In a real-world application, the "userRole" variable
-   * should represent the caller's (user) role (for example, "ctx.user.role").
+   * 在实际应用中，"userRole" 变量
+   * 应表示调用者（用户）的角色（例如 "ctx.user.role"）。
    */
   const userRole = Role.USER;
   if (userRole === extensions.role) {
-    // or just "return null" to ignore
+    // 或者直接 "return null" 来忽略
     throw new ForbiddenException(
-      `User does not have sufficient permissions to access "${info.fieldName}" field.`,
+      `用户没有足够权限访问 "${info.fieldName}" 字段。`,
     );
   }
   return next();
 };
 ```
 
-With this in place, we can register a middleware for the `password` field, as follows:
+有了这个中间件，我们可以为 `password` 字段注册中间件，如下所示：
 
 ```typescript
 @Field({ middleware: [checkRoleMiddleware] })

@@ -1,18 +1,18 @@
-### Guards
+### 守卫（Guards）
 
-A guard is a class annotated with the `@Injectable()` decorator, which implements the `CanActivate` interface.
+守卫是一个使用 `@Injectable()` 装饰器的类，它实现了 `CanActivate` 接口。
 
 <figure><img class="illustrative-image" src="/assets/Guards_1.png" /></figure>
 
-Guards have a **single responsibility**. They determine whether a given request will be handled by the route handler or not, depending on certain conditions (like permissions, roles, ACLs, etc.) present at run-time. This is often referred to as **authorization**. Authorization (and its cousin, **authentication**, with which it usually collaborates) has typically been handled by [middleware](/middleware) in traditional Express applications. Middleware is a fine choice for authentication, since things like token validation and attaching properties to the `request` object are not strongly connected with a particular route context (and its metadata).
+守卫有**单一职责**。它们根据运行时存在的某些条件（如权限、角色、访问控制列表等）来决定给定的请求是否应由路由处理程序处理。这通常被称为**授权**。在传统的 Express 应用程序中，授权（以及通常与其协作的**认证**）通常由[中间件](/middleware)处理。中间件是处理认证的不错选择，因为像令牌验证和将属性附加到 `request` 对象这类事情与特定的路由上下文（及其元数据）没有强关联。
 
-But middleware, by its nature, is dumb. It doesn't know which handler will be executed after calling the `next()` function. On the other hand, **Guards** have access to the `ExecutionContext` instance, and thus know exactly what's going to be executed next. They're designed, much like exception filters, pipes, and interceptors, to let you interpose processing logic at exactly the right point in the request/response cycle, and to do so declaratively. This helps keep your code DRY and declarative.
+但中间件本质上是“愚蠢”的。它不知道在调用 `next()` 函数后将要执行哪个处理程序。另一方面，**守卫**可以访问 `ExecutionContext` 实例，因此确切知道接下来要执行什么。它们的设计类似于异常过滤器、管道和拦截器，让你能够在请求/响应周期的恰当时机插入处理逻辑，并且以声明方式实现。这有助于保持代码的 DRY（不重复自己）和声明性。
 
-> info **Hint** Guards are executed **after** all middleware, but **before** any interceptor or pipe.
+> info **提示** 守卫在所有中间件**之后**执行，但在任何拦截器或管道**之前**执行。
 
-#### Authorization guard
+#### 授权守卫
 
-As mentioned, **authorization** is a great use case for Guards because specific routes should be available only when the caller (usually a specific authenticated user) has sufficient permissions. The `AuthGuard` that we'll build now assumes an authenticated user (and that, therefore, a token is attached to the request headers). It will extract and validate the token, and use the extracted information to determine whether the request can proceed or not.
+如前所述，**授权**是守卫的一个绝佳用例，因为只有在调用者（通常是特定的已认证用户）拥有足够权限时，特定路由才应可用。我们现在要构建的 `AuthGuard` 假设存在已认证用户（因此请求头中附加了令牌）。它将提取并验证令牌，并使用提取的信息来确定请求是否可以继续。
 
 ```typescript
 @@filename(auth.guard)
@@ -40,26 +40,26 @@ export class AuthGuard {
 }
 ```
 
-> info **Hint** If you are looking for a real-world example on how to implement an authentication mechanism in your application, visit [this chapter](/security/authentication). Likewise, for more sophisticated authorization example, check [this page](/security/authorization).
+> info **提示** 如果你正在寻找如何在应用程序中实现认证机制的实际示例，请访问[本章节](/security/authentication)。同样，关于更复杂的授权示例，请查看[此页面](/security/authorization)。
 
-The logic inside the `validateRequest()` function can be as simple or sophisticated as needed. The main point of this example is to show how guards fit into the request/response cycle.
+`validateRequest()` 函数内部的逻辑可以根据需要简单或复杂。此示例的主要目的是展示守卫如何融入请求/响应周期。
 
-Every guard must implement a `canActivate()` function. This function should return a boolean, indicating whether the current request is allowed or not. It can return the response either synchronously or asynchronously (via a `Promise` or `Observable`). Nest uses the return value to control the next action:
+每个守卫都必须实现一个 `canActivate()` 函数。此函数应返回一个布尔值，指示当前请求是否被允许。它可以同步或异步（通过 `Promise` 或 `Observable`）返回响应。Nest 使用返回值来控制下一步操作：
 
-- if it returns `true`, the request will be processed.
-- if it returns `false`, Nest will deny the request.
+- 如果返回 `true`，请求将被处理。
+- 如果返回 `false`，Nest 将拒绝该请求。
 
 <app-banner-enterprise></app-banner-enterprise>
 
-#### Execution context
+#### 执行上下文
 
-The `canActivate()` function takes a single argument, the `ExecutionContext` instance. The `ExecutionContext` inherits from `ArgumentsHost`. We saw `ArgumentsHost` previously in the exception filters chapter. In the sample above, we are just using the same helper methods defined on `ArgumentsHost` that we used earlier, to get a reference to the `Request` object. You can refer back to the **Arguments host** section of the [exception filters](https://docs.nestjs.com/exception-filters#arguments-host) chapter for more on this topic.
+`canActivate()` 函数接受一个参数，即 `ExecutionContext` 实例。`ExecutionContext` 继承自 `ArgumentsHost`。我们在异常过滤器章节中见过 `ArgumentsHost`。在上面的示例中，我们只是使用了之前在 `ArgumentsHost` 上定义的相同辅助方法，来获取对 `Request` 对象的引用。你可以参考[异常过滤器](https://docs.nestjs.com/exception-filters#arguments-host)章节中的 **Arguments host** 部分以了解更多关于此主题的内容。
 
-By extending `ArgumentsHost`, `ExecutionContext` also adds several new helper methods that provide additional details about the current execution process. These details can be helpful in building more generic guards that can work across a broad set of controllers, methods, and execution contexts. Learn more about `ExecutionContext` [here](/fundamentals/execution-context).
+通过扩展 `ArgumentsHost`，`ExecutionContext` 还添加了几个新的辅助方法，这些方法提供了关于当前执行过程的额外细节。这些细节有助于构建更通用的守卫，这些守卫可以跨广泛的控制器、方法和执行上下文工作。了解更多关于 `ExecutionContext` 的信息，请参见[这里](/fundamentals/execution-context)。
 
-#### Role-based authentication
+#### 基于角色的认证
 
-Let's build a more functional guard that permits access only to users with a specific role. We'll start with a basic guard template, and build on it in the coming sections. For now, it allows all requests to proceed:
+让我们构建一个功能更强大的守卫，它只允许具有特定角色的用户访问。我们将从一个基本的守卫模板开始，并在接下来的部分中逐步构建。目前，它允许所有请求继续：
 
 ```typescript
 @@filename(roles.guard)
@@ -85,9 +85,9 @@ export class RolesGuard {
 }
 ```
 
-#### Binding guards
+#### 绑定守卫
 
-Like pipes and exception filters, guards can be **controller-scoped**, method-scoped, or global-scoped. Below, we set up a controller-scoped guard using the `@UseGuards()` decorator. This decorator may take a single argument, or a comma-separated list of arguments. This lets you easily apply the appropriate set of guards with one declaration.
+与管道和异常过滤器类似，守卫可以是**控制器作用域**、方法作用域或全局作用域。下面，我们使用 `@UseGuards()` 装饰器设置了一个控制器作用域的守卫。此装饰器可以接受单个参数或逗号分隔的参数列表。这让你可以通过一个声明轻松应用适当的守卫集。
 
 ```typescript
 @@filename()
@@ -96,9 +96,9 @@ Like pipes and exception filters, guards can be **controller-scoped**, method-sc
 export class CatsController {}
 ```
 
-> info **Hint** The `@UseGuards()` decorator is imported from the `@nestjs/common` package.
+> info **提示** `@UseGuards()` 装饰器是从 `@nestjs/common` 包导入的。
 
-Above, we passed the `RolesGuard` class (instead of an instance), leaving responsibility for instantiation to the framework and enabling dependency injection. As with pipes and exception filters, we can also pass an in-place instance:
+上面，我们传递了 `RolesGuard` 类（而不是实例），将实例化的责任留给了框架，并启用了依赖注入。与管道和异常过滤器一样，我们也可以传递一个就地实例：
 
 ```typescript
 @@filename()
@@ -107,9 +107,9 @@ Above, we passed the `RolesGuard` class (instead of an instance), leaving respon
 export class CatsController {}
 ```
 
-The construction above attaches the guard to every handler declared by this controller. If we wish the guard to apply only to a single method, we apply the `@UseGuards()` decorator at the **method level**.
+上面的构造将守卫附加到此控制器声明的每个处理程序。如果我们希望守卫仅应用于单个方法，我们可以在**方法级别**应用 `@UseGuards()` 装饰器。
 
-In order to set up a global guard, use the `useGlobalGuards()` method of the Nest application instance:
+要设置全局守卫，请使用 Nest 应用程序实例的 `useGlobalGuards()` 方法：
 
 ```typescript
 @@filename()
@@ -117,9 +117,9 @@ const app = await NestFactory.create(AppModule);
 app.useGlobalGuards(new RolesGuard());
 ```
 
-> warning **Notice** In the case of hybrid apps the `useGlobalGuards()` method doesn't set up guards for gateways and microservices by default (see [Hybrid application](/faq/hybrid-application) for information on how to change this behavior). For "standard" (non-hybrid) microservice apps, `useGlobalGuards()` does mount the guards globally.
+> warning **注意** 对于混合应用，`useGlobalGuards()` 方法默认不会为网关和微服务设置守卫（有关如何更改此行为的信息，请参见[混合应用](/faq/hybrid-application)）。对于“标准”（非混合）微服务应用，`useGlobalGuards()` 会全局挂载守卫。
 
-Global guards are used across the whole application, for every controller and every route handler. In terms of dependency injection, global guards registered from outside of any module (with `useGlobalGuards()` as in the example above) cannot inject dependencies since this is done outside the context of any module. In order to solve this issue, you can set up a guard directly from any module using the following construction:
+全局守卫用于整个应用程序，针对每个控制器和每个路由处理程序。在依赖注入方面，从任何模块外部注册的全局守卫（如上面示例中的 `useGlobalGuards()`）无法注入依赖项，因为这是在任何模块的上下文之外完成的。为了解决这个问题，你可以使用以下构造直接从任何模块设置守卫：
 
 ```typescript
 @@filename(app.module)
@@ -137,18 +137,15 @@ import { APP_GUARD } from '@nestjs/core';
 export class AppModule {}
 ```
 
-> info **Hint** When using this approach to perform dependency injection for the guard, note that regardless of the
-> module where this construction is employed, the guard is, in fact, global. Where should this be done? Choose the module
-> where the guard (`RolesGuard` in the example above) is defined. Also, `useClass` is not the only way of dealing with
-> custom provider registration. Learn more [here](/fundamentals/custom-providers).
+> info **提示** 当使用这种方法为守卫执行依赖注入时，请注意，无论采用此构造的模块是哪个，守卫实际上都是全局的。应该在何处进行此操作？选择定义守卫的模块（如上例中的 `RolesGuard`）。此外，`useClass` 并不是处理自定义提供者注册的唯一方式。了解更多信息，请参见[这里](/fundamentals/custom-providers)。
 
-#### Setting roles per handler
+#### 为每个处理程序设置角色
 
-Our `RolesGuard` is working, but it's not very smart yet. We're not yet taking advantage of the most important guard feature - the [execution context](/fundamentals/execution-context). It doesn't yet know about roles, or which roles are allowed for each handler. The `CatsController`, for example, could have different permission schemes for different routes. Some might be available only for an admin user, and others could be open for everyone. How can we match roles to routes in a flexible and reusable way?
+我们的 `RolesGuard` 正在工作，但还不够智能。我们还没有利用守卫最重要的特性——[执行上下文](/fundamentals/execution-context)。它还不知道角色，也不知道每个处理程序允许哪些角色。例如，`CatsController` 可能为不同的路由设置不同的权限方案。有些可能仅对管理员用户可用，而其他可能对所有人开放。我们如何以灵活和可重用的方式将角色与路由匹配？
 
-This is where **custom metadata** comes into play (learn more [here](https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata)). Nest provides the ability to attach custom **metadata** to route handlers through either decorators created via `Reflector.createDecorator` static method, or the built-in `@SetMetadata()` decorator.
+这就是**自定义元数据**发挥作用的地方（了解更多[这里](https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata)）。Nest 提供了通过 `Reflector.createDecorator` 静态方法创建的装饰器或内置的 `@SetMetadata()` 装饰器，将自定义**元数据**附加到路由处理程序的能力。
 
-For example, let's create a `@Roles()` decorator using the `Reflector.createDecorator` method that will attach the metadata to the handler. `Reflector` is provided out of the box by the framework and exposed from the `@nestjs/core` package.
+例如，让我们使用 `Reflector.createDecorator` 方法创建一个 `@Roles()` 装饰器，该装饰器将元数据附加到处理程序。`Reflector` 由框架开箱即提供，并从 `@nestjs/core` 包中暴露。
 
 ```ts
 @@filename(roles.decorator)
@@ -157,9 +154,9 @@ import { Reflector } from '@nestjs/core';
 export const Roles = Reflector.createDecorator<string[]>();
 ```
 
-The `Roles` decorator here is a function that takes a single argument of type `string[]`.
+这里的 `Roles` 装饰器是一个函数，它接受一个类型为 `string[]` 的单个参数。
 
-Now, to use this decorator, we simply annotate the handler with it:
+现在，要使用此装饰器，我们只需用它注解处理程序：
 
 ```typescript
 @@filename(cats.controller)
@@ -177,13 +174,13 @@ async create(createCatDto) {
 }
 ```
 
-Here we've attached the `Roles` decorator metadata to the `create()` method, indicating that only users with the `admin` role should be allowed to access this route.
+这里我们将 `Roles` 装饰器元数据附加到 `create()` 方法，指示只有具有 `admin` 角色的用户才应被允许访问此路由。
 
-Alternatively, instead of using the `Reflector.createDecorator` method, we could use the built-in `@SetMetadata()` decorator. Learn more about [here](/fundamentals/execution-context#low-level-approach).
+或者，我们可以使用内置的 `@SetMetadata()` 装饰器，而不是 `Reflector.createDecorator` 方法。了解更多信息，请参见[这里](/fundamentals/execution-context#low-level-approach)。
 
-#### Putting it all together
+#### 完整实现
 
-Let's now go back and tie this together with our `RolesGuard`. Currently, it simply returns `true` in all cases, allowing every request to proceed. We want to make the return value conditional based on comparing the **roles assigned to the current user** to the actual roles required by the current route being processed. In order to access the route's role(s) (custom metadata), we'll use the `Reflector` helper class again, as follows:
+现在让我们回到 `RolesGuard` 并将所有内容整合起来。目前，它在所有情况下都简单地返回 `true`，允许每个请求继续。我们希望根据**分配给当前用户的角色**与当前正在处理的路由所需的实际角色进行比较，使返回值具有条件性。为了访问路由的角色（自定义元数据），我们将再次使用 `Reflector` 辅助类，如下所示：
 
 ```typescript
 @@filename(roles.guard)
@@ -229,13 +226,13 @@ export class RolesGuard {
 }
 ```
 
-> info **Hint** In the node.js world, it's common practice to attach the authorized user to the `request` object. Thus, in our sample code above, we are assuming that `request.user` contains the user instance and allowed roles. In your app, you will probably make that association in your custom **authentication guard** (or middleware). Check [this chapter](/security/authentication) for more information on this topic.
+> info **提示** 在 Node.js 世界中，通常会将授权用户附加到 `request` 对象。因此，在上面的示例代码中，我们假设 `request.user` 包含用户实例和允许的角色。在你的应用程序中，你可能会在自定义的**认证守卫**（或中间件）中建立这种关联。有关此主题的更多信息，请查看[本章节](/security/authentication)。
 
-> warning **Warning** The logic inside the `matchRoles()` function can be as simple or sophisticated as needed. The main point of this example is to show how guards fit into the request/response cycle.
+> warning **警告** `matchRoles()` 函数内部的逻辑可以根据需要简单或复杂。此示例的主要目的是展示守卫如何融入请求/响应周期。
 
-Refer to the <a href="https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata">Reflection and metadata</a> section of the **Execution context** chapter for more details on utilizing `Reflector` in a context-sensitive way.
+有关在上下文敏感的方式下利用 `Reflector` 的更多详细信息，请参考**执行上下文**章节中的<a href="https://docs.nestjs.com/fundamentals/execution-context#reflection-and-metadata">反射和元数据</a>部分。
 
-When a user with insufficient privileges requests an endpoint, Nest automatically returns the following response:
+当权限不足的用户请求端点时，Nest 会自动返回以下响应：
 
 ```typescript
 {
@@ -245,12 +242,12 @@ When a user with insufficient privileges requests an endpoint, Nest automaticall
 }
 ```
 
-Note that behind the scenes, when a guard returns `false`, the framework throws a `ForbiddenException`. If you want to return a different error response, you should throw your own specific exception. For example:
+请注意，在幕后，当守卫返回 `false` 时，框架会抛出 `ForbiddenException`。如果你想返回不同的错误响应，你应该抛出你自己的特定异常。例如：
 
 ```typescript
 throw new UnauthorizedException();
 ```
 
-Any exception thrown by a guard will be handled by the [exceptions layer](/exception-filters) (global exceptions filter and any exceptions filters that are applied to the current context).
+守卫抛出的任何异常都将由[异常层](/exception-filters)（全局异常过滤器和应用于当前上下文的任何异常过滤器）处理。
 
-> info **Hint** If you are looking for a real-world example on how to implement authorization, check [this chapter](/security/authorization).
+> info **提示** 如果你正在寻找如何实现授权的实际示例，请查看[本章节](/security/authorization)。

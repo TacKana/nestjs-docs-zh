@@ -1,29 +1,29 @@
-### Decorators
+### 装饰器（Decorators）
 
-All of the available OpenAPI decorators have an `Api` prefix to distinguish them from the core decorators. Below is a full list of the exported decorators along with a designation of the level at which the decorator may be applied.
+所有可用的 OpenAPI 装饰器都带有 `Api` 前缀，以便与核心装饰器区分。以下是导出的装饰器及其适用层级的完整列表。
 
 |                           |                     |
 | ------------------------- | ------------------- |
-| `@ApiBasicAuth()`         | Method / Controller |
-| `@ApiBearerAuth()`        | Method / Controller |
-| `@ApiBody()`              | Method              |
-| `@ApiConsumes()`          | Method / Controller |
-| `@ApiCookieAuth()`        | Method / Controller |
-| `@ApiExcludeController()` | Controller          |
-| `@ApiExcludeEndpoint()`   | Method              |
-| `@ApiExtension()`         | Method              |
-| `@ApiExtraModels()`       | Method / Controller |
-| `@ApiHeader()`            | Method / Controller |
-| `@ApiHideProperty()`      | Model               |
-| `@ApiOAuth2()`            | Method / Controller |
-| `@ApiOperation()`         | Method              |
-| `@ApiParam()`             | Method / Controller |
-| `@ApiProduces()`          | Method / Controller |
-| `@ApiSchema()`            | Model               |
-| `@ApiProperty()`          | Model               |
-| `@ApiPropertyOptional()`  | Model               |
-| `@ApiQuery()`             | Method / Controller |
-| `@ApiResponse()`          | Method / Controller |
-| `@ApiSecurity()`          | Method / Controller |
-| `@ApiTags()`              | Method / Controller |
-| `@ApiCallbacks()`         | Method / Controller |
+| `@ApiBasicAuth()`         | 方法 / 控制器       |
+| `@ApiBearerAuth()`        | 方法 / 控制器       |
+| `@ApiBody()`              | 方法                |
+| `@ApiConsumes()`          | 方法 / 控制器       |
+| `@ApiCookieAuth()`        | 方法 / 控制器       |
+| `@ApiExcludeController()` | 控制器              |
+| `@ApiExcludeEndpoint()`   | 方法                |
+| `@ApiExtension()`         | 方法                |
+| `@ApiExtraModels()`       | 方法 / 控制器       |
+| `@ApiHeader()`            | 方法 / 控制器       |
+| `@ApiHideProperty()`      | 模型                |
+| `@ApiOAuth2()`            | 方法 / 控制器       |
+| `@ApiOperation()`         | 方法                |
+| `@ApiParam()`             | 方法 / 控制器       |
+| `@ApiProduces()`          | 方法 / 控制器       |
+| `@ApiSchema()`            | 模型                |
+| `@ApiProperty()`          | 模型                |
+| `@ApiPropertyOptional()`  | 模型                |
+| `@ApiQuery()`             | 方法 / 控制器       |
+| `@ApiResponse()`          | 方法 / 控制器       |
+| `@ApiSecurity()`          | 方法 / 控制器       |
+| `@ApiTags()`              | 方法 / 控制器       |
+| `@ApiCallbacks()`         | 方法 / 控制器       |

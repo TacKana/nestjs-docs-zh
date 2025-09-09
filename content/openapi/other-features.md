@@ -1,10 +1,10 @@
-### Other features
+### 其他功能
 
-This page lists all the other available features that you may find useful.
+此页面列出了您可能会发现有用的其他可用功能。
 
-#### Global prefix
+#### 全局前缀
 
-To ignore a global prefix for routes set through `setGlobalPrefix()`, use `ignoreGlobalPrefix`:
+若要忽略通过 `setGlobalPrefix()` 设置的全局前缀，请使用 `ignoreGlobalPrefix`：
 
 ```typescript
 const document = SwaggerModule.createDocument(app, options, {
@@ -12,9 +12,9 @@ const document = SwaggerModule.createDocument(app, options, {
 });
 ```
 
-#### Global parameters
+#### 全局参数
 
-You can define parameters for all routes using `DocumentBuilder`, as shown below:
+您可以使用 `DocumentBuilder` 为所有路由定义参数，如下所示：
 
 ```typescript
 const config = new DocumentBuilder()
@@ -22,31 +22,31 @@ const config = new DocumentBuilder()
     name: 'tenantId',
     in: 'header',
   })
-  // other configurations
+  // 其他配置
   .build();
 ```
 
-#### Global responses
+#### 全局响应
 
-You can define global responses for all routes using `DocumentBuilder`. This is useful for setting up consistent responses across all endpoints in your application, such as error codes like `401 Unauthorized` or `500 Internal Server Error`.
+您可以使用 `DocumentBuilder` 为所有路由定义全局响应。这有助于为应用程序中的所有端点设置一致的响应，例如 `401 Unauthorized` 或 `500 Internal Server Error` 等错误代码。
 
 ```typescript
 const config = new DocumentBuilder()
   .addGlobalResponse({
     status: 500,
-    description: 'Internal server error',
+    description: '内部服务器错误',
   })
-  // other configurations
+  // 其他配置
   .build();
 ```
 
-#### Multiple specifications
+#### 多规格支持
 
-The `SwaggerModule` provides a way to support multiple specifications. In other words, you can serve different documentation, with different UIs, on different endpoints.
+`SwaggerModule` 提供了支持多个规格的方式。换句话说，您可以在不同的端点上提供不同的文档和不同的用户界面。
 
-To support multiple specifications, your application must be written with a modular approach. The `createDocument()` method takes a 3rd argument, `extraOptions`, which is an object with a property named `include`. The `include` property takes a value which is an array of modules.
+要支持多个规格，您的应用程序必须采用模块化方法编写。`createDocument()` 方法接受第三个参数 `extraOptions`，它是一个包含名为 `include` 的属性的对象。`include` 属性接受一个模块数组作为值。
 
-You can setup multiple specifications support as shown below:
+您可以如下设置多个规格支持：
 
 ```typescript
 import { NestFactory } from '@nestjs/core';
@@ -61,16 +61,16 @@ async function bootstrap() {
   /**
    * createDocument(application, configurationOptions, extraOptions);
    *
-   * createDocument method takes an optional 3rd argument "extraOptions"
-   * which is an object with "include" property where you can pass an Array
-   * of Modules that you want to include in that Swagger Specification
-   * E.g: CatsModule and DogsModule will have two separate Swagger Specifications which
-   * will be exposed on two different SwaggerUI with two different endpoints.
+   * createDocument 方法接受一个可选的第三个参数 "extraOptions"，
+   * 它是一个包含 "include" 属性的对象，您可以在其中传递一个模块数组，
+   * 这些模块将被包含在该 Swagger 规格中。
+   * 例如：CatsModule 和 DogsModule 将有两个独立的 Swagger 规格，
+   * 它们将在两个不同的端点上暴露两个不同的 SwaggerUI。
    */
 
   const options = new DocumentBuilder()
-    .setTitle('Cats example')
-    .setDescription('The cats API description')
+    .setTitle('猫咪示例')
+    .setDescription('猫咪 API 描述')
     .setVersion('1.0')
     .addTag('cats')
     .build();
@@ -82,8 +82,8 @@ async function bootstrap() {
   SwaggerModule.setup('api/cats', app, catDocumentFactory);
 
   const secondOptions = new DocumentBuilder()
-    .setTitle('Dogs example')
-    .setDescription('The dogs API description')
+    .setTitle('狗狗示例')
+    .setDescription('狗狗 API 描述')
     .setVersion('1.0')
     .addTag('dogs')
     .build();
@@ -99,27 +99,27 @@ async function bootstrap() {
 bootstrap();
 ```
 
-Now you can start your server with the following command:
+现在，您可以使用以下命令启动服务器：
 
 ```bash
 $ npm run start
 ```
 
-Navigate to `http://localhost:3000/api/cats` to see the Swagger UI for cats:
+导航至 `http://localhost:3000/api/cats` 查看猫咪的 Swagger 界面：
 
 <figure><img src="/assets/swagger-cats.png" /></figure>
 
-In turn, `http://localhost:3000/api/dogs` will expose the Swagger UI for dogs:
+而 `http://localhost:3000/api/dogs` 将暴露狗狗的 Swagger 界面：
 
 <figure><img src="/assets/swagger-dogs.png" /></figure>
 
-#### Dropdown in the explorer bar
+#### 探索栏中的下拉菜单
 
-To enable support for multiple specifications in the dropdown menu of the explorer bar, you'll need to set `explorer: true` and configure `swaggerOptions.urls` in your `SwaggerCustomOptions`.
+要在探索栏的下拉菜单中启用多规格支持，您需要在 `SwaggerCustomOptions` 中设置 `explorer: true` 并配置 `swaggerOptions.urls`。
 
-> info **Hint** Ensure that `swaggerOptions.urls` points to the JSON format of your Swagger documents! To specify the JSON document, use `jsonDocumentUrl` within `SwaggerCustomOptions`. For more setup options, check [here](/openapi/introduction#setup-options).
+> info **提示** 确保 `swaggerOptions.urls` 指向您的 Swagger 文档的 JSON 格式！要指定 JSON 文档，请在 `SwaggerCustomOptions` 中使用 `jsonDocumentUrl`。有关更多设置选项，请查看[此处](/openapi/introduction#setup-options)。
 
-Here’s how to set up multiple specifications from a dropdown in the explorer bar:
+以下是如何从探索栏的下拉菜单中设置多个规格的方法：
 
 ```typescript
 import { NestFactory } from '@nestjs/core';
@@ -131,17 +131,17 @@ import { DogsModule } from './dogs/dogs.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // Main API options
+  // 主 API 选项
   const options = new DocumentBuilder()
-    .setTitle('Multiple Specifications Example')
-    .setDescription('Description for multiple specifications')
+    .setTitle('多规格示例')
+    .setDescription('多规格描述')
     .setVersion('1.0')
     .build();
 
-  // Create main API document
+  // 创建主 API 文档
   const document = SwaggerModule.createDocument(app, options);
 
-  // Setup main API Swagger UI with dropdown support
+  // 设置主 API Swagger UI 并支持下拉菜单
   SwaggerModule.setup('api', app, document, {
     explorer: true,
     swaggerOptions: {
@@ -163,38 +163,38 @@ async function bootstrap() {
     jsonDocumentUrl: '/api/swagger.json',
   });
 
-  // Cats API options
+  // 猫咪 API 选项
   const catOptions = new DocumentBuilder()
-    .setTitle('Cats Example')
-    .setDescription('Description for the Cats API')
+    .setTitle('猫咪示例')
+    .setDescription('猫咪 API 描述')
     .setVersion('1.0')
     .addTag('cats')
     .build();
 
-  // Create Cats API document
+  // 创建猫咪 API 文档
   const catDocument = SwaggerModule.createDocument(app, catOptions, {
     include: [CatsModule],
   });
 
-  // Setup Cats API Swagger UI
+  // 设置猫咪 API Swagger UI
   SwaggerModule.setup('api/cats', app, catDocument, {
     jsonDocumentUrl: '/api/cats/swagger.json',
   });
 
-  // Dogs API options
+  // 狗狗 API 选项
   const dogOptions = new DocumentBuilder()
-    .setTitle('Dogs Example')
-    .setDescription('Description for the Dogs API')
+    .setTitle('狗狗示例')
+    .setDescription('狗狗 API 描述')
     .setVersion('1.0')
     .addTag('dogs')
     .build();
 
-  // Create Dogs API document
+  // 创建狗狗 API 文档
   const dogDocument = SwaggerModule.createDocument(app, dogOptions, {
     include: [DogsModule],
   });
 
-  // Setup Dogs API Swagger UI
+  // 设置狗狗 API Swagger UI
   SwaggerModule.setup('api/dogs', app, dogDocument, {
     jsonDocumentUrl: '/api/dogs/swagger.json',
   });
@@ -205,4 +205,4 @@ async function bootstrap() {
 bootstrap();
 ```
 
-In this example, we set up a main API along with separate specifications for Cats and Dogs, each accessible from the dropdown in the explorer bar.
+在此示例中，我们设置了一个主 API 以及猫咪和狗狗的独立规格，每个都可以从探索栏的下拉菜单中访问。

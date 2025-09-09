@@ -1,11 +1,8 @@
 <div class="newsletter-wrapper">
   <div class="signup">
     <div class="hgroup">
-      <h3>Join our Newsletter</h3>
-      <p>
-        Subscribe to stay up to date with the latest Nest updates, features, and
-        videos!
-      </p>
+      <h3>订阅我们的新闻通讯</h3>
+      <p>订阅以获取最新的 Nest 更新、功能和视频资讯！</p>
     </div>
     <div class="newsletter-form">
       <form
@@ -17,7 +14,7 @@
           class="form-control"
           name="email"
           type="email"
-          placeholder="Email address.."
+          placeholder="请输入邮箱地址.."
           required
           [disabled]="isDisabled"
           #email
@@ -25,7 +22,7 @@
         <button
           type="submit"
           class="signup-button"
-          aria-label="Signup to Newsletter"
+          aria-label="订阅新闻通讯"
           [disabled]="isDisabled"
           [class.btn-success]="isEmailAdded"
         >

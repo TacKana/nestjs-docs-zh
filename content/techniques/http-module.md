@@ -1,20 +1,20 @@
-### HTTP module
+### HTTP 模块
 
-[Axios](https://github.com/axios/axios) is a richly featured HTTP client package that is widely used. Nest wraps Axios and exposes it via the built-in `HttpModule`. The `HttpModule` exports the `HttpService` class, which exposes Axios-based methods to perform HTTP requests. The library also transforms the resulting HTTP responses into `Observables`.
+[Axios](https://github.com/axios/axios) 是一款功能丰富的 HTTP 客户端包，被广泛使用。Nest 对 Axios 进行了封装，并通过内置的 `HttpModule` 将其暴露出来。`HttpModule` 导出了 `HttpService` 类，该类提供了基于 Axios 的方法来执行 HTTP 请求。该库还将最终的 HTTP 响应转换为 `Observable` 对象。
 
-> info **Hint** You can also use any general purpose Node.js HTTP client library directly, including [got](https://github.com/sindresorhus/got) or [undici](https://github.com/nodejs/undici).
+> info **提示** 你也可以直接使用任何通用的 Node.js HTTP 客户端库，包括 [got](https://github.com/sindresus/got) 或 [undici](https://github.com/nodejs/undici)。
 
-#### Installation
+#### 安装
 
-To begin using it, we first install required dependencies.
+要开始使用，我们首先需要安装必要的依赖。
 
 ```bash
 $ npm i --save @nestjs/axios axios
 ```
 
-#### Getting started
+#### 快速开始
 
-Once the installation process is complete, to use the `HttpService`, first import `HttpModule`.
+安装过程完成后，要使用 `HttpService`，首先导入 `HttpModule`。
 
 ```typescript
 @Module({
@@ -24,9 +24,9 @@ Once the installation process is complete, to use the `HttpService`, first impor
 export class CatsModule {}
 ```
 
-Next, inject `HttpService` using normal constructor injection.
+接下来，使用常规的构造函数注入方式注入 `HttpService`。
 
-> info **Hint** `HttpModule` and `HttpService` are imported from `@nestjs/axios` package.
+> info **提示** `HttpModule` 和 `HttpService` 是从 `@nestjs/axios` 包中导入的。
 
 ```typescript
 @@filename()
@@ -52,13 +52,13 @@ export class CatsService {
 }
 ```
 
-> info **Hint** `AxiosResponse` is an interface exported from the `axios` package (`$ npm i axios`).
+> info **提示** `AxiosResponse` 是从 `axios` 包（`$ npm i axios`）导出的接口。
 
-All `HttpService` methods return an `AxiosResponse` wrapped in an `Observable` object.
+所有 `HttpService` 方法都返回一个包装在 `Observable` 对象中的 `AxiosResponse`。
 
-#### Configuration
+#### 配置
 
-[Axios](https://github.com/axios/axios) can be configured with a variety of options to customize the behavior of the `HttpService`. Read more about them [here](https://github.com/axios/axios#request-config). To configure the underlying Axios instance, pass an optional options object to the `register()` method of `HttpModule` when importing it. This options object will be passed directly to the underlying Axios constructor.
+[Axios](https://github.com/axios/axios) 可以通过多种选项进行配置，以定制 `HttpService` 的行为。在[此处](https://github.com/axios/axios#request-config)阅读更多相关信息。要配置底层的 Axios 实例，在导入 `HttpModule` 时，将一个可选的选项对象传递给 `HttpModule` 的 `register()` 方法。这个选项对象将直接传递给底层的 Axios 构造函数。
 
 ```typescript
 @Module({
@@ -73,11 +73,11 @@ All `HttpService` methods return an `AxiosResponse` wrapped in an `Observable` o
 export class CatsModule {}
 ```
 
-#### Async configuration
+#### 异步配置
 
-When you need to pass module options asynchronously instead of statically, use the `registerAsync()` method. As with most dynamic modules, Nest provides several techniques to deal with async configuration.
+当你需要异步传递模块选项而不是静态传递时，使用 `registerAsync()` 方法。与大多数动态模块一样，Nest 提供了几种处理异步配置的技术。
 
-One technique is to use a factory function:
+一种技术是使用工厂函数：
 
 ```typescript
 HttpModule.registerAsync({
@@ -88,7 +88,7 @@ HttpModule.registerAsync({
 });
 ```
 
-Like other factory providers, our factory function can be [async](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory) and can inject dependencies through `inject`.
+与其他工厂提供者一样，我们的工厂函数可以是[异步的](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory)，并且可以通过 `inject` 注入依赖。
 
 ```typescript
 HttpModule.registerAsync({
@@ -101,7 +101,7 @@ HttpModule.registerAsync({
 });
 ```
 
-Alternatively, you can configure the `HttpModule` using a class instead of a factory, as shown below.
+或者，你可以使用类而不是工厂来配置 `HttpModule`，如下所示。
 
 ```typescript
 HttpModule.registerAsync({
@@ -109,7 +109,7 @@ HttpModule.registerAsync({
 });
 ```
 
-The construction above instantiates `HttpConfigService` inside `HttpModule`, using it to create an options object. Note that in this example, the `HttpConfigService` has to implement `HttpModuleOptionsFactory` interface as shown below. The `HttpModule` will call the `createHttpOptions()` method on the instantiated object of the supplied class.
+上述结构在 `HttpModule` 内部实例化 `HttpConfigService`，并使用它来创建选项对象。请注意，在此示例中，`HttpConfigService` 必须实现 `HttpModuleOptionsFactory` 接口，如下所示。`HttpModule` 将在提供的类的实例化对象上调用 `createHttpOptions()` 方法。
 
 ```typescript
 @Injectable()
@@ -123,7 +123,7 @@ class HttpConfigService implements HttpModuleOptionsFactory {
 }
 ```
 
-If you want to reuse an existing options provider instead of creating a private copy inside the `HttpModule`, use the `useExisting` syntax.
+如果你希望重用现有的选项提供者，而不是在 `HttpModule` 内部创建私有副本，请使用 `useExisting` 语法。
 
 ```typescript
 HttpModule.registerAsync({
@@ -132,7 +132,7 @@ HttpModule.registerAsync({
 });
 ```
 
-You can also pass so-called `extraProviders` to the `registerAsync()` method. These providers will be merged with the module providers.
+你还可以向 `registerAsync()` 方法传递所谓的 `extraProviders`。这些提供者将与模块提供者合并。
 
 ```typescript
 HttpModule.registerAsync({
@@ -142,11 +142,11 @@ HttpModule.registerAsync({
 });
 ```
 
-This is useful when you want to provide additional dependencies to the factory function or the class constructor.
+当你希望向工厂函数或类构造函数提供额外的依赖项时，这非常有用。
 
-#### Using Axios directly
+#### 直接使用 Axios
 
-If you think that `HttpModule.register`'s options are not enough for you, or if you just want to access the underlying Axios instance created by `@nestjs/axios`, you can access it via `HttpService#axiosRef` as follows:
+如果你认为 `HttpModule.register` 的选项对你来说不够用，或者你只是想访问由 `@nestjs/axios` 创建的底层 Axios 实例，你可以通过 `HttpService#axiosRef` 来访问它，如下所示：
 
 ```typescript
 @Injectable()
@@ -160,9 +160,9 @@ export class CatsService {
 }
 ```
 
-#### Full example
+#### 完整示例
 
-Since the return value of the `HttpService` methods is an Observable, we can use `rxjs` - `firstValueFrom` or `lastValueFrom` to retrieve the data of the request in the form of a promise.
+由于 `HttpService` 方法的返回值是一个 Observable，我们可以使用 `rxjs` 的 `firstValueFrom` 或 `lastValueFrom` 来以 Promise 的形式获取请求的数据。
 
 ```typescript
 import { catchError, firstValueFrom } from 'rxjs';
@@ -186,4 +186,4 @@ export class CatsService {
 }
 ```
 
-> info **Hint** Visit RxJS's documentation on [`firstValueFrom`](https://rxjs.dev/api/index/function/firstValueFrom) and [`lastValueFrom`](https://rxjs.dev/api/index/function/lastValueFrom) for differences between them.
+> info **提示** 访问 RxJS 关于 [`firstValueFrom`](https://rxjs.dev/api/index/function/firstValueFrom) 和 [`lastValueFrom`](https://rxjs.dev/api/index/function/lastValueFrom) 的文档，了解它们之间的区别。

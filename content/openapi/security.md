@@ -1,6 +1,6 @@
-### Security
+### 安全配置
 
-To define which security mechanisms should be used for a specific operation, use the `@ApiSecurity()` decorator.
+要为特定操作定义应使用的安全机制，请使用 `@ApiSecurity()` 装饰器。
 
 ```typescript
 @ApiSecurity('basic')
@@ -8,7 +8,7 @@ To define which security mechanisms should be used for a specific operation, use
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+在运行应用程序之前，记得使用 `DocumentBuilder` 将安全定义添加到基础文档中：
 
 ```typescript
 const options = new DocumentBuilder().addSecurity('basic', {
@@ -17,11 +17,11 @@ const options = new DocumentBuilder().addSecurity('basic', {
 });
 ```
 
-Some of the most popular authentication techniques are built-in (e.g., `basic` and `bearer`) and therefore you don't have to define security mechanisms manually as shown above.
+一些最常见的认证技术已内置（例如 `basic` 和 `bearer`），因此您无需像上面那样手动定义安全机制。
 
-#### Basic authentication
+#### 基础认证
 
-To enable basic authentication, use `@ApiBasicAuth()`.
+要启用基础认证，请使用 `@ApiBasicAuth()`。
 
 ```typescript
 @ApiBasicAuth()
@@ -29,15 +29,15 @@ To enable basic authentication, use `@ApiBasicAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+在运行应用程序之前，记得使用 `DocumentBuilder` 将安全定义添加到基础文档中：
 
 ```typescript
 const options = new DocumentBuilder().addBasicAuth();
 ```
 
-#### Bearer authentication
+#### Bearer 认证
 
-To enable bearer authentication, use `@ApiBearerAuth()`.
+要启用 Bearer 认证，请使用 `@ApiBearerAuth()`。
 
 ```typescript
 @ApiBearerAuth()
@@ -45,15 +45,15 @@ To enable bearer authentication, use `@ApiBearerAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+在运行应用程序之前，记得使用 `DocumentBuilder` 将安全定义添加到基础文档中：
 
 ```typescript
 const options = new DocumentBuilder().addBearerAuth();
 ```
 
-#### OAuth2 authentication
+#### OAuth2 认证
 
-To enable OAuth2, use `@ApiOAuth2()`.
+要启用 OAuth2，请使用 `@ApiOAuth2()`。
 
 ```typescript
 @ApiOAuth2(['pets:write'])
@@ -61,15 +61,15 @@ To enable OAuth2, use `@ApiOAuth2()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+在运行应用程序之前，记得使用 `DocumentBuilder` 将安全定义添加到基础文档中：
 
 ```typescript
 const options = new DocumentBuilder().addOAuth2();
 ```
 
-#### Cookie authentication
+#### Cookie 认证
 
-To enable cookie authentication, use `@ApiCookieAuth()`.
+要启用 Cookie 认证，请使用 `@ApiCookieAuth()`。
 
 ```typescript
 @ApiCookieAuth()
@@ -77,7 +77,7 @@ To enable cookie authentication, use `@ApiCookieAuth()`.
 export class CatsController {}
 ```
 
-Before you run your application, remember to add the security definition to your base document using `DocumentBuilder`:
+在运行应用程序之前，记得使用 `DocumentBuilder` 将安全定义添加到基础文档中：
 
 ```typescript
 const options = new DocumentBuilder().addCookieAuth('optional-session-id');

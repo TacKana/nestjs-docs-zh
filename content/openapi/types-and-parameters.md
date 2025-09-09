@@ -1,6 +1,6 @@
-### Types and parameters
+### 类型与参数
 
-The `SwaggerModule` searches for all `@Body()`, `@Query()`, and `@Param()` decorators in route handlers to generate the API document. It also creates corresponding model definitions by taking advantage of reflection. Consider the following code:
+`SwaggerModule` 会搜索路由处理器中的所有 `@Body()`、`@Query()` 和 `@Param()` 装饰器，从而生成 API 文档。同时，它还会利用反射机制创建相应的模型定义。请看以下代码：
 
 ```typescript
 @Post()
@@ -9,13 +9,13 @@ async create(@Body() createCatDto: CreateCatDto) {
 }
 ```
 
-> info **Hint** To explicitly set the body definition use the `@ApiBody()` decorator (imported from the `@nestjs/swagger` package).
+> info **提示** 要显式设置请求体定义，请使用 `@ApiBody()` 装饰器（从 `@nestjs/swagger` 包导入）。
 
-Based on the `CreateCatDto`, the following model definition Swagger UI will be created:
+基于 `CreateCatDto`，Swagger UI 将创建如下模型定义：
 
 <figure><img src="/assets/swagger-dto.png" /></figure>
 
-As you can see, the definition is empty although the class has a few declared properties. In order to make the class properties visible to the `SwaggerModule`, we have to either annotate them with the `@ApiProperty()` decorator or use the CLI plugin (read more in the **Plugin** section) which will do it automatically:
+如你所见，尽管该类有一些已声明的属性，但定义却是空的。为了让 `SwaggerModule` 能够识别这些类属性，我们必须使用 `@ApiProperty()` 装饰器对它们进行标注，或者使用 CLI 插件（详见**插件**部分）自动完成：
 
 ```typescript
 import { ApiProperty } from '@nestjs/swagger';
@@ -32,26 +32,26 @@ export class CreateCatDto {
 }
 ```
 
-> info **Hint** Instead of manually annotating each property, consider using the Swagger plugin (see [Plugin](/openapi/cli-plugin) section) which will automatically provide this for you.
+> info **提示** 与其手动标注每个属性，不如考虑使用 Swagger 插件（参见[插件](/openapi/cli-plugin)部分），它会自动为你完成这项工作。
 
-Let's open the browser and verify the generated `CreateCatDto` model:
+让我们打开浏览器，验证生成的 `CreateCatDto` 模型：
 
 <figure><img src="/assets/swagger-dto2.png" /></figure>
 
-In addition, the `@ApiProperty()` decorator allows setting various [Schema Object](https://swagger.io/specification/#schemaObject) properties:
+此外，`@ApiProperty()` 装饰器允许设置各种[模式对象](https://swagger.io/specification/#schemaObject)属性：
 
 ```typescript
 @ApiProperty({
-  description: 'The age of a cat',
+  description: '猫的年龄',
   minimum: 1,
   default: 1,
 })
 age: number;
 ```
 
-> info **Hint** Instead of explicitly typing the `{{"@ApiProperty({ required: false })"}}` you can use the `@ApiPropertyOptional()` short-hand decorator.
+> info **提示** 除了显式输入 `{{"@ApiProperty({ required: false })"}}`，你还可以使用简写的 `@ApiPropertyOptional()` 装饰器。
 
-In order to explicitly set the type of the property, use the `type` key:
+要显式设置属性类型，请使用 `type` 键：
 
 ```typescript
 @ApiProperty({
@@ -60,57 +60,57 @@ In order to explicitly set the type of the property, use the `type` key:
 age: number;
 ```
 
-#### Arrays
+#### 数组
 
-When the property is an array, we must manually indicate the array type as shown below:
+当属性是数组时，我们必须手动指明数组类型，如下所示：
 
 ```typescript
 @ApiProperty({ type: [String] })
 names: string[];
 ```
 
-> info **Hint** Consider using the Swagger plugin (see [Plugin](/openapi/cli-plugin) section) which will automatically detect arrays.
+> info **提示** 考虑使用 Swagger 插件（参见[插件](/openapi/cli-plugin)部分），它会自动检测数组。
 
-Either include the type as the first element of an array (as shown above) or set the `isArray` property to `true`.
+你可以将类型作为数组的第一个元素（如上所示），或者将 `isArray` 属性设为 `true`。
 
 <app-banner-enterprise></app-banner-enterprise>
 
-#### Circular dependencies
+#### 循环依赖
 
-When you have circular dependencies between classes, use a lazy function to provide the `SwaggerModule` with type information:
+当类之间存在循环依赖时，使用惰性函数为 `SwaggerModule` 提供类型信息：
 
 ```typescript
 @ApiProperty({ type: () => Node })
 node: Node;
 ```
 
-> info **Hint** Consider using the Swagger plugin (see [Plugin](/openapi/cli-plugin) section) which will automatically detect circular dependencies.
+> info **提示** 考虑使用 Swagger 插件（参见[插件](/openapi/cli-plugin)部分），它会自动检测循环依赖。
 
-#### Generics and interfaces
+#### 泛型与接口
 
-Since TypeScript does not store metadata about generics or interfaces, when you use them in your DTOs, `SwaggerModule` may not be able to properly generate model definitions at runtime. For instance, the following code won't be correctly inspected by the Swagger module:
+由于 TypeScript 不存储关于泛型或接口的元数据，当你在 DTO 中使用它们时，`SwaggerModule` 可能无法在运行时正确生成模型定义。例如，以下代码不会被 Swagger 模块正确检查：
 
 ```typescript
 createBulk(@Body() usersDto: CreateUserDto[])
 ```
 
-In order to overcome this limitation, you can set the type explicitly:
+为了克服这一限制，你可以显式设置类型：
 
 ```typescript
 @ApiBody({ type: [CreateUserDto] })
 createBulk(@Body() usersDto: CreateUserDto[])
 ```
 
-#### Enums
+#### 枚举
 
-To identify an `enum`, we must manually set the `enum` property on the `@ApiProperty` with an array of values.
+要标识一个 `enum`，我们必须手动在 `@ApiProperty` 上设置 `enum` 属性，并提供一个值数组。
 
 ```typescript
 @ApiProperty({ enum: ['Admin', 'Moderator', 'User']})
 role: UserRole;
 ```
 
-Alternatively, define an actual TypeScript enum as follows:
+或者，如下定义一个实际的 TypeScript 枚举：
 
 ```typescript
 export enum UserRole {
@@ -120,7 +120,7 @@ export enum UserRole {
 }
 ```
 
-You can then use the enum directly with the `@Query()` parameter decorator in combination with the `@ApiQuery()` decorator.
+然后，你可以直接在 `@Query()` 参数装饰器中结合 `@ApiQuery()` 装饰器使用该枚举。
 
 ```typescript
 @ApiQuery({ name: 'role', enum: UserRole })
@@ -129,13 +129,13 @@ async filterByRole(@Query('role') role: UserRole = UserRole.User) {}
 
 <figure><img src="/assets/enum_query.gif" /></figure>
 
-With `isArray` set to **true**, the `enum` can be selected as a **multi-select**:
+将 `isArray` 设为 **true** 时，`enum` 可以作为**多选**进行选择：
 
 <figure><img src="/assets/enum_query_array.gif" /></figure>
 
-#### Enums schema
+#### 枚举模式
 
-By default, the `enum` property will add a raw definition of [Enum](https://swagger.io/docs/specification/data-models/enums/) on the `parameter`.
+默认情况下，`enum` 属性会在 `parameter` 上添加一个原始的[枚举](https://swagger.io/docs/specification/data-models/enums/)定义。
 
 ```yaml
 - breed:
@@ -146,10 +146,10 @@ By default, the `enum` property will add a raw definition of [Enum](https://swag
       - Siamese
 ```
 
-The above specification works fine for most cases. However, if you are utilizing a tool that takes the specification as **input** and generates **client-side** code, you might run into a problem with the generated code containing duplicated `enums`. Consider the following code snippet:
+上述规范在大多数情况下工作良好。但是，如果你使用一个将规范作为**输入**并生成**客户端**代码的工具，可能会遇到生成的代码包含重复 `enums` 的问题。考虑以下代码片段：
 
 ```typescript
-// generated client-side code
+// 生成的客户端代码
 export class CatDetail {
   breed: CatDetailEnum;
 }
@@ -171,10 +171,9 @@ export enum CatInformationEnum {
 }
 ```
 
-> info **Hint** The above snippet is generated using a tool called [NSwag](https://github.com/RicoSuter/NSwag).
+> info **提示** 以上片段是使用名为 [NSwag](https://github.com/RicoSuter/NSwag) 的工具生成的。
 
-You can see that now you have two `enums` that are exactly the same.
-To address this issue, you can pass an `enumName` along with the `enum` property in your decorator.
+你可以看到现在有两个完全相同的 `enums`。为了解决这个问题，你可以在装饰器的 `enum` 属性旁边传递一个 `enumName`。
 
 ```typescript
 export class CatDetail {
@@ -183,7 +182,7 @@ export class CatDetail {
 }
 ```
 
-The `enumName` property enables `@nestjs/swagger` to turn `CatBreed` into its own `schema` which in turns makes `CatBreed` enum reusable. The specification will look like the following:
+`enumName` 属性使 `@nestjs/swagger` 能够将 `CatBreed` 转换为自己的 `schema`，从而使 `CatBreed` 枚举可重用。规范将如下所示：
 
 ```yaml
 CatDetail:
@@ -201,11 +200,11 @@ CatBreed:
     - Siamese
 ```
 
-> info **Hint** Any **decorator** that takes `enum` as a property will also take `enumName`.
+> info **提示** 任何接受 `enum` 作为属性的**装饰器**也会接受 `enumName`。
 
-#### Property value examples
+#### 属性值示例
 
-You can set a single example for a property by using the `example` key, like this:
+你可以使用 `example` 键为属性设置单个示例，如下所示：
 
 ```typescript
 @ApiProperty({
@@ -214,7 +213,7 @@ You can set a single example for a property by using the `example` key, like thi
 breed: string;
 ```
 
-If you want to provide multiple examples, you can use the `examples` key by passing in an object structured like this:
+如果你想提供多个示例，可以使用 `examples` 键，传入一个结构如下的对象：
 
 ```typescript
 @ApiProperty({
@@ -228,9 +227,9 @@ If you want to provide multiple examples, you can use the `examples` key by pass
 breed: string;
 ```
 
-#### Raw definitions
+#### 原始定义
 
-In certain cases, such as deeply nested arrays or matrices, you may need to manually define your type:
+在某些情况下，例如深层嵌套的数组或矩阵，你可能需要手动定义类型：
 
 ```typescript
 @ApiProperty({
@@ -245,7 +244,7 @@ In certain cases, such as deeply nested arrays or matrices, you may need to manu
 coords: number[][];
 ```
 
-You can also specify raw object schemas, like this:
+你也可以指定原始对象模式，如下所示：
 
 ```typescript
 @ApiProperty({
@@ -265,7 +264,7 @@ You can also specify raw object schemas, like this:
 rawDefinition: Record<string, any>;
 ```
 
-To manually define input/output content in controller classes, use the `schema` property:
+要在控制器类中手动定义输入/输出内容，请使用 `schema` 属性：
 
 ```typescript
 @ApiBody({
@@ -282,18 +281,18 @@ To manually define input/output content in controller classes, use the `schema` 
 async create(@Body() coords: number[][]) {}
 ```
 
-#### Extra models
+#### 额外模型
 
-To define additional models that are not directly referenced in your controllers but should be inspected by the Swagger module, use the `@ApiExtraModels()` decorator:
+要定义那些未直接在控制器中引用但应由 Swagger 模块检查的额外模型，请使用 `@ApiExtraModels()` 装饰器：
 
 ```typescript
 @ApiExtraModels(ExtraModel)
 export class CreateCatDto {}
 ```
 
-> info **Hint** You only need to use `@ApiExtraModels()` once for a specific model class.
+> info **提示** 对于特定的模型类，你只需要使用一次 `@ApiExtraModels()`。
 
-Alternatively, you can pass an options object with the `extraModels` property specified to the `SwaggerModule.createDocument()` method, as follows:
+或者，你可以将一个包含 `extraModels` 属性的选项对象传递给 `SwaggerModule.createDocument()` 方法，如下所示：
 
 ```typescript
 const documentFactory = () =>
@@ -302,7 +301,7 @@ const documentFactory = () =>
   });
 ```
 
-To get a reference (`$ref`) to your model, use the `getSchemaPath(ExtraModel)` function:
+要获取对模型的引用（`$ref`），请使用 `getSchemaPath(ExtraModel)` 函数：
 
 ```typescript
 'application/vnd.api+json': {
@@ -310,9 +309,9 @@ To get a reference (`$ref`) to your model, use the `getSchemaPath(ExtraModel)` f
 },
 ```
 
-#### oneOf, anyOf, allOf
+#### oneOf、anyOf、allOf
 
-To combine schemas, you can use the `oneOf`, `anyOf` or `allOf` keywords ([read more](https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/)).
+要组合模式，你可以使用 `oneOf`、`anyOf` 或 `allOf` 关键字（[了解更多](https://swagger.io/docs/specification/data-models/oneof-anyof-allof-not/)）。
 
 ```typescript
 @ApiProperty({
@@ -324,7 +323,7 @@ To combine schemas, you can use the `oneOf`, `anyOf` or `allOf` keywords ([read 
 pet: Cat | Dog;
 ```
 
-If you want to define a polymorphic array (i.e., an array whose members span multiple schemas), you should use a raw definition (see above) to define your type by hand.
+如果你想定义一个多态数组（即其成员跨越多个模式的数组），应使用原始定义（见上文）手动定义类型。
 
 ```typescript
 type Pet = Cat | Dog;
@@ -341,35 +340,35 @@ type Pet = Cat | Dog;
 pets: Pet[];
 ```
 
-> info **Hint** The `getSchemaPath()` function is imported from `@nestjs/swagger`.
+> info **提示** `getSchemaPath()` 函数是从 `@nestjs/swagger` 导入的。
 
-Both `Cat` and `Dog` must be defined as extra models using the `@ApiExtraModels()` decorator (at the class-level).
+`Cat` 和 `Dog` 都必须使用 `@ApiExtraModels()` 装饰器（在类级别）定义为额外模型。
 
-#### Schema name and description
+#### 模式名称与描述
 
-As you may have noticed, the name of the generated schema is based on the name of the original model class (for example, the `CreateCatDto` model generates a `CreateCatDto` schema). If you'd like to change the schema name, you can use the `@ApiSchema()` decorator.
+你可能已经注意到，生成的模式的名称基于原始模型类的名称（例如，`CreateCatDto` 模型生成 `CreateCatDto` 模式）。如果你想更改模式名称，可以使用 `@ApiSchema()` 装饰器。
 
-Here’s an example:
+以下是一个示例：
 
 ```typescript
 @ApiSchema({ name: 'CreateCatRequest' })
 class CreateCatDto {}
 ```
 
-The model above will be translated into the `CreateCatRequest` schema.
+上述模型将被转换为 `CreateCatRequest` 模式。
 
-By default, no description is added to the generated schema. You can add one using the `description` attribute:
+默认情况下，生成的模式不会添加描述。你可以使用 `description` 属性添加一个：
 
 ```typescript
-@ApiSchema({ description: 'Description of the CreateCatDto schema' })
+@ApiSchema({ description: 'CreateCatDto 模式的描述' })
 class CreateCatDto {}
 ```
 
-That way, the description will be included in the schema, as follows:
+这样，描述将包含在模式中，如下所示：
 
 ```yaml
 schemas:
   CreateCatDto:
     type: object
-    description: Description of the CreateCatDto schema
+    description: CreateCatDto 模式的描述
 ```

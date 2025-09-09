@@ -1,6 +1,5 @@
-# Dgeni Templates
+# Dgeni 模板
 
-This folder contains the dgeni templates that are used to generate the API and content docs
+此文件夹包含用于生成 API 和内容文档的 dgeni 模板。
 
-Generally there is a template for each docType. Templates can extend and/or include
-other templates. Templates can also import macros from other template files.
+通常每种 docType 都有一个模板。模板可以扩展和/或包含其他模板。模板还可以从其他模板文件中导入宏。
