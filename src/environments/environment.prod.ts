@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  algoliaApiKey: 'd3d35a344d760c1f12417f188a17d905',
+  algoliaApiKey: '1d1c40e7b59bc02b5f51eb8166d5b875',
 };
