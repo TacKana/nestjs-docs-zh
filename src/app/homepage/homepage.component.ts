@@ -174,9 +174,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     scriptTag.onload = () => {
       (window as any).docsearch({
         apiKey: environment.algoliaApiKey,
-        indexName: 'nestjs',
+        indexName: 'nestjs-zh',
         container: '#search',
-        appId: 'SDCBYAN96J',
+        appId: 'EK0Z71KQT8',
         debug: false,
       });
     };
