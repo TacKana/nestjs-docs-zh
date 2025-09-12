@@ -68,14 +68,14 @@ Nest 无法解析 <provider> 的依赖关系 (?)。
 
 #### "循环依赖"错误
 
-有时你会发现很难避免应用程序中的[循环依赖](https://docs.nestjs.com/fundamentals/circular-dependency)。你需要采取一些措施来帮助 Nest 解决这些问题。由循环依赖引起的错误如下所示：
+有时你会发现很难避免应用程序中的[循环依赖](/fundamentals/circular-dependency)。你需要采取一些措施来帮助 Nest 解决这些问题。由循环依赖引起的错误如下所示：
 
 ```bash
 Nest 无法创建 <module> 实例。
 <module> "imports" 数组中索引 [<index>] 处的模块未定义。
 
 潜在原因：
-- 模块之间存在循环依赖。使用 forwardRef() 来避免它。阅读更多：https://docs.nestjs.com/fundamentals/circular-dependency
+- 模块之间存在循环依赖。使用 forwardRef() 来避免它。阅读更多：/fundamentals/circular-dependency
 - 索引 [<index>] 处的模块类型为"undefined"。检查你的导入语句和模块的类型。
 
 作用域 [<module_import_chain>]

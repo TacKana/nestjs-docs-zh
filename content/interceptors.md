@@ -14,7 +14,7 @@
 
 #### 基础概念
 
-每个拦截器都实现 `intercept()` 方法，该方法接受两个参数。第一个是 `ExecutionContext` 实例（与[守卫](/guards)中的对象完全相同）。`ExecutionContext` 继承自 `ArgumentsHost`。我们在异常过滤器章节中见过 `ArgumentsHost`，它是传递给原始处理器的参数的包装器，根据应用程序类型包含不同的参数数组。你可以回顾[异常过滤器](https://docs.nestjs.com/exception-filters#arguments-host)章节了解更多相关内容。
+每个拦截器都实现 `intercept()` 方法，该方法接受两个参数。第一个是 `ExecutionContext` 实例（与[守卫](/guards)中的对象完全相同）。`ExecutionContext` 继承自 `ArgumentsHost`。我们在异常过滤器章节中见过 `ArgumentsHost`，它是传递给原始处理器的参数的包装器，根据应用程序类型包含不同的参数数组。你可以回顾[异常过滤器](/exception-filters#arguments-host)章节了解更多相关内容。
 
 #### 执行上下文
 

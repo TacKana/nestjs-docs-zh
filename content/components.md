@@ -211,5 +211,5 @@ export class AppModule {}
 
 到目前为止，我们已经介绍了 Nest 如何自动处理解析依赖关系的大部分细节。然而，在某些情况下，你可能需要跳出内置的依赖注入系统，手动获取或实例化提供者。下面简要讨论两种这样的技术。
 
-- 要获取现有实例或动态实例化提供者，可以使用[模块引用](https://docs.nestjs.com/fundamentals/module-ref)。
-- 要在 `bootstrap()` 函数中获取提供者（例如，用于独立应用程序或在引导过程中使用配置服务），请查看[独立应用程序](https://docs.nestjs.com/standalone-applications)。
+- 要获取现有实例或动态实例化提供者，可以使用[模块引用](/fundamentals/module-ref)。
+- 要在 `bootstrap()` 函数中获取提供者（例如，用于独立应用程序或在引导过程中使用配置服务），请查看[独立应用程序](/standalone-applications)。

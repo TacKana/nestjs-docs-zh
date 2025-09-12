@@ -6,7 +6,7 @@
 
 Nest 提供了内置功能，帮助确保这些操作可以简单直接地执行。`ClassSerializerInterceptor` 拦截器使用了强大的 [class-transformer](https://github.com/typestack/class-transformer) 包，提供了一种声明式且可扩展的对象转换方式。它的基本操作是获取方法处理程序返回的值，并应用 [class-transformer](https://github.com/typestack/class-transformer) 中的 `instanceToPlain()` 函数。这样做可以应用实体/DTO 类上由 `class-transformer` 装饰器表达的规则，如下所述。
 
-> info **提示** 序列化不适用于 [StreamableFile](https://docs.nestjs.com/techniques/streaming-files#streamable-file-class) 响应。
+> info **提示** 序列化不适用于 [StreamableFile](/techniques/streaming-files#streamable-file-class) 响应。
 
 #### 排除属性
 
@@ -58,7 +58,7 @@ findOne(): UserEntity {
 }
 ```
 
-请注意，拦截器可以应用在整个应用程序范围内（如[此处](https://docs.nestjs.com/interceptors#binding-interceptors)所述）。拦截器和实体类声明的结合确保了**任何**返回 `UserEntity` 的方法都会确保移除 `password` 属性。这为你提供了一种集中执行业务规则的方法。
+请注意，拦截器可以应用在整个应用程序范围内（如[此处](/interceptors#binding-interceptors)所述）。拦截器和实体类声明的结合确保了**任何**返回 `UserEntity` 的方法都会确保移除 `password` 属性。这为你提供了一种集中执行业务规则的方法。
 
 #### 暴露属性
 

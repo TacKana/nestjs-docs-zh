@@ -88,7 +88,7 @@ HttpModule.registerAsync({
 });
 ```
 
-与其他工厂提供者一样，我们的工厂函数可以是[异步的](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory)，并且可以通过 `inject` 注入依赖。
+与其他工厂提供者一样，我们的工厂函数可以是[异步的](/fundamentals/custom-providers#factory-providers-usefactory)，并且可以通过 `inject` 注入依赖。
 
 ```typescript
 HttpModule.registerAsync({

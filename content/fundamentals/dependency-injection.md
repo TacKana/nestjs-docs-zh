@@ -1,10 +1,10 @@
 ### 自定义提供者
 
-在前面的章节中，我们已经接触了**依赖注入（DI）** 的各个方面，以及它在 Nest 中的应用。其中一个例子是[基于构造函数的](https://docs.nestjs.com/providers#dependency-injection)依赖注入，用于将实例（通常是服务提供者）注入到类中。你可能不会惊讶地发现，依赖注入是 Nest 核心的基础部分。到目前为止，我们只探讨了一种主要模式。随着应用程序变得越来越复杂，你可能需要充分利用 DI 系统的全部功能，让我们更详细地了解一下。
+在前面的章节中，我们已经接触了**依赖注入（DI）** 的各个方面，以及它在 Nest 中的应用。其中一个例子是[基于构造函数的](/providers#dependency-injection)依赖注入，用于将实例（通常是服务提供者）注入到类中。你可能不会惊讶地发现，依赖注入是 Nest 核心的基础部分。到目前为止，我们只探讨了一种主要模式。随着应用程序变得越来越复杂，你可能需要充分利用 DI 系统的全部功能，让我们更详细地了解一下。
 
 #### DI 基础
 
-依赖注入是一种[控制反转（IoC）](https://en.wikipedia.org/wiki/Inversion_of_control)技术，你将依赖项的实例化委托给 IoC 容器（在我们的例子中是 NestJS 运行时系统），而不是在自己的代码中强制进行。让我们看看[提供者章节](https://docs.nestjs.com/providers)中的这个例子发生了什么。
+依赖注入是一种[控制反转（IoC）](https://en.wikipedia.org/wiki/Inversion_of_control)技术，你将依赖项的实例化委托给 IoC 容器（在我们的例子中是 NestJS 运行时系统），而不是在自己的代码中强制进行。让我们看看[提供者章节](/providers)中的这个例子发生了什么。
 
 首先，我们定义一个提供者。`@Injectable()` 装饰器将 `CatsService` 类标记为一个提供者。
 
@@ -95,11 +95,11 @@ export class AppModule {}
   constructor(private catsService: CatsService)
 ```
 
-3. 在 `app.module.ts` 中，我们将令牌 `CatsService` 与来自 `cats.service.ts` 文件的 `CatsService` 类关联起来。我们将在<a href="/fundamentals/custom-providers#standard-providers">下面</a>看到这种关联（也称为_注册_）是如何发生的。
+3. 在 `app.module.ts` 中，我们将令牌 `CatsService` 与来自 `cats.service.ts` 文件的 `CatsService` 类关联起来。我们将在<a href="/fundamentals/custom-providers#standard-providers">下面</a>看到这种关联（也称为*注册*）是如何发生的。
 
-当 Nest IoC 容器实例化一个 `CatsController` 时，它首先查找所有依赖项*。当它找到 `CatsService` 依赖项时，它会对 `CatsService` 令牌执行查找，根据注册步骤（上面的第 3 步）返回 `CatsService` 类。假设是 `SINGLETON` 范围（默认行为），Nest 将创建一个 `CatsService` 实例，缓存它并返回，或者如果已经缓存了一个实例，则返回现有的实例。
+当 Nest IoC 容器实例化一个 `CatsController` 时，它首先查找所有依赖项\*。当它找到 `CatsService` 依赖项时，它会对 `CatsService` 令牌执行查找，根据注册步骤（上面的第 3 步）返回 `CatsService` 类。假设是 `SINGLETON` 范围（默认行为），Nest 将创建一个 `CatsService` 实例，缓存它并返回，或者如果已经缓存了一个实例，则返回现有的实例。
 
-*这个解释稍微简化以说明要点。我们忽略的一个重要领域是，分析代码依赖项的过程非常复杂，发生在应用程序引导期间。一个关键特性是依赖项分析（或“创建依赖关系图”）是**传递的**。在上面的例子中，如果 `CatsService` 本身有依赖项，这些依赖项也会被解析。依赖关系图确保依赖项以正确的顺序解析 - 基本上是“自底向上”。这种机制使开发人员不必管理如此复杂的依赖关系图。
+\*这个解释稍微简化以说明要点。我们忽略的一个重要领域是，分析代码依赖项的过程非常复杂，发生在应用程序引导期间。一个关键特性是依赖项分析（或“创建依赖关系图”）是**传递的**。在上面的例子中，如果 `CatsService` 本身有依赖项，这些依赖项也会被解析。依赖关系图确保依赖项以正确的顺序解析 - 基本上是“自底向上”。这种机制使开发人员不必管理如此复杂的依赖关系图。
 
 <app-banner-courses></app-banner-courses>
 
@@ -129,7 +129,7 @@ providers: [
 
 #### 自定义提供者
 
-当你的需求超出_标准提供者_提供的功能时会发生什么？以下是一些例子：
+当你的需求超出*标准提供者*提供的功能时会发生什么？以下是一些例子：
 
 - 你想创建一个自定义实例，而不是让 Nest 实例化（或返回缓存实例）一个类
 - 你想在第二个依赖项中重用现有的类
@@ -168,7 +168,7 @@ export class AppModule {}
 
 #### 非基于类的提供者令牌
 
-到目前为止，我们使用类名作为我们的提供者令牌（在 `providers` 数组中列出的提供者的 `provide` 属性的值）。这与[基于构造函数的注入](https://docs.nestjs.com/providers#dependency-injection)使用的标准模式相匹配，其中令牌也是类名。（如果这个概念不完全清楚，请回顾<a href="/fundamentals/custom-providers#di-fundamentals">DI 基础</a>）。有时，我们可能希望灵活地使用字符串或符号作为 DI 令牌。例如：
+到目前为止，我们使用类名作为我们的提供者令牌（在 `providers` 数组中列出的提供者的 `provide` 属性的值）。这与[基于构造函数的注入](/providers#dependency-injection)使用的标准模式相匹配，其中令牌也是类名。（如果这个概念不完全清楚，请回顾<a href="/fundamentals/custom-providers#di-fundamentals">DI 基础</a>）。有时，我们可能希望灵活地使用字符串或符号作为 DI 令牌。例如：
 
 ```typescript
 import { connection } from './connection';
@@ -188,7 +188,7 @@ export class AppModule {}
 
 > warning **注意** 除了使用字符串作为令牌值，你还可以使用 JavaScript [符号](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Symbol)或 TypeScript [枚举](https://www.typescriptlang.org/docs/handbook/enums.html)。
 
-我们之前已经看到了如何使用标准的[基于构造函数的注入](https://docs.nestjs.com/providers#dependency-injection)模式注入提供者。这种模式**要求**依赖项用类名声明。`'CONNECTION'` 自定义提供者使用字符串值令牌。让我们看看如何注入这样的提供者。为此，我们使用 `@Inject()` 装饰器。这个装饰器接受一个参数 - 令牌。
+我们之前已经看到了如何使用标准的[基于构造函数的注入](/providers#dependency-injection)模式注入提供者。这种模式**要求**依赖项用类名声明。`'CONNECTION'` 自定义提供者使用字符串值令牌。让我们看看如何注入这样的提供者。为此，我们使用 `@Inject()` 装饰器。这个装饰器接受一个参数 - 令牌。
 
 ```typescript
 @@filename()

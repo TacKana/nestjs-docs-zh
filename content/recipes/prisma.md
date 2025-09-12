@@ -23,7 +23,7 @@ $ npm install -g @nestjs/cli
 $ nest new hello-prisma
 ```
 
-请参阅[第一步](https://docs.nestjs.com/first-steps)页面以了解有关此命令创建的项目文件的更多信息。请注意，你现在可以运行 `npm start` 来启动你的应用程序。运行在 `http://localhost:3000/` 的 REST API 目前提供了一个单一的路由，该路由在 `src/app.controller.ts` 中实现。在本指南的过程中，你将实现额外的路由来存储和检索关于_用户_和_文章_的数据。
+请参阅[第一步](/first-steps)页面以了解有关此命令创建的项目文件的更多信息。请注意，你现在可以运行 `npm start` 来启动你的应用程序。运行在 `http://localhost:3000/` 的 REST API 目前提供了一个单一的路由，该路由在 `src/app.controller.ts` 中实现。在本指南的过程中，你将实现额外的路由来存储和检索关于*用户*和*文章*的数据。
 
 #### 设置 Prisma
 
@@ -88,13 +88,13 @@ generator client {
 DATABASE_URL="file:./dev.db"
 ```
 
-确保你已经配置了 [ConfigModule](https://docs.nestjs.com/techniques/configuration)，否则 `DATABASE_URL` 变量将无法从 `.env` 中获取。
+确保你已经配置了 [ConfigModule](/techniques/configuration)，否则 `DATABASE_URL` 变量将无法从 `.env` 中获取。
 
-SQLite 数据库是简单的文件；使用 SQLite 数据库不需要服务器。因此，你不必配置带有_主机_和_端口_的连接 URL，只需将其指向一个本地文件，本例中称为 `dev.db`。该文件将在下一步中创建。
+SQLite 数据库是简单的文件；使用 SQLite 数据库不需要服务器。因此，你不必配置带有*主机*和*端口*的连接 URL，只需将其指向一个本地文件，本例中称为 `dev.db`。该文件将在下一步中创建。
 
 <details><summary>展开如果你使用 PostgreSQL、MySQL、MsSQL 或 Azure SQL</summary>
 
-对于 PostgreSQL 和 MySQL，你需要配置连接 URL 以指向_数据库服务器_。你可以在此处了解更多关于所需连接 URL 格式的信息[此处](https://www.prisma.io/docs/reference/database-reference/connection-urls)。
+对于 PostgreSQL 和 MySQL，你需要配置连接 URL 以指向*数据库服务器*。你可以在此处了解更多关于所需连接 URL 格式的信息[此处](https://www.prisma.io/docs/reference/database-reference/connection-urls)。
 
 **PostgreSQL**
 
@@ -252,7 +252,7 @@ CREATE UNIQUE INDEX "User.email_unique" ON "User"("email");
 
 #### 安装并生成 Prisma Client
 
-Prisma Client 是一个类型安全的数据库客户端，它是从你的 Prisma 模型定义_生成_的。由于这种方法，Prisma Client 可以暴露专门为你的模型_定制_的 [CRUD](https://www.prisma.io/docs/concepts/components/prisma-client/crud) 操作。
+Prisma Client 是一个类型安全的数据库客户端，它是从你的 Prisma 模型定义*生成*的。由于这种方法，Prisma Client 可以暴露专门为你的模型*定制*的 [CRUD](https://www.prisma.io/docs/concepts/components/prisma-client/crud) 操作。
 
 要在你的项目中安装 Prisma Client，请在终端中运行以下命令：
 
@@ -260,7 +260,7 @@ Prisma Client 是一个类型安全的数据库客户端，它是从你的 Prism
 $ npm install @prisma/client
 ```
 
-请注意，在安装过程中，Prisma 会自动为你调用 `prisma generate` 命令。将来，在_每次_更改 Prisma 模型后，你需要运行此命令以更新生成的 Prisma Client。
+请注意，在安装过程中，Prisma 会自动为你调用 `prisma generate` 命令。将来，在*每次*更改 Prisma 模型后，你需要运行此命令以更新生成的 Prisma Client。
 
 > info **注意** `prisma generate` 命令读取你的 Prisma 模式并更新 `node_modules/@prisma/client` 内部生成的 Prisma Client 库。
 
@@ -516,7 +516,7 @@ export class AppController {
 ###### `GET`
 
 - `/post/:id`：通过 `id` 获取单个文章
-- `/feed`：获取所有_已发布_的文章
+- `/feed`：获取所有*已发布*的文章
 - `/filter-posts/:searchString`：通过 `title` 或 `content` 过滤文章
 
 ###### `POST`
@@ -548,4 +548,4 @@ export class AppController {
 - [NestJS & Prisma](https://www.prisma.io/nestjs)
 - [REST & GraphQL 的即用型示例项目](https://github.com/prisma/prisma-examples/)
 - [生产就绪的入门套件](https://github.com/notiz-dev/nestjs-prisma-starter#instructions)
-- [视频：使用 NestJS 和 Prisma 访问数据库（5分钟）](https://www.youtube.com/watch?v=UlVJ340UEuk&ab_channel=Prisma)，作者 [Marc Stammerjohann](https://github.com/marcjulian)
+- [视频：使用 NestJS 和 Prisma 访问数据库（5 分钟）](https://www.youtube.com/watch?v=UlVJ340UEuk&ab_channel=Prisma)，作者 [Marc Stammerjohann](https://github.com/marcjulian)

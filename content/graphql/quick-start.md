@@ -2,7 +2,7 @@
 
 [GraphQL](https://graphql.org/) 是一门强大的 API 查询语言，也是一个用于使用现有数据完成这些查询的运行时。它提供了一种优雅的方法，解决了 REST API 常见的问题。作为背景知识，我们建议阅读这篇关于 GraphQL 和 REST 的[对比](https://www.apollographql.com/blog/graphql-vs-rest)。GraphQL 结合 [TypeScript](https://www.typescriptlang.org/)，可以帮助你在 GraphQL 查询中实现更好的类型安全，为你提供端到端的类型支持。
 
-在本章中，我们假设你已经对 GraphQL 有基本的了解，并重点介绍如何使用内置的 `@nestjs/graphql` 模块。`GraphQLModule` 可以配置为使用 [Apollo](https://www.apollographql.com/) 服务器（通过 `@nestjs/apollo` 驱动）和 [Mercurius](https://github.com/mercurius-js/mercurius)（通过 `@nestjs/mercurius` 驱动）。我们为这些成熟的 GraphQL 包提供了官方集成，以便在 Nest 中使用 GraphQL（详见[更多集成](https://docs.nestjs.com/graphql/quick-start#third-party-integrations)）。
+在本章中，我们假设你已经对 GraphQL 有基本的了解，并重点介绍如何使用内置的 `@nestjs/graphql` 模块。`GraphQLModule` 可以配置为使用 [Apollo](https://www.apollographql.com/) 服务器（通过 `@nestjs/apollo` 驱动）和 [Mercurius](https://github.com/mercurius-js/mercurius)（通过 `@nestjs/mercurius` 驱动）。我们为这些成熟的 GraphQL 包提供了官方集成，以便在 Nest 中使用 GraphQL（详见[更多集成](/graphql/quick-start#third-party-integrations)）。
 
 你也可以构建自己的专用驱动（[了解更多](/graphql/other-features#creating-a-custom-driver)）。
 
@@ -90,7 +90,7 @@ Playground 是一个图形化的、交互式的、浏览器内的 GraphQL IDE，
 
 > info **注意** `@nestjs/mercurius` 集成不包含内置的 GraphQL Playground 集成。相反，你可以使用 [GraphiQL](https://github.com/graphql/graphiql)（设置 `graphiql: true`）。
 
-> warning **警告** 更新（2025年4月14日）：默认的 Apollo playground 已被弃用，并将在下一个主要版本中移除。你可以使用 [GraphiQL](https://github.com/graphql/graphiql)，只需在 `GraphQLModule` 配置中设置 `graphiql: true`，如下所示：
+> warning **警告** 更新（2025 年 4 月 14 日）：默认的 Apollo playground 已被弃用，并将在下一个主要版本中移除。你可以使用 [GraphiQL](https://github.com/graphql/graphiql)，只需在 `GraphQLModule` 配置中设置 `graphiql: true`，如下所示：
 >
 > ```typescript
 > GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -286,7 +286,7 @@ const { schema } = app.get(GraphQLSchemaHost);
 }),
 ```
 
-与其他工厂提供者一样，我们的工厂函数可以是 <a href="https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory">异步的</a>，并且可以通过 `inject` 注入依赖项。
+与其他工厂提供者一样，我们的工厂函数可以是 <a href="/fundamentals/custom-providers#factory-providers-usefactory">异步的</a>，并且可以通过 `inject` 注入依赖项。
 
 ```typescript
 GraphQLModule.forRootAsync<ApolloDriverConfig>({

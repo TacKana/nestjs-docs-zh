@@ -20,20 +20,30 @@ import helmet from 'helmet';
 app.use(helmet());
 ```
 
-> warning **警告** 当同时使用 `helmet`、`@apollo/server`（4.x 版本）以及 [Apollo Sandbox](https://docs.nestjs.com/graphql/quick-start#apollo-sandbox) 时，Apollo Sandbox 的 [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) 可能会出现问题。要解决此问题，请按如下方式配置 CSP：
+> warning **警告** 当同时使用 `helmet`、`@apollo/server`（4.x 版本）以及 [Apollo Sandbox](/graphql/quick-start#apollo-sandbox) 时，Apollo Sandbox 的 [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) 可能会出现问题。要解决此问题，请按如下方式配置 CSP：
 >
 > ```typescript
-> app.use(helmet({
->   crossOriginEmbedderPolicy: false,
->   contentSecurityPolicy: {
->     directives: {
->       imgSrc: [`'self'`, 'data:', 'apollo-server-landing-page.cdn.apollographql.com'],
->       scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
->       manifestSrc: [`'self'`, 'apollo-server-landing-page.cdn.apollographql.com'],
->       frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
+> app.use(
+>   helmet({
+>     crossOriginEmbedderPolicy: false,
+>     contentSecurityPolicy: {
+>       directives: {
+>         imgSrc: [
+>           `'self'`,
+>           'data:',
+>           'apollo-server-landing-page.cdn.apollographql.com',
+>         ],
+>         scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+>         manifestSrc: [
+>           `'self'`,
+>           'apollo-server-landing-page.cdn.apollographql.com',
+>         ],
+>         frameSrc: [`'self'`, 'sandbox.embed.apollographql.com'],
+>       },
 >     },
->   },
-> }));
+>   }),
+> );
+> ```
 
 #### 在 Fastify 中使用
 
@@ -46,36 +56,36 @@ $ npm i --save @fastify/helmet
 [fastify-helmet](https://github.com/fastify/fastify-helmet) 不应作为中间件使用，而应作为 [Fastify 插件](https://www.fastify.io/docs/latest/Reference/Plugins/)使用，即通过 `app.register()` 方法注册：
 
 ```typescript
-import helmet from '@fastify/helmet'
+import helmet from '@fastify/helmet';
 // 在初始化文件的某个位置
-await app.register(helmet)
+await app.register(helmet);
 ```
 
-> warning **警告** 当同时使用 `apollo-server-fastify` 和 `@fastify/helmet` 时，GraphQL  playground 的 [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) 可能会出现问题。为解决这一冲突，请按如下方式配置 CSP：
+> warning **警告** 当同时使用 `apollo-server-fastify` 和 `@fastify/helmet` 时，GraphQL playground 的 [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) 可能会出现问题。为解决这一冲突，请按如下方式配置 CSP：
 >
 > ```typescript
 > await app.register(fastifyHelmet, {
->    contentSecurityPolicy: {
->      directives: {
->        defaultSrc: [`'self'`, 'unpkg.com'],
->        styleSrc: [
->          `'self'`,
->          `'unsafe-inline'`,
->          'cdn.jsdelivr.net',
->          'fonts.googleapis.com',
->          'unpkg.com',
->        ],
->        fontSrc: [`'self'`, 'fonts.gstatic.com', 'data:'],
->        imgSrc: [`'self'`, 'data:', 'cdn.jsdelivr.net'],
->        scriptSrc: [
->          `'self'`,
->          `https: 'unsafe-inline'`,
->          `cdn.jsdelivr.net`,
->          `'unsafe-eval'`,
->        ],
->      },
->    },
->  });
+>   contentSecurityPolicy: {
+>     directives: {
+>       defaultSrc: [`'self'`, 'unpkg.com'],
+>       styleSrc: [
+>         `'self'`,
+>         `'unsafe-inline'`,
+>         'cdn.jsdelivr.net',
+>         'fonts.googleapis.com',
+>         'unpkg.com',
+>       ],
+>       fontSrc: [`'self'`, 'fonts.gstatic.com', 'data:'],
+>       imgSrc: [`'self'`, 'data:', 'cdn.jsdelivr.net'],
+>       scriptSrc: [
+>         `'self'`,
+>         `https: 'unsafe-inline'`,
+>         `cdn.jsdelivr.net`,
+>         `'unsafe-eval'`,
+>       ],
+>     },
+>   },
+> });
 >
 > // 如果您完全不打算使用 CSP，可以这样设置：
 > await app.register(fastifyHelmet, {

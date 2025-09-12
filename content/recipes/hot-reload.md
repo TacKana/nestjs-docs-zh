@@ -6,7 +6,7 @@
 
 ### 使用 CLI
 
-如果你使用 [Nest CLI](https://docs.nestjs.com/cli/overview)，配置过程非常简单。CLI 封装了 `webpack`，允许使用 `HotModuleReplacementPlugin`。
+如果你使用 [Nest CLI](/cli/overview)，配置过程非常简单。CLI 封装了 `webpack`，允许使用 `HotModuleReplacementPlugin`。
 
 #### 安装
 
@@ -41,7 +41,10 @@ module.exports = function (options, webpack) {
       new webpack.WatchIgnorePlugin({
         paths: [/\.js$/, /\.d\.ts$/],
       }),
-      new RunScriptWebpackPlugin({ name: options.output.filename, autoRestart: false }),
+      new RunScriptWebpackPlugin({
+        name: options.output.filename,
+        autoRestart: false,
+      }),
     ],
   };
 };
@@ -84,7 +87,7 @@ $ npm run start:dev
 
 ### 不使用 CLI
 
-如果你不使用 [Nest CLI](https://docs.nestjs.com/cli/overview)，配置会稍复杂一些（需要更多手动步骤）。
+如果你不使用 [Nest CLI](/cli/overview)，配置会稍复杂一些（需要更多手动步骤）。
 
 #### 安装
 
@@ -127,7 +130,10 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new RunScriptWebpackPlugin({ name: 'server.js', autoRestart: false })],
+  plugins: [
+    new webpack.HotModuleReplacementPlugin(),
+    new RunScriptWebpackPlugin({ name: 'server.js', autoRestart: false }),
+  ],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'server.js',

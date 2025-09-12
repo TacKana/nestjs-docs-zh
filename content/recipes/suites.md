@@ -297,4 +297,4 @@ describe('Cats Module Integration Test', () => {
 - **工具**：Nest 的 `TestingModule`、`supertest`。
 - **示例**：使用 `supertest` 模拟 HTTP 请求来测试 `CatsModule`。
 
-有关设置和运行端到端测试的更多详情，请参阅 [NestJS 官方测试指南](https://docs.nestjs.com/fundamentals/testing#end-to-end-testing)。
+有关设置和运行端到端测试的更多详情，请参阅 [NestJS 官方测试指南](/fundamentals/testing#end-to-end-testing)。

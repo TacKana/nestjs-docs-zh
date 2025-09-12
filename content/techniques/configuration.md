@@ -82,7 +82,7 @@ ConfigModule.forRoot({
 
 #### 全局使用模块
 
-当你想在其他模块中使用 `ConfigModule` 时，需要导入它（与任何 Nest 模块一样）。或者，通过将选项对象的 `isGlobal` 属性设置为 `true`，将其声明为[全局模块](https://docs.nestjs.com/modules#global-modules)，如下所示。这样，一旦在根模块（例如 `AppModule`）中加载了 `ConfigModule`，就无需在其他模块中导入它。
+当你想在其他模块中使用 `ConfigModule` 时，需要导入它（与任何 Nest 模块一样）。或者，通过将选项对象的 `isGlobal` 属性设置为 `true`，将其声明为[全局模块](/modules#global-modules)，如下所示。这样，一旦在根模块（例如 `AppModule`）中加载了 `ConfigModule`，就无需在其他模块中导入它。
 
 ```typescript
 ConfigModule.forRoot({

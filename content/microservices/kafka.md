@@ -122,9 +122,9 @@ const app = await NestFactory.createMicroservice(AppModule, {
 
 Kafka 与其他微服务传输器有一个小区别。我们不使用 `ClientProxy` 类，而是使用 `ClientKafkaProxy` 类。
 
-与其他微服务传输器类似，您有<a href="https://docs.nestjs.com/microservices/basics#client">几种选项</a>来创建 `ClientKafkaProxy` 实例。
+与其他微服务传输器类似，您有<a href="/microservices/basics#client">几种选项</a>来创建 `ClientKafkaProxy` 实例。
 
-一种创建实例的方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，请导入它并使用 `register()` 方法传递一个选项对象，该对象具有上述 `createMicroservice()` 方法中显示的相同属性，以及一个用作注入令牌的 `name` 属性。有关 `ClientsModule` 的更多信息，请阅读<a href="https://docs.nestjs.com/microservices/basics#client">此处</a>。
+一种创建实例的方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，请导入它并使用 `register()` 方法传递一个选项对象，该对象具有上述 `createMicroservice()` 方法中显示的相同属性，以及一个用作注入令牌的 `name` 属性。有关 `ClientsModule` 的更多信息，请阅读<a href="/microservices/basics#client">此处</a>。
 
 ```typescript
 @Module({
@@ -149,7 +149,7 @@ Kafka 与其他微服务传输器有一个小区别。我们不使用 `ClientPro
 })
 ```
 
-也可以使用其他创建客户端的方法（`ClientProxyFactory` 或 `@Client()`）。您可以在<a href="https://docs.nestjs.com/microservices/basics#client">此处</a>了解它们。
+也可以使用其他创建客户端的方法（`ClientProxyFactory` 或 `@Client()`）。您可以在<a href="/microservices/basics#client">此处</a>了解它们。
 
 使用 `@Client()` 装饰器如下：
 
@@ -461,9 +461,9 @@ export class KafkaMaxRetryExceptionFilter extends BaseExceptionFilter {
 
     if (currentRetryCount >= this.maxRetries) {
       this.logger.warn(
-        `消息的最大重试次数（${
-          this.maxRetries
-        }）已超出：${JSON.stringify(message)}`,
+        `消息的最大重试次数（${this.maxRetries}）已超出：${JSON.stringify(
+          message,
+        )}`,
       );
 
       if (this.skipHandler) {
@@ -504,9 +504,7 @@ export class KafkaMaxRetryExceptionFilter extends BaseExceptionFilter {
     const offset = message.offset;
 
     if (!topic || partition === undefined || offset === undefined) {
-      throw new Error(
-        '用于提交偏移量的 Kafka 消息上下文不完整。',
-      );
+      throw new Error('用于提交偏移量的 Kafka 消息上下文不完整。');
     }
 
     await consumer.commitOffsets([

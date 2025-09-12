@@ -95,7 +95,7 @@ export class YourCatchAllExceptionFilter implements ExceptionFilter {
 }
 ```
 
-默认情况下，只有未被错误过滤器捕获的未处理异常才会报告给 Sentry。`HttpExceptions`（包括[衍生异常](https://docs.nestjs.com/exception-filters#built-in-http-exceptions)）默认也不会被捕获，因为它们通常用于控制流。
+默认情况下，只有未被错误过滤器捕获的未处理异常才会报告给 Sentry。`HttpExceptions`（包括[衍生异常](/exception-filters#built-in-http-exceptions)）默认也不会被捕获，因为它们通常用于控制流。
 
 如果你没有全局异常过滤器，请将 `SentryGlobalFilter` 添加到主模块的提供者中。此过滤器会将未被其他错误过滤器捕获的未处理错误报告给 Sentry。
 

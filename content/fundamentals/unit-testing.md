@@ -183,9 +183,10 @@ describe('CatsController', () => {
           return { findAll: jest.fn().mockResolvedValue(results) };
         }
         if (typeof token === 'function') {
-          const mockMetadata = moduleMocker.getMetadata(
-            token,
-          ) as MockMetadata<any, any>;
+          const mockMetadata = moduleMocker.getMetadata(token) as MockMetadata<
+            any,
+            any
+          >;
           const Mock = moduleMocker.generateFromMetadata(
             mockMetadata,
           ) as ObjectConstructor;
@@ -327,7 +328,7 @@ describe('Cats', () => {
 
 在此示例中，我们还提供了 `CatsService` 的替代（测试替代）实现，它只返回一个我们可以测试的硬编码值。使用 `overrideProvider()` 来提供这样的替代实现。类似地，Nest 提供了分别使用 `overrideModule()`、`overrideGuard()`、`overrideInterceptor()`、`overrideFilter()` 和 `overridePipe()` 方法来覆盖模块、守卫、拦截器、过滤器和管道。
 
-每个覆盖方法（除了 `overrideModule()`）都返回一个具有 3 种不同方法的对象，这些方法镜像了[自定义提供者](https://docs.nestjs.com/fundamentals/custom-providers)中描述的方法：
+每个覆盖方法（除了 `overrideModule()`）都返回一个具有 3 种不同方法的对象，这些方法镜像了[自定义提供者](/fundamentals/custom-providers)中描述的方法：
 
 - `useClass`：你提供一个类，该类将被实例化以提供覆盖对象（提供者、守卫等）的实例。
 - `useValue`：你提供一个将覆盖对象的实例。
@@ -441,7 +442,7 @@ const moduleRef = await Test.createTestingModule({
 
 [请求作用域](/fundamentals/injection-scopes)的提供者为每个传入的**请求**唯一创建。实例在请求处理完成后被垃圾回收。这带来了一个问题，因为我们无法访问为测试请求专门生成的依赖注入子树。
 
-我们知道（基于前面的部分）`resolve()` 方法可用于检索动态实例化的类。而且，如[此处](https://docs.nestjs.com/fundamentals/module-ref#resolving-scoped-providers)所述，我们知道我们可以传递一个唯一的上下文标识符来控制 DI 容器子树的生命周期。我们如何在测试上下文中利用这一点？
+我们知道（基于前面的部分）`resolve()` 方法可用于检索动态实例化的类。而且，如[此处](/fundamentals/module-ref#resolving-scoped-providers)所述，我们知道我们可以传递一个唯一的上下文标识符来控制 DI 容器子树的生命周期。我们如何在测试上下文中利用这一点？
 
 策略是事先生成一个上下文标识符，并强制 Nest 使用此特定 ID 为所有传入请求创建子树。这样，我们将能够检索为测试请求创建的实例。
 

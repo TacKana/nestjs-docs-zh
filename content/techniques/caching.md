@@ -97,7 +97,7 @@ export class AppController {
 }
 ```
 
-> warning**警告** 只有 `GET` 端点会被缓存。此外，注入原生响应对象（`@Res()`）的 HTTP 服务器路由无法使用缓存拦截器。有关更多详情，请参阅<a href="https://docs.nestjs.com/interceptors#response-mapping">响应映射</a>。
+> warning**警告** 只有 `GET` 端点会被缓存。此外，注入原生响应对象（`@Res()`）的 HTTP 服务器路由无法使用缓存拦截器。有关更多详情，请参阅<a href="/interceptors#response-mapping">响应映射</a>。
 
 为了减少所需的样板代码，你可以将 `CacheInterceptor` 全局绑定到所有端点：
 
@@ -132,7 +132,7 @@ CacheModule.register({
 
 #### 全局使用模块
 
-当你想在其他模块中使用 `CacheModule` 时，需要导入它（就像任何 Nest 模块的标准做法一样）。或者，通过将选项对象的 `isGlobal` 属性设置为 `true` 来声明它为[全局模块](https://docs.nestjs.com/modules#global-modules)，如下所示。这样，一旦在根模块（例如 `AppModule`）中加载了 `CacheModule`，你就不需要在其他模块中再次导入它。
+当你想在其他模块中使用 `CacheModule` 时，需要导入它（就像任何 Nest 模块的标准做法一样）。或者，通过将选项对象的 `isGlobal` 属性设置为 `true` 来声明它为[全局模块](/modules#global-modules)，如下所示。这样，一旦在根模块（例如 `AppModule`）中加载了 `CacheModule`，你就不需要在其他模块中再次导入它。
 
 ```typescript
 CacheModule.register({
@@ -142,7 +142,7 @@ CacheModule.register({
 
 #### 全局缓存覆盖
 
-启用全局缓存后，缓存项会根据路由路径自动生成 `CacheKey` 进行存储。你可以在每个方法基础上覆盖某些缓存设置（`@CacheKey()` 和 `@CacheTTL()`），从而为单个控制器方法提供自定义的缓存策略。这在[使用不同缓存存储](https://docs.nestjs.com/techniques/caching#different-stores)时可能最为相关。
+启用全局缓存后，缓存项会根据路由路径自动生成 `CacheKey` 进行存储。你可以在每个方法基础上覆盖某些缓存设置（`@CacheKey()` 和 `@CacheTTL()`），从而为单个控制器方法提供自定义的缓存策略。这在[使用不同缓存存储](/techniques/caching#different-stores)时可能最为相关。
 
 你可以在每个控制器上应用 `@CacheTTL()` 装饰器，为整个控制器设置缓存 TTL。如果同时定义了控制器级别和方法级别的缓存 TTL 设置，方法级别的设置将优先于控制器级别的设置。
 
@@ -160,7 +160,7 @@ export class AppController {
 
 > info **提示** `@CacheKey()` 和 `@CacheTTL()` 装饰器是从 `@nestjs/cache-manager` 包导入的。
 
-`@CacheKey()` 装饰器可以单独使用，也可以与 `@CacheTTL()` 装饰器配合使用，反之亦然。你可以选择只覆盖 `@CacheKey()` 或只覆盖 `@CacheTTL()`。未使用装饰器覆盖的设置将使用全局注册的默认值（参见[自定义缓存](https://docs.nestjs.com/techniques/caching#customize-caching)）。
+`@CacheKey()` 装饰器可以单独使用，也可以与 `@CacheTTL()` 装饰器配合使用，反之亦然。你可以选择只覆盖 `@CacheKey()` 或只覆盖 `@CacheTTL()`。未使用装饰器覆盖的设置将使用全局注册的默认值（参见[自定义缓存](/techniques/caching#customize-caching)）。
 
 #### WebSockets 和微服务
 

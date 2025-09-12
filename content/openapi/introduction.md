@@ -167,7 +167,7 @@ export interface SwaggerCustomOptions {
   /**
    * 如果为 `true`，Swagger 资源路径将通过 `setGlobalPrefix()` 设置的全局前缀进行前缀。
    * 默认值：`false`。
-   * @see https://docs.nestjs.com/faq/global-prefix
+   * @see /faq/global-prefix
    */
   useGlobalPrefix?: boolean;
 

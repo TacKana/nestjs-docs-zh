@@ -6,7 +6,7 @@ Nest 提供了多个实用工具类，帮助开发者轻松编写能在多种应
 
 #### ArgumentsHost 类
 
-`ArgumentsHost` 类提供了检索传递给处理器的参数的方法。它允许选择合适的上下文（例如 HTTP、RPC（微服务）或 WebSockets）来获取参数。框架会在你可能需要访问的地方提供 `ArgumentsHost` 的实例，通常以 `host` 参数的形式引用。例如，[异常过滤器](https://docs.nestjs.com/exception-filters#arguments-host)的 `catch()` 方法会传入一个 `ArgumentsHost` 实例。
+`ArgumentsHost` 类提供了检索传递给处理器的参数的方法。它允许选择合适的上下文（例如 HTTP、RPC（微服务）或 WebSockets）来获取参数。框架会在你可能需要访问的地方提供 `ArgumentsHost` 的实例，通常以 `host` 参数的形式引用。例如，[异常过滤器](/exception-filters#arguments-host)的 `catch()` 方法会传入一个 `ArgumentsHost` 实例。
 
 `ArgumentsHost` 本质上是对处理器参数的一种抽象。例如，对于 HTTP 服务器应用（当使用 `@nestjs/platform-express` 时），`host` 对象封装了 Express 的 `[request, response, next]` 数组，其中 `request` 是请求对象，`response` 是响应对象，`next` 是控制应用请求-响应循环的函数。另一方面，对于 [GraphQL](/graphql/quick-start) 应用，`host` 对象包含 `[root, args, context, info]` 数组。
 
@@ -101,7 +101,7 @@ export interface RpcArgumentsHost {
 
 #### ExecutionContext 类
 
-`ExecutionContext` 扩展了 `ArgumentsHost`，提供了关于当前执行过程的额外细节。与 `ArgumentsHost` 类似，Nest 在你可能需要的地方提供 `ExecutionContext` 的实例，例如在[守卫](https://docs.nestjs.com/guards#execution-context)的 `canActivate()` 方法和[拦截器](https://docs.nestjs.com/interceptors#execution-context)的 `intercept()` 方法中。它提供了以下方法：
+`ExecutionContext` 扩展了 `ArgumentsHost`，提供了关于当前执行过程的额外细节。与 `ArgumentsHost` 类似，Nest 在你可能需要的地方提供 `ExecutionContext` 的实例，例如在[守卫](/guards#execution-context)的 `canActivate()` 方法和[拦截器](/interceptors#execution-context)的 `intercept()` 方法中。它提供了以下方法：
 
 ```typescript
 export interface ExecutionContext extends ArgumentsHost {
@@ -241,7 +241,10 @@ export class CatsController {}
 如果你的意图是指定 `'user'` 作为默认角色，并针对特定方法有选择地覆盖它，你可能会使用 `getAllAndOverride()` 方法。
 
 ```typescript
-const roles = this.reflector.getAllAndOverride(Roles, [context.getHandler(), context.getClass()]);
+const roles = this.reflector.getAllAndOverride(Roles, [
+  context.getHandler(),
+  context.getClass(),
+]);
 ```
 
 使用此代码的守卫，在 `create()` 方法的上下文中运行，结合上述元数据，将导致 `roles` 包含 `['admin']`。
@@ -249,7 +252,10 @@ const roles = this.reflector.getAllAndOverride(Roles, [context.getHandler(), con
 要获取两者的元数据并进行合并（此方法合并数组和对象），使用 `getAllAndMerge()` 方法：
 
 ```typescript
-const roles = this.reflector.getAllAndMerge(Roles, [context.getHandler(), context.getClass()]);
+const roles = this.reflector.getAllAndMerge(Roles, [
+  context.getHandler(),
+  context.getClass(),
+]);
 ```
 
 这将导致 `roles` 包含 `['user', 'admin']`。

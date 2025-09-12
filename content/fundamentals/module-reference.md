@@ -191,7 +191,7 @@ export class CatsService {
 }
 ```
 
-> info **提示** 了解更多关于请求提供者的信息[此处](https://docs.nestjs.com/fundamentals/injection-scopes#request-provider)。
+> info **提示** 了解更多关于请求提供者的信息[此处](/fundamentals/injection-scopes#request-provider)。
 
 现在，使用 `ContextIdFactory` 类的 `getByRequest()` 方法基于请求对象创建上下文 ID，并将其传递给 `resolve()` 调用：
 

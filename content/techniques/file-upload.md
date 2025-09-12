@@ -43,7 +43,7 @@ uploadFile(file) {
 
 #### 文件验证
 
-通常，验证传入的文件元数据（如文件大小或文件 MIME 类型）会很有用。为此，您可以创建自己的[管道](https://docs.nestjs.com/pipes)并将其绑定到用 `UploadedFile` 装饰器注释的参数。以下示例演示了如何实现一个基本的文件大小验证管道：
+通常，验证传入的文件元数据（如文件大小或文件 MIME 类型）会很有用。为此，您可以创建自己的[管道](/pipes)并将其绑定到用 `UploadedFile` 装饰器注释的参数。以下示例演示了如何实现一个基本的文件大小验证管道：
 
 ```typescript
 import { PipeTransform, Injectable, ArgumentMetadata } from '@nestjs/common';
@@ -288,7 +288,7 @@ MulterModule.registerAsync({
 });
 ```
 
-像其他[工厂提供者](https://docs.nestjs.com/fundamentals/custom-providers#factory-providers-usefactory)一样，我们的工厂函数可以是 `async` 的，并且可以通过 `inject` 注入依赖项。
+像其他[工厂提供者](/fundamentals/custom-providers#factory-providers-usefactory)一样，我们的工厂函数可以是 `async` 的，并且可以通过 `inject` 注入依赖项。
 
 ```typescript
 MulterModule.registerAsync({

@@ -221,7 +221,7 @@ export class HttpExceptionFilter {
 
 让我们看一下 `catch()` 方法的参数。`exception` 参数是当前正在处理的异常对象。`host` 参数是一个 `ArgumentsHost` 对象。`ArgumentsHost` 是一个强大的实用程序对象，我们将在[执行上下文章节](/fundamentals/execution-context)\*中进一步研究。在此代码示例中，我们使用它来获取对传递给原始请求处理程序（在异常起源的控制器中）的 `Request` 和 `Response` 对象的引用。在此代码示例中，我们使用了 `ArgumentsHost` 上的一些辅助方法来获取所需的 `Request` 和 `Response` 对象。了解更多关于 `ArgumentsHost` 的信息[请点击这里](/fundamentals/execution-context)。
 
-\*这种抽象级别的原因是 `ArgumentsHost` 在所有上下文中都起作用（例如，我们现在正在处理的 HTTP 服务器上下文，以及微服务和 WebSockets）。在执行上下文章节中，我们将看到如何利用 `ArgumentsHost` 及其辅助函数的力量访问**任何**执行上下文的<a href="https://docs.nestjs.com/fundamentals/execution-context#host-methods">底层参数</a>。这将使我们能够编写跨所有上下文操作的通用异常过滤器。
+\*这种抽象级别的原因是 `ArgumentsHost` 在所有上下文中都起作用（例如，我们现在正在处理的 HTTP 服务器上下文，以及微服务和 WebSockets）。在执行上下文章节中，我们将看到如何利用 `ArgumentsHost` 及其辅助函数的力量访问**任何**执行上下文的<a href="/fundamentals/execution-context#host-methods">底层参数</a>。这将使我们能够编写跨所有上下文操作的通用异常过滤器。
 
 <app-banner-courses></app-banner-courses>
 

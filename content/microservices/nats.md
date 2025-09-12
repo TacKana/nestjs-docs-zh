@@ -40,7 +40,7 @@ const app = await NestFactory.createMicroservice(AppModule, {
 <table>
   <tr>
     <td><code>queue</code></td>
-    <td>服务器应订阅的队列（设置为 <code>undefined</code> 可忽略此设置）。了解更多关于 NATS 队列组的信息，请参阅<a href="https://docs.nestjs.com/microservices/nats#queue-groups">下文</a>。
+    <td>服务器应订阅的队列（设置为 <code>undefined</code> 可忽略此设置）。了解更多关于 NATS 队列组的信息，请参阅<a href="/microservices/nats#queue-groups">下文</a>。
     </td> 
   </tr>
   <tr>
@@ -55,9 +55,9 @@ const app = await NestFactory.createMicroservice(AppModule, {
 
 #### 客户端
 
-与其他微服务传输器类似，创建 NATS `ClientProxy` 实例有<a href="https://docs.nestjs.com/microservices/basics#client">多种选择</a>。
+与其他微服务传输器类似，创建 NATS `ClientProxy` 实例有<a href="/microservices/basics#client">多种选择</a>。
 
-一种创建实例的方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，导入它并使用 `register()` 方法传递一个选项对象，该对象包含与上述 `createMicroservice()` 方法中相同的属性，以及一个用作注入令牌的 `name` 属性。了解更多关于 `ClientsModule` 的信息，请参阅<a href="https://docs.nestjs.com/microservices/basics#client">这里</a>。
+一种创建实例的方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，导入它并使用 `register()` 方法传递一个选项对象，该对象包含与上述 `createMicroservice()` 方法中相同的属性，以及一个用作注入令牌的 `name` 属性。了解更多关于 `ClientsModule` 的信息，请参阅<a href="/microservices/basics#client">这里</a>。
 
 ```typescript
 @Module({
@@ -76,15 +76,15 @@ const app = await NestFactory.createMicroservice(AppModule, {
 })
 ```
 
-也可以使用其他创建客户端的方法（如 `ClientProxyFactory` 或 `@Client()`）。你可以在<a href="https://docs.nestjs.com/microservices/basics#client">这里</a>阅读更多相关信息。
+也可以使用其他创建客户端的方法（如 `ClientProxyFactory` 或 `@Client()`）。你可以在<a href="/microservices/basics#client">这里</a>阅读更多相关信息。
 
 #### 请求-响应
 
-对于**请求-响应**消息风格（[了解更多](https://docs.nestjs.com/microservices/basics#request-response)），NATS 传输器不使用 NATS 内置的[请求-回复](https://docs.nats.io/nats-concepts/reqreply)机制。相反，“请求”使用 `publish()` 方法在给定主题上发布，并附带一个唯一的回复主题名称，响应者监听该主题并将响应发送到回复主题。回复主题会动态地返回给请求者，无论双方的位置如何。
+对于**请求-响应**消息风格（[了解更多](/microservices/basics#request-response)），NATS 传输器不使用 NATS 内置的[请求-回复](https://docs.nats.io/nats-concepts/reqreply)机制。相反，“请求”使用 `publish()` 方法在给定主题上发布，并附带一个唯一的回复主题名称，响应者监听该主题并将响应发送到回复主题。回复主题会动态地返回给请求者，无论双方的位置如何。
 
 #### 基于事件
 
-对于**基于事件**的消息风格（[了解更多](https://docs.nestjs.com/microservices/basics#event-based)），NATS 传输器使用 NATS 内置的[发布-订阅](https://docs.nats.io/nats-concepts/pubsub)机制。发布者在主题上发送消息，任何监听该主题的活动订阅者都会收到消息。订阅者还可以注册对通配符主题的兴趣，这些主题的工作方式类似于正则表达式。这种一对多模式有时称为扇出（fan-out）。
+对于**基于事件**的消息风格（[了解更多](/microservices/basics#event-based)），NATS 传输器使用 NATS 内置的[发布-订阅](https://docs.nats.io/nats-concepts/pubsub)机制。发布者在主题上发送消息，任何监听该主题的活动订阅者都会收到消息。订阅者还可以注册对通配符主题的兴趣，这些主题的工作方式类似于正则表达式。这种一对多模式有时称为扇出（fan-out）。
 
 #### 队列组
 

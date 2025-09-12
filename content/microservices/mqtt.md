@@ -39,9 +39,9 @@ const app = await NestFactory.createMicroservice(AppModule, {
 
 #### 客户端
 
-与其他微服务传输器类似，创建 MQTT `ClientProxy` 实例有<a href="https://docs.nestjs.com/microservices/basics#client">多种方式</a>。
+与其他微服务传输器类似，创建 MQTT `ClientProxy` 实例有<a href="/microservices/basics#client">多种方式</a>。
 
-其中一种方式是使用 `ClientsModule`。通过 `ClientsModule` 创建客户端实例时，需导入该模块并调用 `register()` 方法，传入的配置对象需包含与 `createMicroservice()` 方法中相同的属性，同时需指定用作注入令牌的 `name` 属性。了解更多关于 `ClientsModule` 的内容请参见<a href="https://docs.nestjs.com/microservices/basics#client">此处</a>。
+其中一种方式是使用 `ClientsModule`。通过 `ClientsModule` 创建客户端实例时，需导入该模块并调用 `register()` 方法，传入的配置对象需包含与 `createMicroservice()` 方法中相同的属性，同时需指定用作注入令牌的 `name` 属性。了解更多关于 `ClientsModule` 的内容请参见<a href="/microservices/basics#client">此处</a>。
 
 ```typescript
 @Module({
@@ -60,7 +60,7 @@ const app = await NestFactory.createMicroservice(AppModule, {
 })
 ```
 
-亦可使用其他创建客户端的方法（如 `ClientProxyFactory` 或 `@Client()`），详情请参阅<a href="https://docs.nestjs.com/microservices/basics#client">此处</a>。
+亦可使用其他创建客户端的方法（如 `ClientProxyFactory` 或 `@Client()`），详情请参阅<a href="/microservices/basics#client">此处</a>。
 
 #### 上下文
 
@@ -143,7 +143,7 @@ const app = await NestFactory.createMicroservice(AppModule, {
 });
 ```
 
-如需针对特定主题设置 QoS，可考虑创建[自定义传输器](https://docs.nestjs.com/microservices/custom-transport)。
+如需针对特定主题设置 QoS，可考虑创建[自定义传输器](/microservices/custom-transport)。
 
 #### 记录构建器
 

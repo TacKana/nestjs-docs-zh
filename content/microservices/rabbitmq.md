@@ -118,9 +118,9 @@ const app = await NestFactory.createMicroservice(AppModule, {
 
 #### 客户端
 
-与其他微服务传输器一样，你有 <a href="https://docs.nestjs.com/microservices/basics#client">几种选项</a> 来创建 RabbitMQ `ClientProxy` 实例。
+与其他微服务传输器一样，你有 <a href="/microservices/basics#client">几种选项</a> 来创建 RabbitMQ `ClientProxy` 实例。
 
-创建实例的一种方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，导入它并使用 `register()` 方法传递一个选项对象，该对象具有与上面在 `createMicroservice()` 方法中显示的相同属性，以及一个用作注入令牌的 `name` 属性。在此处了解更多关于 `ClientsModule` 的信息 <a href="https://docs.nestjs.com/microservices/basics#client">here</a>。
+创建实例的一种方法是使用 `ClientsModule`。要使用 `ClientsModule` 创建客户端实例，导入它并使用 `register()` 方法传递一个选项对象，该对象具有与上面在 `createMicroservice()` 方法中显示的相同属性，以及一个用作注入令牌的 `name` 属性。在此处了解更多关于 `ClientsModule` 的信息 <a href="/microservices/basics#client">here</a>。
 
 ```typescript
 @Module({
@@ -143,7 +143,7 @@ const app = await NestFactory.createMicroservice(AppModule, {
 })
 ```
 
-也可以使用其他创建客户端的选项（`ClientProxyFactory` 或 `@Client()`）。你可以在此处阅读有关它们的信息 <a href="https://docs.nestjs.com/microservices/basics#client">here</a>。
+也可以使用其他创建客户端的选项（`ClientProxyFactory` 或 `@Client()`）。你可以在此处阅读有关它们的信息 <a href="/microservices/basics#client">here</a>。
 
 #### 上下文
 

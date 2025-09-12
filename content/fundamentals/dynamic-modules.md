@@ -1,6 +1,6 @@
 ### 动态模块
 
-[模块章节](/modules)涵盖了 Nest 模块的基础知识，并简要介绍了[动态模块](https://docs.nestjs.com/modules#dynamic-modules)。本章节将深入探讨动态模块的主题。学习完成后，你应该对它们是什么、如何以及何时使用有很好的理解。
+[模块章节](/modules)涵盖了 Nest 模块的基础知识，并简要介绍了[动态模块](/modules#dynamic-modules)。本章节将深入探讨动态模块的主题。学习完成后，你应该对它们是什么、如何以及何时使用有很好的理解。
 
 #### 介绍
 
@@ -53,7 +53,7 @@ export class AuthService {
 
 我们将这称为**静态**模块绑定。Nest 连接模块所需的所有信息已在宿主和消费模块中声明。让我们解析这个过程发生了什么。Nest 通过以下方式使 `UsersService` 在 `AuthModule` 中可用：
 
-1. 实例化 `UsersModule`，包括传递性导入 `UsersModule` 自身消费的其他模块，并传递性解析任何依赖（参见[自定义提供者](https://docs.nestjs.com/fundamentals/custom-providers)）。
+1. 实例化 `UsersModule`，包括传递性导入 `UsersModule` 自身消费的其他模块，并传递性解析任何依赖（参见[自定义提供者](/fundamentals/custom-providers)）。
 2. 实例化 `AuthModule`，并使 `UsersModule` 的导出提供者对 `AuthModule` 中的组件可用（就像它们在 `AuthModule` 中声明一样）。
 3. 在 `AuthService` 中注入 `UsersService` 的实例。
 
@@ -63,7 +63,7 @@ export class AuthService {
 
 Nest 中的一个好例子是**配置模块**。许多应用发现通过配置模块外部化配置细节非常有用。这使得在不同部署中动态更改应用设置变得容易：例如，开发人员使用开发数据库， staging/testing 环境使用 staging 数据库等。通过将配置参数的管理委托给配置模块，应用源代码保持与配置参数独立。
 
-挑战在于配置模块本身，由于它是通用的（类似于“插件”），需要由其消费模块定制。这就是_动态模块_发挥作用的地方。使用动态模块特性，我们可以使配置模块**动态化**，以便消费模块在导入时使用 API 来控制配置模块的定制方式。
+挑战在于配置模块本身，由于它是通用的（类似于“插件”），需要由其消费模块定制。这就是*动态模块*发挥作用的地方。使用动态模块特性，我们可以使配置模块**动态化**，以便消费模块在导入时使用 API 来控制配置模块的定制方式。
 
 换句话说，动态模块提供了一个 API，用于将一个模块导入另一个模块，并在导入时定制该模块的属性和行为，而不是使用我们迄今为止看到的静态绑定。
 
@@ -71,11 +71,11 @@ Nest 中的一个好例子是**配置模块**。许多应用发现通过配置�
 
 #### 配置模块示例
 
-我们将使用[配置章节](https://docs.nestjs.com/techniques/configuration#service)中的示例代码的基本版本。本章结束时的完整版本可作为一个有效的[示例在此处找到](https://github.com/nestjs/nest/tree/master/sample/25-dynamic-modules)。
+我们将使用[配置章节](/techniques/configuration#service)中的示例代码的基本版本。本章结束时的完整版本可作为一个有效的[示例在此处找到](https://github.com/nestjs/nest/tree/master/sample/25-dynamic-modules)。
 
 我们的需求是让 `ConfigModule` 接受一个 `options` 对象来自定义它。这是我们想要支持的功能。基本示例中将 `.env` 文件的位置硬编码为项目根文件夹。假设我们希望使其可配置，以便你可以在选择的任何文件夹中管理 `.env` 文件。例如，假设你想将各种 `.env` 文件存储在项目根目录下名为 `config` 的文件夹中（即 `src` 的同级文件夹）。你希望在不同项目中使用 `ConfigModule` 时能够选择不同的文件夹。
 
-动态模块使我们能够将参数传递给被导入的模块，从而改变其行为。让我们看看这是如何工作的。从消费模块的角度来看，这可能会是什么样子，然后反向工作，这很有帮助。首先，让我们快速回顾一下_静态_导入 `ConfigModule` 的示例（即一种无法影响导入模块行为的方法）。密切关注 `@Module()` 装饰器中的 `imports` 数组：
+动态模块使我们能够将参数传递给被导入的模块，从而改变其行为。让我们看看这是如何工作的。从消费模块的角度来看，这可能会是什么样子，然后反向工作，这很有帮助。首先，让我们快速回顾一下*静态*导入 `ConfigModule` 的示例（即一种无法影响导入模块行为的方法）。密切关注 `@Module()` 装饰器中的 `imports` 数组：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -91,7 +91,7 @@ import { ConfigModule } from './config/config.module';
 export class AppModule {}
 ```
 
-让我们考虑一下_动态模块_导入的样子，其中我们传递了一个配置对象。比较这两个示例中 `imports` 数组的区别：
+让我们考虑一下*动态模块*导入的样子，其中我们传递了一个配置对象。比较这两个示例中 `imports` 数组的区别：
 
 ```typescript
 import { Module } from '@nestjs/common';
@@ -177,7 +177,7 @@ import { ConfigModule } from './config/config.module';
 export class AppModule {}
 ```
 
-这很好地处理了将 `options` 对象传递给我们的动态模块。然后我们如何在 `ConfigModule` 中使用那个 `options` 对象？让我们考虑一下。我们知道我们的 `ConfigModule` 基本上是提供和导出可注入服务 - `ConfigService` - 的主机，供其他提供者使用。实际上是我们的 `ConfigService` 需要读取 `options` 对象来定制其行为。让我们暂时假设我们知道如何以某种方式将 `options` 从 `register()` 方法获取到 `ConfigService` 中。基于这个假设，我们可以对服务进行一些更改，以根据 `options` 对象的属性定制其行为。（**注意**：暂时，由于我们_还没有_确定如何传递它，我们将只是硬编码 `options`。我们稍后会修复这个问题）。
+这很好地处理了将 `options` 对象传递给我们的动态模块。然后我们如何在 `ConfigModule` 中使用那个 `options` 对象？让我们考虑一下。我们知道我们的 `ConfigModule` 基本上是提供和导出可注入服务 - `ConfigService` - 的主机，供其他提供者使用。实际上是我们的 `ConfigService` 需要读取 `options` 对象来定制其行为。让我们暂时假设我们知道如何以某种方式将 `options` 从 `register()` 方法获取到 `ConfigService` 中。基于这个假设，我们可以对服务进行一些更改，以根据 `options` 对象的属性定制其行为。（**注意**：暂时，由于我们*还没有*确定如何传递它，我们将只是硬编码 `options`。我们稍后会修复这个问题）。
 
 ```typescript
 import { Injectable } from '@nestjs/common';
@@ -206,7 +206,7 @@ export class ConfigService {
 
 现在我们的 `ConfigService` 知道如何在我们指定的 `options` 文件夹中找到 `.env` 文件。
 
-我们剩下的任务是以某种方式将 `options` 对象从 `register()` 步骤注入到我们的 `ConfigService` 中。当然，我们将使用_依赖注入_来实现。这是一个关键点，所以请确保你理解它。我们的 `ConfigModule` 提供 `ConfigService`。`ConfigService` 又依赖于仅在运行时提供的 `options` 对象。因此，在运行时，我们需要首先将 `options` 对象绑定到 Nest IoC 容器，然后让 Nest 将其注入到我们的 `ConfigService` 中。记得在**自定义提供者**章节中，提供者可以[包含任何值](https://docs.nestjs.com/fundamentals/custom-providers#non-service-based-providers)，不仅仅是服务，所以使用依赖注入来处理简单的 `options` 对象是没问题的。
+我们剩下的任务是以某种方式将 `options` 对象从 `register()` 步骤注入到我们的 `ConfigService` 中。当然，我们将使用*依赖注入*来实现。这是一个关键点，所以请确保你理解它。我们的 `ConfigModule` 提供 `ConfigService`。`ConfigService` 又依赖于仅在运行时提供的 `options` 对象。因此，在运行时，我们需要首先将 `options` 对象绑定到 Nest IoC 容器，然后让 Nest 将其注入到我们的 `ConfigService` 中。记得在**自定义提供者**章节中，提供者可以[包含任何值](/fundamentals/custom-providers#non-service-based-providers)，不仅仅是服务，所以使用依赖注入来处理简单的 `options` 对象是没问题的。
 
 让我们首先解决将选项对象绑定到 IoC 容器的问题。我们在静态 `register()` 方法中这样做。记住我们正在动态构建一个模块，模块的属性之一是其提供者列表。所以我们需要做的是将我们的选项对象定义为一个提供者。这将使其可注入到 `ConfigService` 中，我们将在下一步中利用这一点。在下面的代码中，注意 `providers` 数组：
 
@@ -232,7 +232,7 @@ export class ConfigModule {
 }
 ```
 
-现在我们可以通过将 `'CONFIG_OPTIONS'` 提供者注入到 `ConfigService` 中来完成这个过程。回想一下，当我们使用非类令牌定义提供者时，需要使用 `@Inject()` 装饰器，[如这里所述](https://docs.nestjs.com/fundamentals/custom-providers#non-class-based-provider-tokens)。
+现在我们可以通过将 `'CONFIG_OPTIONS'` 提供者注入到 `ConfigService` 中来完成这个过程。回想一下，当我们使用非类令牌定义提供者时，需要使用 `@Inject()` 装饰器，[如这里所述](/fundamentals/custom-providers#non-class-based-provider-tokens)。
 
 ```typescript
 import * as dotenv from 'dotenv';

@@ -116,4 +116,4 @@ export class AppModule {}
 
 因此，简而言之，单体仓库和库功能的结合使得将库模块包含到应用程序中变得简单直观。
 
-同样的机制支持构建和部署组合库的应用程序。一旦您导入了 `MyLibraryModule`，运行 `nest build` 会自动处理所有模块解析，并将应用程序与任何库依赖项捆绑在一起，以便部署。单体仓库的默认编译器是 **webpack**，因此生成的发行文件是一个单独的文件，将所有转译后的 JavaScript 文件捆绑到一个文件中。您也可以切换到 `tsc`，如<a href="https://docs.nestjs.com/cli/monorepo#global-compiler-options">此处</a>所述。
+同样的机制支持构建和部署组合库的应用程序。一旦您导入了 `MyLibraryModule`，运行 `nest build` 会自动处理所有模块解析，并将应用程序与任何库依赖项捆绑在一起，以便部署。单体仓库的默认编译器是 **webpack**，因此生成的发行文件是一个单独的文件，将所有转译后的 JavaScript 文件捆绑到一个文件中。您也可以切换到 `tsc`，如<a href="/cli/monorepo#global-compiler-options">此处</a>所述。

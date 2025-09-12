@@ -110,11 +110,11 @@ bootstrap();
 
 #### 请求-响应
 
-当您需要在各种外部服务之间**交换**消息时，请求-响应消息风格非常有用。这种范式确保服务实际接收到消息（无需手动实现确认协议）。然而，请求-响应方法并非总是最佳选择。例如，流式传输器，如 [Kafka](https://docs.confluent.io/3.0.0/streams/) 或 [NATS streaming](https://github.com/nats-io/node-nats-streaming)，使用基于日志的持久化，针对解决不同挑战集进行了优化，更符合事件消息范式（更多详情请参阅[基于事件的消息传递](https://docs.nestjs.com/microservices/basics#event-based)）。
+当您需要在各种外部服务之间**交换**消息时，请求-响应消息风格非常有用。这种范式确保服务实际接收到消息（无需手动实现确认协议）。然而，请求-响应方法并非总是最佳选择。例如，流式传输器，如 [Kafka](https://docs.confluent.io/3.0.0/streams/) 或 [NATS streaming](https://github.com/nats-io/node-nats-streaming)，使用基于日志的持久化，针对解决不同挑战集进行了优化，更符合事件消息范式（更多详情请参阅[基于事件的消息传递](/microservices/basics#event-based)）。
 
 要启用请求-响应消息类型，Nest 创建两个逻辑通道：一个用于传输数据，另一个用于等待传入响应。对于某些底层传输，如 [NATS](https://nats.io/)，这种双通道支持是开箱即用的。对于其他传输器，Nest 通过手动创建单独通道来补偿。虽然这很有效，但可能会引入一些开销。因此，如果您不需要请求-响应消息风格，可以考虑使用基于事件的方法。
 
-要创建基于请求-响应范式的消息处理程序，请使用从 `@nestjs/microservices` 包导入的 `@MessagePattern()` 装饰器。此装饰器应仅在[控制器](https://docs.nestjs.com/controllers)类中使用，因为它们作为应用的入口点。在提供者中使用它将无效，因为它们会被 Nest 运行时忽略。
+要创建基于请求-响应范式的消息处理程序，请使用从 `@nestjs/microservices` 包导入的 `@MessagePattern()` 装饰器。此装饰器应仅在[控制器](/controllers)类中使用，因为它们作为应用的入口点。在提供者中使用它将无效，因为它们会被 Nest 运行时忽略。
 
 ```typescript
 @@filename(math.controller)
@@ -234,7 +234,7 @@ getDate(data, context) {
 
 一种方法是导入 `ClientsModule`，它暴露了静态 `register()` 方法。此方法接受一个表示微服务传输器的对象数组。每个对象必须包含一个 `name` 属性，以及可选的 `transport` 属性（默认为 `Transport.TCP`），以及一个可选的 `options` 属性。
 
-`name` 属性充当**注入令牌**，您可以在需要注入 `ClientProxy` 实例的地方使用它。此 `name` 属性的值可以是任意字符串或 JavaScript 符号，如[此处](https://docs.nestjs.com/fundamentals/custom-providers#non-class-based-provider-tokens)所述。
+`name` 属性充当**注入令牌**，您可以在需要注入 `ClientProxy` 实例的地方使用它。此 `name` 属性的值可以是任意字符串或 JavaScript 符号，如[此处](/fundamentals/custom-providers#non-class-based-provider-tokens)所述。
 
 `options` 属性是一个对象，包含我们之前在 `createMicroservice()` 方法中看到的相同属性。
 

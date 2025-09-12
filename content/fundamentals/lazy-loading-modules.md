@@ -6,7 +6,7 @@
 
 > info **提示** 如果你熟悉 **[Angular](https://angular.dev/)** 框架，可能之前见过“[懒加载模块](https://angular.dev/guide/ngmodules/lazy-loading#lazy-loading-basics)”这个术语。请注意，这项技术在 Nest 中**功能上是不同的**，因此请将其视为一个完全不同的功能，只是共享了相似的命名约定。
 
-> warning **警告** 请注意，[生命周期钩子方法](https://docs.nestjs.com/fundamentals/lifecycle-events)在懒加载的模块和服务中不会被调用。
+> warning **警告** 请注意，[生命周期钩子方法](/fundamentals/lifecycle-events)在懒加载的模块和服务中不会被调用。
 
 #### 开始使用
 
