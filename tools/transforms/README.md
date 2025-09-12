@@ -1,39 +1,29 @@
-# Transforms overview
+# 转换概述
 
-All the content that is rendered by the docs.nestjs.com application, and some of its
-configuration files, are generated from source files by [Dgeni](https://github.com/angular/dgeni).
-Dgeni is a general purpose documentation generation tool.
+所有由 docs.nestjs.com 应用程序渲染的内容，以及部分配置文件，都是通过 [Dgeni](https://github.com/angular/dgeni) 从源文件生成的。Dgeni 是一个通用的文档生成工具。
 
-Markdown files in `content` are processed and transformed
-into files that are consumed by the `docs.nestjs.com` web frontend.
+`content` 目录下的 Markdown 文件会被处理和转换为 `docs.nestjs.com` 前端所需的文件。
 
-## Packages
+## 包结构
 
-The documentation tool of NestJS is split into multiple Dgeni packages.
+NestJS 的文档工具被拆分为多个 Dgeni 包。
 
 **nestjs-package**
 
-The main package. Orchestrates all the following packages and sets
-final configuration. It is responsible for cleaning up the file system.
+主包。负责协调以下所有包并设置最终配置，同时负责清理文件系统。
 
 **nestjs-base-package**
 
-The base package for common configurations, services and processors for
-each package. It handles the general input / output / template path resolution.
+为每个包提供通用配置、服务和处理器的基础包。负责一般的输入/输出/模板路径解析。
 
 **nestjs-content-package**
 
-Orchestrates all hand-written contents for the NestJS documentation.
-It makes use of the `content`-folders markdown. On top of that
-it takes care of the `content/**/*.json` files such as `content/discover/who-uses.json`.
+负责管理 NestJS 文档的所有手写内容。它会处理 `content` 文件夹下的 markdown 文件，并管理如 `content/discover/who-uses.json` 这样的 `content/**/*.json` 文件。
 
 **content-package**
 
-A package to handle the markdown content files. It creates a new DocType `content`
-which include a `content` and `title` of each markdown file.
-The **nestjs-content-package** manages this content further.
+用于处理 markdown 内容文件的包。它会为每个 markdown 文件创建一个新的 DocType `content`，包含 `content` 和 `title` 字段。**nestjs-content-package** 会进一步管理这些内容。
 
-## Templates
+## 模板
 
-All the templates for the docs.nestjs.com dgeni transformations are stored in the `tools/transforms/templates`
-folder. See the [README](./templates/README.md).
+docs.nestjs.com 的所有 dgeni 转换模板都存储在 `tools/transforms/templates` 文件夹中。详见 [README](./templates/README.md)。

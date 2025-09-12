@@ -252,7 +252,7 @@ create() {
 
 ```typescript
 @Get('docs')
-@Redirect('https://docs.nestjs.com', 302)
+@Redirect('https://nestjs.xuxo.top', 302)
 getDocs(@Query('version') version) {
   if (version && version === '5') {
     return { url: '/v5/' };

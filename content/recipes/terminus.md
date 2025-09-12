@@ -78,7 +78,7 @@ export class HealthController {
   @HealthCheck()
   check() {
     return this.health.check([
-      () => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com'),
+      () => this.http.pingCheck('nestjs-docs', 'https://nestjs.xuxo.top'),
     ]);
   }
 }
@@ -98,7 +98,7 @@ export class HealthController {
   @HealthCheck()
   healthCheck() {
     return this.health.check([
-      () => this.http.pingCheck('nestjs-docs', 'https://docs.nestjs.com'),
+      () => this.http.pingCheck('nestjs-docs', 'https://nestjs.xuxo.top'),
     ])
   }
 }
@@ -129,7 +129,7 @@ import { HealthController } from './health.controller';
 export class HealthModule {}
 ```
 
-现在，我们的健康检查将向 `https://docs.nestjs.com` 地址发送一个 _GET_ 请求。如果从该地址获得健康响应，我们在 `http://localhost:3000/health` 的路由将返回以下对象，并带有 200 状态码。
+现在，我们的健康检查将向 `https://nestjs.xuxo.top` 地址发送一个 _GET_ 请求。如果从该地址获得健康响应，我们在 `http://localhost:3000/health` 的路由将返回以下对象，并带有 200 状态码。
 
 ```json
 {
@@ -150,19 +150,18 @@ export class HealthModule {}
 
 此响应对象的接口可以从 `@nestjs/terminus` 包中的 `HealthCheckResult` 接口访问。
 
-|           |                                                                                                                                                                                             |                                      |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+|           |                                                                                                                                 |                                      |
+| --------- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------ |
 | `status`  | 如果任何健康指示器失败，状态将为 `'error'`。如果 NestJS 应用正在关闭但仍接受 HTTP 请求，健康检查将具有 `'shutting_down'` 状态。 | `'error' \| 'ok' \| 'shutting_down'` |
-| `info`    | 包含状态为 `'up'` 的每个健康指示器信息的对象，换句话说就是“健康”。                                                                              | `object`                             |
-| `error`   | 包含状态为 `'down'` 的每个健康指示器信息的对象，换句话说就是“不健康”。                                                                          | `object`                             |
-| `details` | 包含每个健康指示器所有信息的对象                                                                                                                                  | `object`                             |
+| `info`    | 包含状态为 `'up'` 的每个健康指示器信息的对象，换句话说就是“健康”。                                                              | `object`                             |
+| `error`   | 包含状态为 `'down'` 的每个健康指示器信息的对象，换句话说就是“不健康”。                                                          | `object`                             |
+| `details` | 包含每个健康指示器所有信息的对象                                                                                                | `object`                             |
 
 ##### 检查特定的 HTTP 响应码
 
 在某些情况下，您可能希望检查特定条件并验证响应。例如，假设 `https://my-external-service.com` 返回响应码 `204`。使用 `HttpHealthIndicator.responseCheck`，您可以专门检查该响应码，并将所有其他响应码视为不健康。
 
 如果返回除 `204` 之外的任何其他响应码，以下示例将是不健康的。第三个参数要求您提供一个函数（同步或异步），该函数返回一个布尔值，表示响应是否被视为健康（`true`）或不健康（`false`）。
-
 
 ```typescript
 @@filename(health.controller)
@@ -181,7 +180,6 @@ check() {
   ]);
 }
 ```
-
 
 #### TypeOrm 健康指示器
 
@@ -270,7 +268,6 @@ export class HealthController {
 }
 ```
 
-
 #### 磁盘健康指示器
 
 使用 `DiskHealthIndicator`，我们可以检查使用了多少存储空间。要开始使用，请确保将 `DiskHealthIndicator` 注入到您的 `HealthController` 中。以下示例检查路径 `/`（或在 Windows 上可以使用 `C:\\`）的存储使用情况。如果该使用量超过总存储空间的 50%，它将响应一个不健康的健康检查。
@@ -328,6 +325,7 @@ check() {
 为确保您的进程不超过某个内存限制，可以使用 `MemoryHealthIndicator`。以下示例可用于检查进程的堆。
 
 > info **提示** 堆是动态分配内存所在的内存部分（即通过 malloc 分配的内存）。从堆分配的内存将保持分配状态，直到发生以下情况之一：
+>
 > - 内存被 _释放_
 > - 程序终止
 
@@ -368,7 +366,6 @@ export class HealthController {
 
 > info **提示** RSS 是驻留集大小，用于显示分配给该进程的内存量以及它在 RAM 中的情况。它不包括已交换出的内存。它包括来自共享库的内存，只要这些库的页面实际上在内存中。它包括所有堆栈和堆内存。
 
-
 ```typescript
 @@filename(health.controller)
 // 在 `HealthController` 类中
@@ -381,7 +378,6 @@ check() {
   ]);
 }
 ```
-
 
 #### 自定义健康指示器
 
@@ -527,7 +523,6 @@ Terminus 仅记录错误消息，例如当健康检查失败时。使用 `Termin
 
 > info **信息** 如果您想了解更多关于 NestJS 中自定义记录器的信息，[请阅读此处](/techniques/logger#injecting-a-custom-logger)。
 
-
 ```typescript
 @@filename(terminus-logger.service)
 import { Injectable, Scope, ConsoleLogger } from '@nestjs/common';
@@ -561,7 +556,6 @@ imports: [
 export class HealthModule {}
 ```
 
-
 要完全抑制来自 Terminus 的任何日志消息，包括错误消息，请按如下方式配置 Terminus。
 
 ```typescript
@@ -576,14 +570,12 @@ imports: [
 export class HealthModule {}
 ```
 
-
-
 Terminus 允许您配置健康检查错误在日志中的显示方式。
 
-| 错误日志样式          | 描述                                                                                                                        | 示例                                                              |
-|:------------------|:-----------------------------------------------------------------------------------------------------------------------------------|:---------------------------------------------------------------------|
-| `json`  (默认) | 以 JSON 对象形式打印健康检查结果的摘要（如果发生错误）                                                     | <figure><img src="/assets/Terminus_Error_Log_Json.png" /></figure>   |
-| `pretty`          | 在格式化的框内打印健康检查结果的摘要，并突出显示成功/错误的结果 | <figure><img src="/assets/Terminus_Error_Log_Pretty.png" /></figure> |
+| 错误日志样式  | 描述                                                            | 示例                                                                 |
+| :------------ | :-------------------------------------------------------------- | :------------------------------------------------------------------- |
+| `json` (默认) | 以 JSON 对象形式打印健康检查结果的摘要（如果发生错误）          | <figure><img src="/assets/Terminus_Error_Log_Json.png" /></figure>   |
+| `pretty`      | 在格式化的框内打印健康检查结果的摘要，并突出显示成功/错误的结果 | <figure><img src="/assets/Terminus_Error_Log_Pretty.png" /></figure> |
 
 您可以使用 `errorLogStyle` 配置选项更改日志样式，如下面的代码片段所示。
 
