@@ -382,7 +382,7 @@ export class UsersModule {}
 
 数据库事务象征着在数据库管理系统中对数据库执行的工作单元，并以连贯可靠的方式独立于其他事务进行处理。事务通常表示数据库中的任何更改（[了解更多](https://en.wikipedia.org/wiki/Database_transaction)）。
 
-处理 [TypeORM 事务](https://typeorm.io/#/transactions)有许多不同的策略。我们推荐使用 `QueryRunner` 类，因为它提供了对事务的完全控制。
+处理 [TypeORM 事务](https://typeorm.io/docs/advanced-topics/transactions/)有许多不同的策略。我们推荐使用 `QueryRunner` 类，因为它提供了对事务的完全控制。
 
 首先，我们需要以正常方式将 `DataSource` 对象注入到一个类中：
 
@@ -422,7 +422,7 @@ async createMany(users: User[]) {
 
 <app-banner-devtools></app-banner-devtools>
 
-或者，你可以使用 `DataSource` 对象的 `transaction` 方法的回调风格方法（[阅读更多](https://typeorm.io/#/transactions/creating-and-using-transactions)）。
+或者，你可以使用 `DataSource` 对象的 `transaction` 方法的回调风格方法（[阅读更多](https://typeorm.io/docs/advanced-topics/transactions/#creating-and-using-transactions)）。
 
 ```typescript
 async createMany(users: User[]) {
