@@ -435,7 +435,7 @@ async createMany(users: User[]) {
 
 #### 订阅者
 
-通过 TypeORM [订阅者](https://typeorm.io/#/listeners-and-subscribers/what-is-a-subscriber)，你可以监听特定的实体事件。
+通过 TypeORM [订阅者](https://typeorm.io/docs/advanced-topics/listeners-and-subscribers#what-is-a-subscriber)，你可以监听特定的实体事件。
 
 ```typescript
 import {
@@ -481,8 +481,6 @@ import { UserSubscriber } from './user.subscriber';
 })
 export class UsersModule {}
 ```
-
-> 提示 **提示** 了解更多关于实体订阅者的信息[请点击这里](https://typeorm.io/#/listeners-and-subscribers/what-is-a-subscriber)。
 
 #### 迁移
 
