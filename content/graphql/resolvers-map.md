@@ -583,12 +583,12 @@ export class AuthorsResolver {
 
 ```typescript
 @@filename(graphql)
-export (class Author {
+export class Author {
   id: number;
   firstName?: string;
   lastName?: string;
   posts?: Post[];
-})
+}
 export class Post {
   id: number;
   title: string;
