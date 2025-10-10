@@ -75,7 +75,7 @@ export class CatsController {
 ```typescript
 @@filename(cats.controller)
 import { Controller, Get, Req } from '@nestjs/common';
-import { Request } from 'express';
+import type { Request } from 'express';
 
 @Controller('cats')
 export class CatsController {
