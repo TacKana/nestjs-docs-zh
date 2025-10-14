@@ -64,8 +64,34 @@ $ npx prisma init
 
 此命令创建一个新的 `prisma` 目录，包含以下内容：
 
-- `schema.prisma`：指定你的数据库连接并包含数据库模式
-- `.env`：一个 [dotenv](https://github.com/motdotla/dotenv) 文件，通常用于在一组环境变量中存储你的数据库凭据
+- `schema.prisma`：指定数据库连接信息，并包含数据库架构（即数据库模型结构定义）
+- `.env`：一个[dotenv](https://github.com/motdotla/dotenv)格式文件，通常用于将数据库凭证（如用户名、密码、连接地址等）存储在一组环境变量中
+
+
+#### 设置生成器输出路径
+
+> 警告 **Warning** 在 Prisma ORM 7 版本中，Prisma Client（Prisma 的数据库客户端工具）默认将不再生成到 `node_modules` 目录下，而是需要手动定义一个输出路径。[下方将详细介绍如何定义输出路径](https://www.prisma.io/docs/orm/prisma-client/setup-and-configuration/generating-prisma-client#using-a-custom-output-path)。
+
+可通过以下两种方式之一，为生成的 Prisma Client 指定输出 `path`（路径）：
+1. 在执行 `prisma init` 命令时，通过传递参数 `--output ../generated/prisma` 来指定；
+2. 直接在 Prisma 架构文件（`schema.prisma`）中定义，示例如下：
+
+```groovy
+generator client {
+  provider        = "prisma-client-js"  // 指定生成的客户端类型为 JavaScript 版本
+  output          = "../generated/prisma"  // 定义 Prisma Client 的生成路径
+}
+```
+
+默认情况下，Nest（一款 Node.js 后端框架）不会将生成的 Prisma Client 包含在构建（build）过程中。要解决此问题，需在 `tsconfig.build.json`（TypeScript 构建配置文件）中显式定义该路径：
+
+```json
+{
+  "extends": "./tsconfig.json",  // 继承基础 TypeScript 配置
+  "include": ["src", "generated"],  // 指定构建时需包含的目录，新增 "generated" 以包含 Prisma Client
+  "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]  // 指定构建时需排除的目录/文件
+}
+```
 
 #### 设置数据库连接
 
@@ -79,6 +105,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output          = "../generated/prisma"
 }
 ```
 
@@ -110,6 +137,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output          = "../generated/prisma"
 }
 ```
 
@@ -141,6 +169,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output          = "../generated/prisma"
 }
 ```
 
@@ -166,6 +195,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output          = "../generated/prisma"
 }
 ```
 
@@ -274,7 +304,7 @@ $ npm install @prisma/client
 
 ```typescript
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from 'generated/prisma';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
@@ -293,7 +323,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { User, Prisma } from '@prisma/client';
+import { User, Prisma } from 'generated/prisma';
 
 @Injectable()
 export class UsersService {
@@ -358,7 +388,7 @@ export class UsersService {
 ```typescript
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma.service';
-import { Post, Prisma } from '@prisma/client';
+import { Post, Prisma } from 'generated/prisma';
 
 @Injectable()
 export class PostsService {
@@ -436,7 +466,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './user.service';
 import { PostsService } from './post.service';
-import { User as UserModel, Post as PostModel } from '@prisma/client';
+import { User as UserModel, Post as PostModel } from 'generated/prisma';
 
 @Controller()
 export class AppController {
