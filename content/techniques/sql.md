@@ -295,7 +295,7 @@ export class User {
 }
 ```
 
-> 提示 **提示** 要了解更多关于 TypeORM 中的关系，请访问 [TypeORM 文档](https://typeorm.io/#/relations)。
+> 提示 **提示** 要了解更多关于 TypeORM 中的关系，请访问 [TypeORM 文档](https://typeorm.io/docs/relations/relations)。
 
 #### 自动加载实体
 
@@ -323,7 +323,7 @@ export class AppModule {}
 
 #### 分离实体定义
 
-你可以直接在模型中使用装饰器定义实体及其列。但有些人更喜欢使用["实体模式"](https://typeorm.io/#/separating-entity-definition)在单独的文件中定义实体及其列。
+你可以直接在模型中使用装饰器定义实体及其列。但有些人更喜欢使用["实体模式"](https://typeorm.io/docs/entity/separating-entity-definition)在单独的文件中定义实体及其列。
 
 ```typescript
 import { EntitySchema } from 'typeorm';
@@ -484,9 +484,9 @@ export class UsersModule {}
 
 #### 迁移
 
-[迁移](https://typeorm.io/#/migrations)提供了一种逐步更新数据库模式的方法，以使其与应用程序的数据模型保持同步，同时保留数据库中的现有数据。要生成、运行和回滚迁移，TypeORM 提供了一个专用的 [CLI](https://typeorm.io/#/migrations/creating-a-new-migration)。
+[迁移](https://typeorm.io/docs/advanced-topics/migrations/)提供了一种逐步更新数据库模式的方法，以使其与应用程序的数据模型保持同步，同时保留数据库中的现有数据。要生成、运行和回滚迁移，TypeORM 提供了一个专用的 [CLI](https://typeorm.io/docs/advanced-topics/migrations/#creating-a-new-migration)。
 
-迁移类与 Nest 应用程序源代码是分开的。它们的生命周期由 TypeORM CLI 维护。因此，你无法在迁移中利用依赖注入和其他 Nest 特定功能。要了解更多关于迁移的信息，请遵循 [TypeORM 文档](https://typeorm.io/#/migrations/creating-a-new-migration)中的指南。
+迁移类与 Nest 应用程序源代码是分开的。它们的生命周期由 TypeORM CLI 维护。因此，你无法在迁移中利用依赖注入和其他 Nest 特定功能。要了解更多关于迁移的信息，请遵循 [TypeORM 文档](https://typeorm.io/docs/advanced-topics/migrations/)中的指南。
 
 #### 多个数据库
 
