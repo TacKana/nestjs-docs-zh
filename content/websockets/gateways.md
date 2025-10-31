@@ -138,7 +138,7 @@ socket.emit('events', { name: 'Nest' }, (data) => console.log(data));
 
 #### 多个响应
 
-确认仅发送一次。此外，原生 WebSockets 实现不支持此功能。为了解决这个限制，你可以返回一个由两个属性组成的对象。`event` 是发出的事件的名称，`data` 是要转发给客户端的数据。
+确认通知仅发送一次。此外，原生WebSocket实现并不支持此功能。为解决这一限制，您可以返回一个包含两个属性的对象：其中`event`代表发出事件的名称，而`data`则是需要传递给客户端的数据内容。
 
 ```typescript
 @@filename(events.gateway)

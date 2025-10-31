@@ -12,7 +12,7 @@
 
 ```bash
 # 用于 Express 和 Apollo（默认）
-$ npm i @nestjs/graphql @nestjs/apollo @apollo/server graphql
+$ npm i @nestjs/graphql @nestjs/apollo @apollo/server @as-integrations/express5 graphql
 
 # 用于 Fastify 和 Apollo
 # npm i @nestjs/graphql @nestjs/apollo @apollo/server @as-integrations/fastify graphql
