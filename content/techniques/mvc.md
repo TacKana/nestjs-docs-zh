@@ -21,7 +21,7 @@ $ npm install --save hbs
 @@filename(main)
 import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
-import { join } from 'path';
+import { join } from 'node:path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -38,7 +38,7 @@ async function bootstrap() {
 bootstrap();
 @@switch
 import { NestFactory } from '@nestjs/core';
-import { join } from 'path';
+import { join } from 'node:path';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
@@ -139,7 +139,7 @@ $ npm i --save @fastify/static @fastify/view handlebars
 import { NestFactory } from '@nestjs/core';
 import { NestFastifyApplication, FastifyAdapter } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { join } from 'path';
+import { join } from 'node:path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -163,7 +163,7 @@ bootstrap();
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';
-import { join } from 'path';
+import { join } from 'node:path';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, new FastifyAdapter());

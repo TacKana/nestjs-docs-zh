@@ -2,7 +2,7 @@
 
 > info **提示** 本章节介绍 Nest Devtools 与 Nest 框架的集成。如需了解 Devtools 应用，请访问 [Devtools](https://devtools.nestjs.com) 网站。
 
-CI/CD 集成功能适用于拥有 **[企业版（Enterprise）](/settings)** 计划的用户。
+CI/CD 集成功能适用于拥有 **企业版** 计划的用户。
 
 您可以通过以下视频了解 CI/CD 集成的作用及使用方法：
 

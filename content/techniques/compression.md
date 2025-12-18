@@ -48,7 +48,7 @@ await app.register(compression);
 默认情况下，当浏览器表明支持 Brotli 编码时（Node >= 11.7.0），`@fastify/compress` 会使用 Brotli 压缩算法。尽管 Brotli 在压缩率方面非常高效，但其压缩速度可能较慢。默认情况下，Brotli 设置的最大压缩质量为 11，但可以通过调整 `BROTLI_PARAM_QUALITY` 参数（范围从 0 到 11）来在压缩质量和压缩时间之间做出权衡，这需要精细调整以优化空间和时间性能。以下是一个设置质量为 4 的示例：
 
 ```typescript
-import { constants } from 'zlib';
+import { constants } from 'node:zlib';
 // 在你的初始化文件中的某个位置
 await app.register(compression, { brotliOptions: { params: { [constants.BROTLI_PARAM_QUALITY]: 4 } } });
 ```

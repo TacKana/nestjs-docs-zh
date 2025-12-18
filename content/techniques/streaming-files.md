@@ -33,8 +33,8 @@ export class FileController {
 
 ```ts
 import { Controller, Get, StreamableFile } from '@nestjs/common';
-import { createReadStream } from 'fs';
-import { join } from 'path';
+import { createReadStream } from 'node:fs';
+import { join } from 'node:path';
 
 @Controller('file')
 export class FileController {
@@ -50,8 +50,8 @@ export class FileController {
 
 ```ts
 import { Controller, Get, StreamableFile, Res } from '@nestjs/common';
-import { createReadStream } from 'fs';
-import { join } from 'path';
+import { createReadStream } from 'node:fs';
+import { join } from 'node:path';
 import type { Response } from 'express'; // 假设我们使用 ExpressJS HTTP 适配器
 
 @Controller('file')

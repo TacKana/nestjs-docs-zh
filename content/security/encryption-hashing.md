@@ -11,8 +11,8 @@ Node.js 提供了一个内置的 [crypto 模块](https://nodejs.org/api/crypto.h
 例如，我们使用 AES（高级加密系统）的 `'aes-256-ctr'` 算法 CTR 加密模式。
 
 ```typescript
-import { createCipheriv, randomBytes, scrypt } from 'crypto';
-import { promisify } from 'util';
+import { createCipheriv, randomBytes, scrypt } from 'node:crypto';
+import { promisify } from 'node:util';
 
 const iv = randomBytes(16);
 const password = '用于生成密钥的密码';
@@ -32,7 +32,7 @@ const encryptedText = Buffer.concat([
 现在解密 `encryptedText` 值：
 
 ```typescript
-import { createDecipheriv } from 'crypto';
+import { createDecipheriv } from 'node:crypto';
 
 const decipher = createDecipheriv('aes-256-ctr', key, iv);
 const decryptedText = Buffer.concat([

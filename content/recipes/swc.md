@@ -48,6 +48,20 @@ $ nest start -b swc
 }
 ```
 
+例如，要让 swc 编译 `.jsx` 和 `.tsx` 请执行以下操作:
+
+```json
+{
+  "compilerOptions": {
+    "builder": {
+      "type": "swc",
+      "options": { "extensions": [".ts", ".tsx", ".js", ".jsx"] }
+    },
+  }
+}
+
+```
+
 要在监听模式下运行应用，使用以下命令：
 
 ```bash

@@ -181,9 +181,9 @@ export class AppModule {}
 
 ```typescript
 import { Injectable } from '@nestjs/common';
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
 import { EnvConfig } from './interfaces';
 
 @Injectable()
@@ -235,9 +235,9 @@ export class ConfigModule {
 现在我们可以通过将 `'CONFIG_OPTIONS'` 提供者注入到 `ConfigService` 中来完成这个过程。回想一下，当我们使用非类令牌定义提供者时，需要使用 `@Inject()` 装饰器，[如这里所述](/fundamentals/custom-providers#non-class-based-provider-tokens)。
 
 ```typescript
+import * as fs from 'node:fs';
+import * as path from 'node:path';
 import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
 import { Injectable, Inject } from '@nestjs/common';
 import { EnvConfig } from './interfaces';
 
