@@ -369,7 +369,7 @@ await audioQueue.resume();
 @@filename(app.module)
 import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bullmq';
-import { join } from 'path';
+import { join } from 'node:path';
 
 @Module({
   imports: [

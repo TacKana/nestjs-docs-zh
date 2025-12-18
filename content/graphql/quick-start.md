@@ -177,7 +177,7 @@ GraphQLModule.forRoot<ApolloDriverConfig>({
 
 ```typescript
 import { GraphQLDefinitionsFactory } from '@nestjs/graphql';
-import { join } from 'path';
+import { join } from 'node:path';
 
 const definitionsFactory = new GraphQLDefinitionsFactory();
 definitionsFactory.generate({

@@ -1,300 +1,315 @@
-### 套件（原 Automock）
+### Suites 测试框架
 
-套件（Suites）是一个兼具原则性与灵活性的测试元框架，专为提升后端系统软件测试体验而设计。通过整合多种测试工具到统一框架中，套件简化了可靠测试的创建过程，助力打造高质量软件。
+[Suites](https://suites.dev) 是一个用于 TypeScript 依赖注入框架的[开源](https://github.com/suites-dev/suites)单元测试框架。它被用作**替代**手动创建模拟对象、编写冗长的多模拟配置测试设置，或者使用非类型化的测试替身（如模拟对象和桩函数）的方案。
 
-> info **提示** `Suites` 是第三方包，并非由 NestJS 核心团队维护。如遇库相关问题，请提交至[对应代码库](https://github.com/suites-dev/suites)。
+Suites 在运行时读取 NestJS 服务的元数据，并自动为所有依赖生成完全类型化的模拟对象。
+这消除了模拟对象设置的样板代码，并确保了类型安全的测试。虽然 Suites 可以与 `Test.createTestingModule()` 一起使用，但它在聚焦的单元测试方面表现突出。
+当需要验证模块连接、装饰器、守卫和拦截器时，请使用 `Test.createTestingModule()`。
+当需要进行快速单元测试并自动生成模拟对象时，请使用 Suites。
 
-#### 引言
+有关基于模块的测试的更多信息，请参阅 [测试基础章节](/fundamentals/testing)。
 
-控制反转（Inversion of Control，IoC）是 NestJS 框架的核心原则，它支持模块化、可测试的架构。虽然 NestJS 提供了内置工具来创建测试模块，但套件提供了一种替代方案，强调测试隔离的单元或小范围单元组。套件使用虚拟容器管理依赖，自动生成模拟对象，无需在 IoC（或 DI）容器中手动替换每个提供者。这种方法可以替代或与 NestJS 的 `Test.createTestingModule` 方法结合使用，根据需求为单元测试提供更大灵活性。
+> info **注意** `Suites` 是一个第三方包，不由 NestJS 核心团队维护。请将任何问题报告到[相应的代码仓库](https://github.com/suites-dev/suites)。
 
-#### 安装
+#### 快速开始
 
-要在 NestJS 中使用套件，请安装以下必要包：
+本指南演示了如何使用 Suites 测试 NestJS 服务。它涵盖了隔离测试（所有依赖项都被模拟）和社交测试（使用选定的真实实现）两种方式。
+
+#### 安装 Suites
+
+确保已安装 NestJS 运行时依赖：
 
 ```bash
-$ npm i -D @suites/unit @suites/di.nestjs @suites/doubles.jest
+$ npm install @nestjs/common @nestjs/core reflect-metadata
 ```
 
-> info **提示** `Suites` 同样支持 Vitest 和 Sinon 作为测试替身，分别对应 `@suites/doubles.vitest` 和 `@suites/doubles.sinon`。
+安装 Suites 核心库、NestJS 适配器和测试替身适配器：
 
-#### 示例与模块设置
-
-考虑一个 `CatsService` 的模块设置，包含 `CatsApiService`、`CatsDAL`、`HttpClient` 和 `Logger`。这将作为本指南中示例的基础：
-
-```typescript
-@@filename(cats.module)
-import { HttpModule } from '@nestjs/axios';
-import { PrismaModule } from '../prisma.module';
-
-@Module({
-  imports: [HttpModule.register({ baseUrl: 'https://api.cats.com/' }), PrismaModule],
-  providers: [CatsService, CatsApiService, CatsDAL, Logger],
-  exports: [CatsService],
-})
-export class CatsModule {}
+```bash
+$ npm install --save-dev @suites/unit @suites/di.nestjs @suites/doubles.jest
 ```
 
-`HttpModule` 和 `PrismaModule` 都向宿主模块导出提供者。
+测试替身适配器 (`@suites/doubles.jest`) 提供了对 Jest 模拟功能的封装。它暴露了 `mock()` 和 `stub()` 函数来创建类型安全的测试替身。
 
-让我们开始隔离测试 `CatsHttpService`。该服务负责从 API 获取猫的数据并记录操作。
+确保 Jest 和 TypeScript 可用：
+
+```bash
+$ npm install --save-dev ts-jest @types/jest jest typescript
+```
+
+<details><summary>如果使用 Vitest，请展开</summary>
+
+```bash
+$ npm install --save-dev @suites/unit @suites/di.nestjs @suites/doubles.vitest
+```
+
+</details>
+
+<details><summary>如果使用 Sinon，请展开</summary>
+
+```bash
+$ npm install --save-dev @suites/unit @suites/di.nestjs @suites/doubles.sinon
+```
+
+</details>
+
+#### 设置类型定义
+
+在项目根目录创建 `global.d.ts` 文件：
 
 ```typescript
-@@filename(cats-http.service)
+/// <reference types="@suites/doubles.jest/unit" />
+/// <reference types="@suites/di.nestjs/types" />
+```
+
+#### 创建一个示例服务
+
+本指南使用一个具有两个依赖项的简单 `UserService`：
+
+```typescript
+@@filename(user.repository)
+import { Injectable } from '@nestjs/common';
+
 @Injectable()
-export class CatsHttpService {
-  constructor(private httpClient: HttpClient, private logger: Logger) {}
+export class UserRepository {
+  async findById(id: string): Promise<User | null> {
+    // 数据库查询
+  }
 
-  async fetchCats(): Promise<Cat[]> {
-    this.logger.log('Fetching cats from the API');
-    const response = await this.httpClient.get('/cats');
-    return response.data;
+  async save(user: User): Promise<User> {
+    // 数据库保存
+  }
+}
+```
+```typescript
+@@filename(user.service)
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
+
+@Injectable()
+export class UserService {
+  constructor(
+    private repository: UserRepository,
+    private logger: Logger,
+  ) {}
+
+  async findById(id: string): Promise<User> {
+    const user = await this.repository.findById(id);
+    if (!user) {
+      throw new NotFoundException(`User ${id} not found`);
+    }
+    this.logger.log(`Found user ${id}`);
+    return user;
+  }
+
+  async create(email: string, name: string): Promise<User> {
+    const user = { id: generateId(), email, name };
+    await this.repository.save(user);
+    this.logger.log(`Created user ${user.id}`);
+    return user;
   }
 }
 ```
 
-我们希望隔离 `CatsHttpService` 并模拟其依赖项 `HttpClient` 和 `Logger`。套件允许我们使用 `TestBed` 的 `.solitary()` 方法轻松实现这一点。
+#### 编写单元测试
+
+使用 `TestBed.solitary()` 来创建所有依赖都被模拟的隔离测试：
 
 ```typescript
-@@filename(cats-http.service.spec)
-import { TestBed, Mocked } from '@suites/unit';
+@@filename(user.service.spec)
+import { TestBed, type Mocked } from '@suites/unit';
+import { UserService } from './user.service';
+import { UserRepository } from './user.repository';
+import { Logger } from '@nestjs/common';
 
-describe('Cats Http Service Unit Test', () => {
-  let catsHttpService: CatsHttpService;
-  let httpClient: Mocked<HttpClient>;
+describe('用户服务单元测试', () => {
+  let userService: UserService;
+  let repository: Mocked<UserRepository>;
   let logger: Mocked<Logger>;
 
   beforeAll(async () => {
-    // 隔离 CatsHttpService 并模拟 HttpClient 和 Logger
-    const { unit, unitRef } = await TestBed.solitary(CatsHttpService).compile();
+    const { unit, unitRef } = await TestBed.solitary(UserService).compile();
 
-    catsHttpService = unit;
-    httpClient = unitRef.get(HttpClient);
+    userService = unit;
+    repository = unitRef.get(UserRepository);
     logger = unitRef.get(Logger);
   });
 
-  it('should fetch cats from the API and log the operation', async () => {
-    const catsFixtures: Cat[] = [{ id: 1, name: 'Catty' }, { id: 2, name: 'Mitzy' }];
-    httpClient.get.mockResolvedValue({ data: catsFixtures });
+  it('应该通过ID查找用户', async () => {
+    const user = { id: '1', email: 'test@example.com', name: '测试' };
+    repository.findById.mockResolvedValue(user);
 
-    const cats = await catsHttpService.fetchCats();
+    const result = await userService.findById('1');
 
-    expect(logger.log).toHaveBeenCalledWith('Fetching cats from the API');
-    expect(httpClient.get).toHaveBeenCalledWith('/cats');
-    expect(cats).toEqual<Cat[]>(catsFixtures);
+    expect(result).toEqual(user);
+    expect(logger.log).toHaveBeenCalled();
   });
 });
 ```
 
-在上面的示例中，套件使用 `TestBed.solitary()` 自动模拟 `CatsHttpService` 的依赖项。这简化了设置过程，因为您无需手动模拟每个依赖项。
+`TestBed.solitary()` 会分析构造函数并为所有依赖项创建类型化的模拟对象。
+`Mocked<T>` 类型为模拟配置提供了智能感知支持。
 
-- 依赖项的自动模拟：套件为被测试单元的所有依赖项生成模拟对象。
-- 模拟对象的初始行为：这些模拟对象最初没有任何预定义行为。您需要根据需要为测试指定它们的行为。
-- `unit` 和 `unitRef` 属性：
-  - `unit` 指被测试类的实际实例，包含其模拟的依赖项。
-  - `unitRef` 是一个引用，允许您访问模拟的依赖项。
+#### 预编译模拟配置
 
-#### 使用 `TestingModule` 测试 `CatsApiService`
-
-对于 `CatsApiService`，我们需要确保 `HttpModule` 在 `CatsModule` 宿主模块中正确导入和配置。这包括验证 `Axios` 的基础 URL（及其他配置）是否正确设置。
-
-在这种情况下，我们不使用套件，而是使用 Nest 的 `TestingModule` 来测试 `HttpModule` 的实际配置。我们将使用 `nock` 来模拟 HTTP 请求，而不在此场景中模拟 `HttpClient`。
+在编译前使用 `.mock().impl()` 配置模拟行为：
 
 ```typescript
-@@filename(cats-api.service)
-import { HttpClient } from '@nestjs/axios';
+@@filename(user.service.spec)
+import { TestBed } from '@suites/unit';
+import { UserService } from './user.service';
+import { UserRepository } from './user.repository';
 
-@Injectable()
-export class CatsApiService {
-  constructor(private httpClient: HttpClient) {}
-
-  async getCatById(id: number): Promise<Cat> {
-    const response = await this.httpClient.get(`/cats/${id}`);
-    return response.data;
-  }
-}
-```
-
-我们需要使用真实的、非模拟的 `HttpClient` 测试 `CatsApiService`，以确保 `Axios`（http）的依赖注入（DI）和配置正确。这涉及导入 `CatsModule` 并使用 `nock` 进行 HTTP 请求模拟。
-
-```typescript
-@@filename(cats-api.service.integration.test)
-import { Test } from '@nestjs/testing';
-import * as nock from 'nock';
-
-describe('Cats Api Service Integration Test', () => {
-  let catsApiService: CatsApiService;
-
+describe('用户服务单元测试 - 预配置', () => {
+  let unit: UserService;
+  let repository: Mocked<UserRepository>;
+  
   beforeAll(async () => {
-    const moduleRef = await Test.createTestingModule({
-      imports: [CatsModule],
-    }).compile();
-
-    catsApiService = moduleRef.get(CatsApiService);
-  });
-
-  afterEach(() => {
-    nock.cleanAll();
-  });
-
-  it('should fetch cat by id using real HttpClient', async () => {
-    const catFixture: Cat = { id: 1, name: 'Catty' };
-
-    nock('https://api.cats.com') // 确保此 URL 与 HttpModule 注册中的一致
-      .get('/cats/1')
-      .reply(200, catFixture);
-
-    const cat = await catsApiService.getCatById(1);
-    expect(cat).toEqual<Cat>(catFixture);
+    const { unit: underTest, unitRef } = await TestBed.solitary(UserService)
+      .mock(UserRepository)
+      .impl(stubFn => ({
+        findById: stubFn().mockResolvedValue({ id: '1', email: 'test@example.com', name: '测试' })
+      }))
+      .compile();
+    
+    repository = unitRef.get(UserRepository);
+    unit = underTest;
+  })
+  
+  it('应该使用预配置的模拟查找用户', async () => {
+    const result = await unit.findById('1');
+    
+    expect(repository.findById).toHaveBeenCalled();
+    expect(result.email).toBe('test@example.com');
   });
 });
 ```
 
-#### 社交测试示例
+`stubFn` 参数对应于已安装的测试替身适配器（对于 Jest 是 `jest.fn()`，对于 Vitest 是 `vi.fn()`，对于 Sinon 是 `sinon.stub()`）。
 
-接下来，让我们测试 `CatsService`，它依赖于 `CatsApiService` 和 `CatsDAL`。我们将模拟 `CatsApiService` 并暴露 `CatsDAL`。
+#### 使用真实依赖进行测试
 
-```typescript
-@@filename(cats.dal)
-import { PrismaClient } from '@prisma/client';
-
-@Injectable()
-export class CatsDAL {
-  constructor(private prisma: PrismaClient) {}
-
-  async saveCat(cat: Cat): Promise<Cat> {
-    return this.prisma.cat.create({data: cat});
-  }
-}
-```
-
-接下来是 `CatsService`，它依赖于 `CatsApiService` 和 `CatsDAL`：
+使用 `TestBed.sociable()` 和 `.expose()` 来为特定依赖项使用真实实现：
 
 ```typescript
-@@filename(cats.service)
-@Injectable()
-export class CatsService {
-  constructor(
-    private catsApiService: CatsApiService,
-    private catsDAL: CatsDAL
-  ) {}
-
-  async getAndSaveCat(id: number): Promise<Cat> {
-    const cat = await this.catsApiService.getCatById(id);
-    return this.catsDAL.saveCat(cat);
-  }
-}
-```
-
-现在，让我们使用套件的社交测试来测试 `CatsService`：
-
-```typescript
-@@filename(cats.service.spec)
+@@filename(user.service.spec)
 import { TestBed, Mocked } from '@suites/unit';
-import { PrismaClient } from '@prisma/client';
+import { UserService } from './user.service';
+import { UserRepository } from './user.repository';
+import { Logger } from '@nestjs/common';
 
-describe('Cats Service Sociable Unit Test', () => {
-  let catsService: CatsService;
-  let prisma: Mocked<PrismaClient>;
-  let catsApiService: Mocked<CatsApiService>;
+describe('UserService - 使用真实日志记录器', () => {
+  let userService: UserService;
+  let repository: Mocked<UserRepository>;
 
   beforeAll(async () => {
-    // 社交测试设置，暴露 CatsDAL 并模拟 CatsApiService
-    const { unit, unitRef } = await TestBed.sociable(CatsService)
-      .expose(CatsDAL)
-      .mock(CatsApiService)
-      .final({ getCatById: async () => ({ id: 1, name: 'Catty' })})
+    const { unit, unitRef } = await TestBed.sociable(UserService)
+      .expose(Logger)
       .compile();
 
-    catsService = unit;
-    prisma = unitRef.get(PrismaClient);
+    userService = unit;
+    repository = unitRef.get(UserRepository);
   });
 
-  it('should get cat by id and save it', async () => {
-    const catFixture: Cat = { id: 1, name: 'Catty' };
-    prisma.cat.create.mockResolvedValue(catFixture);
+  it('应该在查找用户时记录日志', async () => {
+    const user = { id: '1', email: 'test@example.com' };
+    repository.findById.mockResolvedValue(user);
 
-    const savedCat = await catsService.getAndSaveCat(1);
+    await userService.findById('1');
 
-    expect(prisma.cat.create).toHaveBeenCalledWith({ data: catFixture });
-    expect(savedCat).toEqual(catFixture);
+    // Logger 实际执行，无需模拟
   });
 });
 ```
 
-在此示例中，我们使用 `.sociable()` 方法设置测试环境。利用 `.expose()` 方法允许与 `CatsDAL` 进行真实交互，同时使用 `.mock()` 方法模拟 `CatsApiService`。`.final()` 方法为 `CatsApiService` 建立固定行为，确保测试结果的一致性。
+`.expose(Logger)` 使用 `Logger` 的真实实现来实例化它，同时保持其他依赖项被模拟。
 
-这种方法强调通过 `CatsDAL` 的真实交互来测试 `CatsService`，这涉及处理 `Prisma`。套件将按原样使用 `CatsDAL`，而仅模拟其依赖项，如 `Prisma`。
+#### 基于令牌的依赖项
 
-需要注意的是，这种方法**仅用于验证行为**，与加载整个测试模块不同。社交测试对于确认单元在隔离其直接依赖项时的行为非常有用，特别是在您希望关注单元的行为和交互时。
-
-#### 集成测试与数据库
-
-对于 `CatsDAL`，可以针对真实数据库（如 SQLite 或 PostgreSQL，例如使用 Docker Compose）进行测试。但在此示例中，我们将模拟 `Prisma` 并专注于社交测试。模拟 `Prisma` 的原因是为了避免 I/O 操作，集中测试 `CatsService` 的隔离行为。也就是说，您也可以进行包含真实 I/O 操作和实时数据库的测试。
-
-#### 社交单元测试、集成测试与模拟
-
-- 社交单元测试：这些测试侧重于在模拟更深层依赖项的同时，测试单元之间的交互和行为。在此示例中，我们模拟 `Prisma` 并暴露 `CatsDAL`。
-
-- 集成测试：这些测试涉及真实的 I/O 操作和完全配置的依赖注入（DI）设置。使用 `HttpModule` 和 `nock` 测试 `CatsApiService` 被视为集成测试，因为它验证了 `HttpClient` 的实际配置和交互。在此场景中，我们将使用 Nest 的 `TestingModule` 来加载实际的模块配置。
-
-**使用模拟时需谨慎**。务必测试 I/O 操作和 DI 配置（特别是在涉及 HTTP 或数据库交互时）。通过集成测试验证这些组件后，您可以放心地在社交单元测试中模拟它们，以专注于行为和交互。套件的社交测试旨在验证单元在隔离其直接依赖项时的行为，而集成测试确保整个系统配置和 I/O 操作正确运行。
-
-#### 测试 IoC 容器注册
-
-验证您的 DI 容器是否正确配置至关重要，以防止运行时错误。这包括确保所有提供者、服务和模块都正确注册和注入。测试 DI 容器配置有助于早期发现配置错误，避免仅在运行时出现的问题。
-
-为了确认 IoC 容器设置正确，让我们创建一个集成测试，加载实际的模块配置并验证所有提供者是否正确注册和注入。
+Suites 处理自定义注入令牌（字符串或符号）：
 
 ```typescript
-import { Test, TestingModule } from '@nestjs/testing';
-import { CatsModule } from './cats.module';
-import { CatsService } from './cats.service';
+@@filename(config.service)
+import { Injectable, Inject } from '@nestjs/common';
 
-describe('Cats Module Integration Test', () => {
-  let moduleRef: TestingModule;
+export const CONFIG_OPTIONS = 'CONFIG_OPTIONS';
+
+@Injectable()
+export class ConfigService {
+  constructor(
+    @Inject(CONFIG_OPTIONS) private options: { apiKey: string },
+  ) {}
+
+  getApiKey(): string {
+    return this.options.apiKey;
+  }
+}
+```
+
+使用 `unitRef.get()` 访问基于令牌的依赖项：
+
+```typescript
+@@filename(config.service.spec)
+import { TestBed } from '@suites/unit';
+import { ConfigService, CONFIG_OPTIONS, ConfigOptions } from './config.service';
+
+describe('配置服务单元测试', () => {
+  let configService: ConfigService;
+  let options: ConfigOptions;
 
   beforeAll(async () => {
-    moduleRef = await Test.createTestingModule({
-      imports: [CatsModule],
-    }).compile();
+    const { unit, unitRef } = await TestBed.solitary(ConfigService).compile();
+    configService = unit;
+
+    options = unitRef.get<ConfigOptions>(CONFIG_OPTIONS);
   });
 
-  it('should resolve exported providers from the ioc container', () => {
-    const catsService = moduleRef.get(CatsService);
-    expect(catsService).toBeDefined();
+  it('应该返回 API 密钥', () => { ... });
+});
+```
+
+#### 直接使用 mock() 和 stub()
+
+对于更喜欢直接控制而不使用 `TestBed` 的用户，测试替身适配器包提供了 `mock()` 和 `stub()` 函数：
+
+```typescript
+@@filename(user.service.spec)
+import { mock } from '@suites/unit';
+import { UserRepository } from './user.repository';
+
+describe('用户服务单元测试', () => {
+  it('应该可以与直接模拟对象一起工作', async () => {
+    const repository = mock<UserRepository>();
+    const logger = mock<Logger>();
+
+    const service = new UserService(repository, logger);
+
+    // ...
   });
 });
 ```
 
-#### 孤立测试、社交测试、集成测试与端到端测试的对比
+`mock()` 创建一个类型化的模拟对象，而 `stub()` 封装了底层的模拟库（本例中是 Jest），以提供像 `mockResolvedValue()` 这样的方法。
+这些函数来自已安装的测试替身适配器 (`@suites/doubles.jest`)，它适配了测试框架的原生模拟能力。
 
-#### 孤立单元测试
+> info **提示** `mock()` 函数是 `@golevelup/ts-jest` 中 `createMock` 的替代方案。两者都创建类型化的模拟对象。有关 `createMock` 的更多信息，请参阅 [测试基础章节](/fundamentals/testing#auto-mocking)。
 
-- **重点**：完全隔离测试单个单元（类）。
-- **用例**：测试 `CatsHttpService`。
-- **工具**：套件的 `TestBed.solitary()` 方法。
-- **示例**：模拟 `HttpClient` 并测试 `CatsHttpService`。
+#### 总结
 
-#### 社交单元测试
+**在以下情况下使用 `Test.createTestingModule()`：**
+- 验证模块配置和提供者连接
+- 测试装饰器、守卫、拦截器和管道
+- 验证跨模块的依赖注入
+- 使用中间件测试完整的应用上下文
 
-- **重点**：验证单元之间的交互，同时模拟更深层的依赖项。
-- **用例**：使用模拟的 `CatsApiService` 和暴露的 `CatsDAL` 测试 `CatsService`。
-- **工具**：套件的 `TestBed.sociable()` 方法。
-- **示例**：模拟 `Prisma` 并测试 `CatsService`。
+**在以下情况下使用 Suites：**
+- 专注于业务逻辑的快速单元测试
+- 为多个依赖项自动生成模拟对象
+- 具有智能感知的类型安全测试替身
 
-#### 集成测试
+按目的组织测试：使用 Suites 进行验证单个服务行为的单元测试，使用 `Test.createTestingModule()` 进行验证模块配置的集成测试。
 
-- **重点**：涉及真实的 I/O 操作和完全配置的模块（IoC 容器）。
-- **用例**：使用 `HttpModule` 和 `nock` 测试 `CatsApiService`。
-- **工具**：Nest 的 `TestingModule`。
-- **示例**：测试 `HttpClient` 的实际配置和交互。
-
-#### 端到端测试
-
-- **重点**：在更聚合的层级上覆盖类和模块的交互。
-- **用例**：从最终用户的角度测试系统的完整行为。
-- **工具**：Nest 的 `TestingModule`、`supertest`。
-- **示例**：使用 `supertest` 模拟 HTTP 请求来测试 `CatsModule`。
-
-有关设置和运行端到端测试的更多详情，请参阅 [NestJS 官方测试指南](/fundamentals/testing#end-to-end-testing)。
+更多信息：
+- [Suites 文档](https://suites.dev/docs)
+- [Suites GitHub 仓库](https://github.com/suites-dev/suites)
+- [NestJS 测试文档](/fundamentals/testing)
