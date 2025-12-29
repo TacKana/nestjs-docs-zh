@@ -313,7 +313,7 @@ npm install @prisma/adapter-pg
 - 对于 MySQL、MsSQL、AzureSQL：
 
 ```bash
-npm install @prisma/adapter-mariadb`
+npm install @prisma/adapter-mariadb
 ```
 
 </details>
