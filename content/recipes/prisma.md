@@ -121,7 +121,7 @@ SQLite 数据库是简单的文件；使用 SQLite 数据库不需要服务器�
 
 <details><summary>如果你使用 PostgreSQL、MySQL、MsSQL 或 Azure SQL，请展开</summary>
 
-对于 PostgreSQL 和 MySQL，你需要将连接 URL 配置为指向*数据库服务器*。你可以在此处[此处](https://www.prisma.io/docs/reference/database-reference/connection-urls)了解有关所需连接 URL 格式的更多信息。
+对于 PostgreSQL 和 MySQL，你需要将连接 URL 配置为指向*数据库服务器*。你可以在此处[此处](https://www.prisma.io/docs/orm/reference/connection-urls)了解有关所需连接 URL 格式的更多信息。
 
 **PostgreSQL**
 

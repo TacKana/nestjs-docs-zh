@@ -8,7 +8,7 @@ Nest 在这些常见的 Node.js 框架（Express/Fastify）之上提供了一层
 
 #### 设计哲学
 
-近年来，得益于 Node.js，JavaScript 已成为前端和后端应用的网络"通用语言"。这催生了诸如 [Angular](https://angular.dev/)、[React](https://github.com/facebook/react) 和 [Vue](https://github.com/vuejs/vue) 等优秀项目，这些项目提高了开发者的生产力，并能够创建快速、可测试且可扩展的前端应用。然而，虽然 Node（和服务端 JavaScript）领域存在大量优秀的库、辅助工具和资源，但其中没有一种能有效解决**架构**这一核心问题。
+近年来，得益于 Node.js，JavaScript 已成为前端和后端应用的网络"通用语言"。这催生了诸如 [Angular](https://angular.dev/)、[React](https://github.com/facebook/react) 和 [Vue](https://github.com/vuejs/core) 等优秀项目，这些项目提高了开发者的生产力，并能够创建快速、可测试且可扩展的前端应用。然而，虽然 Node（和服务端 JavaScript）领域存在大量优秀的库、辅助工具和资源，但其中没有一种能有效解决**架构**这一核心问题。
 
 Nest 提供了开箱即用的应用程序架构，使开发者和团队能够创建高度可测试、可扩展、松散耦合且易于维护的应用程序。该架构深受 Angular 的启发。
 

@@ -143,7 +143,36 @@ const app = await NestFactory.createMicroservice(AppModule, {
 });
 ```
 
-如需针对特定主题设置 QoS，可考虑创建[自定义传输器](/microservices/custom-transport)。
+#### 按模式设置服务质量（QoS）
+
+你可以通过在模式装饰器的`extras`字段中提供`qos`，来按模式覆盖MQTT订阅的服务质量（QoS）。如果未指定，将使用全局的`subscribeOptions.qos`作为默认值。
+
+```typescript
+@@filename()
+@EventPattern('critical-events', { extras: { qos: 2 } })
+handleCriticalEvent(@Payload() data: any) {
+  // 此订阅使用QoS 2
+}
+
+@EventPattern('metrics', { extras: { qos: 0 } })
+handleMetrics(@Payload() data: any) {
+  // 此订阅使用QoS 0
+}
+@@switch
+@Bind(Payload())
+@EventPattern('critical-events', { extras: { qos: 2 } })
+handleCriticalEvent(data) {
+  // 此订阅使用QoS 2
+}
+
+@Bind(Payload())
+@EventPattern('metrics', { extras: { qos: 0 } })
+handleMetrics(data) {
+  // 此订阅使用QoS 0
+}
+```
+
+> info **提示** 按模式配置的QoS不会影响现有的行为。当未指定`extras.qos`时，订阅将使用全局的`subscribeOptions.qos`值。
 
 #### 记录构建器
 
