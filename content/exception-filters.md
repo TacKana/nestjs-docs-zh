@@ -407,4 +407,4 @@ async function bootstrap() {
 bootstrap();
 ```
 
-第二种方法是使用 `APP_FILTER` 令牌 <a href="exception-filters#binding-filters">如此处所示</a>。
+第二种方法是使用 `APP_FILTER` 令牌 <a href="exception-filters#绑定过滤器">如此处所示</a>。
